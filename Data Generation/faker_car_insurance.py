@@ -51,7 +51,7 @@ engine =  create_engine(
 os.environ['NLS_LANG'] = ".AL32UTF8"
 
 def main():
-    num_gen = 10 #123456
+    num_gen = 123456
 
     ls_dates = [fake_de.date_time_between(start_date="-10y", end_date="now", tzinfo=None) for i in range(0,num_gen)]
     ls_dates.sort()
@@ -71,13 +71,8 @@ def main():
 
     customer_csvfile.close()
 
-    #csvfile = open('home_insurance.csv', newline='\n')
-    #reader = csv.reader(csvfile, delimiter=',', quotechar='"')
-
     ls_policies = []
-    
     ls_used_customer_ids = []
-
     ls_claims = []
 
     for i in range(0, num_gen - 1):
@@ -110,12 +105,9 @@ def main():
         
         ls_policies.append((s_policy_number, s_customer_id, d_cover_start, s_car, f_max_covered, f_premium))
         
-        #if d_cover_start < (datetime.today() + relativedelta(years=-2)):
         generate_claims(s_policy_number, d_cover_start, f_max_covered, ls_claims)
 
         i = i+1
-
-    #csvfile.close()
 
     ls_customers_to_db = []
     for s_customer_id in ls_used_customer_ids:
@@ -159,7 +151,7 @@ def main():
             'city': sqlalchemy.types.String(100), 
             'country_code': sqlalchemy.types.String(2), 
             'nationality': sqlalchemy.types.String(20)
-        })  
+       })  
     
     df_claims.to_csv('output/car_insurance_claim.csv', sep=',', index=False, header=columns_claim)
     df_claims.to_sql('car_claim', engine, schema='ckurze', index=False, chunksize=1000, dtype= {

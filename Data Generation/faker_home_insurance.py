@@ -45,20 +45,6 @@ engine =  create_engine(
 
 os.environ['NLS_LANG'] = ".AL32UTF8"
 
-#engine = create_engine('oracle+cx_oracle://ckurze:ckurze@192.168.14.200:1521/xe')
-
-
-
-
-# establish a connection to the database
-#connection = pymongo.MongoClient("mongodb://localhost:27001")
-
-# get a handle to the database
-#db = connection.company
-#customers = db.customers
-
-#bulk = customers.initialize_unordered_bulk_op()
-
 def main():
     num_gen = 256136 #256136 # number of rows in example file, some of them are not valid
 
@@ -71,8 +57,6 @@ def main():
     # skip header
     next(customer_reader)
     for customer in customer_reader:
-        #for c in [2,3,4,10,12]:
-        #    customer[c] = (u'' + customer[c]).encode('utf-8')
         customer[9] = datetime.strptime(customer[9], '%Y-%m-%d')
         # should be 18 years or older
         customer.append(customer[9] + relativedelta(years=18))
@@ -104,10 +88,8 @@ def main():
             if (row[1] != ''):
                 s_policy_number = policy_number(i)
                 d_quote_date = ls_dates[i]
-                #s_quote_date = datetime.strftime(d_quote_date, '%Y-%m-%d')
                 d_cover_start = (ls_dates[i] + relativedelta(months=1)).replace(day=1)
-                #s_cover_start = datetime.strftime(d_cover_start, '%Y-%m-%d')
-
+                
                 s_customer_id = get_customer(i, d_quote_date, ls_customers)[0]
                 if not s_customer_id in ls_used_customer_ids:
                     ls_used_customer_ids.append(s_customer_id)
@@ -161,11 +143,7 @@ def main():
             'last_ann_premium_gross': sqlalchemy.types.Numeric(precision=10, scale=2),
             'policy_status': sqlalchemy.types.String(100)
         })
-    #if_exists='replace', 
-    # index_label='id', 
-    #if_exists='replace' 
-    #, dtype=None {column_name:type}
-
+    
     df_policy_coverage.to_csv('output/home_insurance_policy_coverage.csv', sep=',', index=False, header=columns_policy_coverage)
     df_policy_coverage.to_sql('policy_coverage', engine, schema='ckurze', index=False, chunksize=1000, dtype= {
             'policy_id': sqlalchemy.types.String(12),
