@@ -1,0 +1,121 @@
+{
+	start: {
+		source: {
+			uri:  "jdbc:oracle:thin:@//192.168.14.200:1521/XE",
+			user: "ckurze",
+			password: "ckurze"
+		},
+		target: {
+			mode: "update",
+			uri: "mongodb://localhost:27017/",
+			namespace: "syphon.customer"
+		},
+		template: {
+			$find: { customer_id: "$CUSTOMER_ID" },
+			$push: { 
+				home_insurance: { 
+					policy_id: "$POLICY_ID",
+					quote_day: "$QUOTE_DAY",
+					cover_start: "$COVER_START",
+					last_annual_premium_gross: "$LAST_ANN_PREMIUM_GROSS",
+					policy_status: "$POLICY_STATUS",
+					coverage: [ "@policy_coverage_section" ],
+					options: [ "@policy_option_section" ],
+					risk: [ "@policy_risk_section" ],
+					claim: [ "@claim_section" ] 
+				}
+			}
+		},
+		query:{
+			sql: 'SELECT * FROM policy order by policy_id'
+		}
+	},
+	policy_coverage_section: {
+		template: {
+			type: "$TYPE",
+			sum_insured: "$SUM_INSURED",
+			malus_bonus: "$MALUS_BONUS"
+		},
+		query:{
+			sql: 'SELECT * FROM policy_coverage order by policy_id'
+		},
+		mergeon: 'POLICY_ID'
+	},
+	policy_option_section: {
+		template: {
+			legal_addon_pre_renewal: "$LGL_ADDON_PRE_REN",
+			legal_addon_post_renewal: "$LGL_ADDON_POST_REN",
+			home_addon_pre_renewal: "$HOME_EM_ADDON_PRE_REN",
+			home_addon_post_renewal: "$HOME_EM_ADDON_POST_REN",
+			garden_addon_pre_renewal: "$GARDEN_ADDON_PRE_REN",
+			garden_addon_post_renewal: "$GARDEN_ADDON_POST_REN",
+			keycare_addon_pre_renewal: "$KEYCARE_ADDON_PRE_REN",
+			keycare_addon_post_renewal: "$KEYCARE_ADDON_POST_REN"
+		},
+		query:{
+			sql: 'SELECT * FROM policy_option order by policy_id'
+		},
+		mergeon: 'POLICY_ID'
+	},
+	policy_risk_section: {
+		template: {
+			risk_classification_building: "$RSK_CLASSIF_BLDG",
+			risk_classification_personal: "$RSK_CLASSIF_PRSNL",
+			appropriate_alarm: "$APPR_ALARM",
+			appropriate_locks: "$APPR_LOCKS",
+			number_bedrooms: "$BEDROOMS",
+			roof_construction: "$ROOF_CNSTRCTN",
+			wall_construction: "$WALL_CONSTRCTN",
+			flooding: "$FLOODING",
+			listed_property: "$LISTED",
+			max_days_unoccupied: "$MAX_DAYS_UNOCC",
+			neighborhood_watch: "$NEIGH_WATCH",
+			occupation_status: "$OCC_STATS",
+			ownership_type: "$OWNERSHIP_TYPE",
+			paying_guests: "$PAYING_GUESTS",
+			property_type: "$PROP_TYPE"
+		},
+		query:{
+			sql: 'SELECT * FROM policy_risk order by policy_id'
+		},
+		mergeon: 'POLICY_ID'
+	},
+	claim_section: {
+		template: {
+			claim_date: "$CLAIM_DATE",
+			settled_date: "$SETTLED_DATE",
+			claim_type: "$CLAIM_TYPE",
+			claim_amount: "$CLAIM_AMOUNT",
+			settled_amount: "$SETTLED_AMOUNT",
+			claim_reason: "$CLAIM_REASON"
+		},
+		query:{
+			sql: 'SELECT * FROM claim order by policy_id'
+		},
+		mergeon: 'POLICY_ID'
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+
+
+
+
+
+
+}

@@ -1,0 +1,35 @@
+{
+	start: {
+		source: {
+			uri:  "jdbc:oracle:thin:@//192.168.14.200:1521/XE",
+			user: "ckurze",
+			password: "ckurze"
+		},
+		target: {
+			mode: "insert",
+			uri: "mongodb://localhost:27017/",
+			namespace: "syphon.customer"
+		},
+		template: {
+			customer_id: "$CUSTOMER_ID",
+			first_name: "$FIRST_NAME",
+			last_name : "$LAST_NAME",
+			gender: "$GENDER",
+			job: "$JOB",
+			email: "$EMAIL",
+			phone: "$PHONE",
+			number_children: "$NUMBER_CHILDREN",
+			marital_status: "$MARITAL_STATUS",
+			date_of_birth: "$DATE_OF_BIRTH",
+			address: {
+				street: "$STREET",
+				zip: "$ZIP",
+				city: "$CITY",
+				nationality: "$NATIONALITY"
+			}
+		},
+		query:{
+		   sql: 'SELECT * FROM customer order by CUSTOMER_ID'
+		}
+	}
+}

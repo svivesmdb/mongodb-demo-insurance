@@ -1,0 +1,1 @@
+{"virtualbox":{"/vagrant":{"mount_options":["dmode=777","fmode=777","uid=501","gid=501"],"guestpath":"/vagrant","hostpath":"/Users/christian.kurze/Documents/MongoDB/90-Demos/Single View/vagrant-oracle/shared","disabled":false,"__vagrantfile":true}}}
