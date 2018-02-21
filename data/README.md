@@ -5,9 +5,9 @@ Sample data is provided for home insurances and car insurances. The generators c
 Contents of this directory:
 
 * Generate data:
-** Customers
-** Home insurance policies and claims
-** Car insurances policies and claims
+ * Customers
+ * Home insurance policies and claims
+ * Car insurances policies and claims
 
 * Data Ingestkon for customers (of home insurances) and home insurances incl. claims
 
