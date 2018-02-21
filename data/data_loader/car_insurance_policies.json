@@ -1,0 +1,68 @@
+{
+	start: {
+		source: {
+			uri:  "jdbc:oracle:thin:@//192.168.14.200:1521/XE",
+			user: "ckurze",
+			password: "ckurze"
+		},
+		target: {
+			mode: "update",
+			uri: "mongodb://localhost:27017/",
+			namespace: "insurance.customer"
+		},
+		template: {
+			$find: { customer_id: "$CUSTOMER_ID" },
+			$push: { 
+				car_insurance: { 
+					policy_id: "$POLICY_ID",
+					cover_start: "$COVER_START",
+					last_annual_premium_gross: "$LAST_ANN_PREMIUM_GROSS",
+					car_model: "$CAR_MODEL",
+					max_covered: "$MAX_COVERD",
+					claim: [ "@claim_section" ] 
+				}
+			}
+		},
+		query:{
+			sql: 'SELECT * FROM car_policy order by policy_id'
+		}
+	},
+	claim_section: {
+		template: {
+			claim_date: "$CLAIM_DATE",
+			settled_date: "$SETTLED_DATE",
+			claim_type: "$CLAIM_TYPE",
+			claim_amount: "$CLAIM_AMOUNT",
+			settled_amount: "$SETTLED_AMOUNT",
+			claim_reason: "$CLAIM_REASON"
+		},
+		query:{
+			sql: 'SELECT * FROM car_claim order by policy_id'
+		},
+		mergeon: 'POLICY_ID'
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+
+
+
+
+
+
+}

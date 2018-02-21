@@ -1,0 +1,20 @@
+
+
+
+CentOS 6.3 x86_64 minimal installation with Oracle XE 11.2
+Built using veewee
+
+Based on this definition
+
+RAM: 1024MB
+
+Swap: 2048MB
+
+Connectivity
+Disabled firewall
+Disabled IPv6
+Oracle XE
+Port: 1521
+Apex Port: 8080
+System user password: manager
+
