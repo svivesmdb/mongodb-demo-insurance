@@ -24,7 +24,7 @@ $ mvn clean package
 ## Run
 
 ```
-$ java -jar mainframe-cdc-file.jar --mainframe.directory= --spring.data.mongodb.uri= --mongodb.collection=
+$ java -jar target/mainframe-cdc-file-0.0.1.jar --mainframe.directory= --spring.data.mongodb.uri= --mongodb.collection=
 ```
 
 
