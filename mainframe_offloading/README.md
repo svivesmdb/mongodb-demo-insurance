@@ -2,8 +2,6 @@
 
 This is a set of projects to demonstrate how MongoDB can greatly help offloading a Mainframe.
 
-![mainframe](/docs/mainframe_demo.png "mainframe")
-
 
 ## Table of contents
 
@@ -12,10 +10,12 @@ This is a set of projects to demonstrate how MongoDB can greatly help offloading
 01- MyMotorInsurances 1.0
 ----------------
 
+Web Application used by a client to visualize his contracts.
 
 02- Relationship Manager
 ----------------
 
+Portal used to manage clients contracts
 
 
 03- Mainframe Similator
