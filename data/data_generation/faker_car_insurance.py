@@ -103,7 +103,7 @@ def main():
             ls_used_customer_ids.append(s_customer_id)
         ls_used_customer_ids.sort()
         
-        ls_policies.append((s_policy_number, s_customer_id, d_cover_start, s_car, f_max_covered, f_premium))
+        ls_policies.append((s_policy_number, s_customer_id, d_cover_start, s_car, f_max_covered, f_premium, datetime.today()))
         
         generate_claims(s_policy_number, d_cover_start, f_max_covered, ls_claims)
 
@@ -113,15 +113,15 @@ def main():
     for s_customer_id in ls_used_customer_ids:
         i_customer_id = int(s_customer_id[1:]) - 1
         customer = ls_customers[i_customer_id]
-        ls_customers_to_db.append((customer[0], customer[2], customer[3], customer[1], customer[4], customer[5], customer[6], customer[7], customer[8], customer[9], customer[10], customer[11], customer[12], customer[13], customer[14] ))
+        ls_customers_to_db.append((customer[0], customer[2], customer[3], customer[1], customer[4], customer[5], customer[6], customer[7], customer[8], customer[9], customer[10], customer[11], customer[12], customer[13], customer[14], datetime.today() ))
 
-    columns_policy = ['policy_id', 'customer_id', 'cover_start', 'car_model', 'max_coverd', 'last_ann_premium_gross']
+    columns_policy = ['policy_id', 'customer_id', 'cover_start', 'car_model', 'max_coverd', 'last_ann_premium_gross', 'last_change']
     df_policies = pd.DataFrame(ls_policies, columns=columns_policy)
     
-    columns_customer = ['customer_id', 'first_name', 'last_name', 'gender', 'job', 'email', 'phone', 'number_children', 'marital_status', 'date_of_birth', 'street', 'zip', 'city', 'country_code', 'nationality']
+    columns_customer = ['customer_id', 'first_name', 'last_name', 'gender', 'job', 'email', 'phone', 'number_children', 'marital_status', 'date_of_birth', 'street', 'zip', 'city', 'country_code', 'nationality', 'last_change']
     df_customers_to_db = pd.DataFrame(ls_customers_to_db, columns=columns_customer)
     
-    columns_claim = ['policy_id', 'claim_date', 'settled_date', 'claim_amount', 'settled_amount', 'claim_reason']
+    columns_claim = ['policy_id', 'claim_date', 'settled_date', 'claim_amount', 'settled_amount', 'claim_reason', 'last_change']
     df_claims = pd.DataFrame(ls_claims, columns=columns_claim)
 
     df_policies.to_csv('output/car_insurance_policy.csv', sep=',', index=False, header=columns_policy)
@@ -131,7 +131,8 @@ def main():
             'cover_start': sqlalchemy.types.Date,
             'car_model': sqlalchemy.types.String(255),
             'max_coverd': sqlalchemy.types.Numeric(precision=10, scale=2),
-            'last_ann_premium_gross': sqlalchemy.types.Numeric(precision=10, scale=2)
+            'last_ann_premium_gross': sqlalchemy.types.Numeric(precision=10, scale=2),
+            'last_change': sqlalchemy.dialects.oracle.TIMESTAMP
         })
 
     df_customers_to_db.to_csv('output/car_insurance_customer.csv', sep=',', index=False, header=columns_customer)
@@ -150,7 +151,8 @@ def main():
             'zip': sqlalchemy.types.String(10), 
             'city': sqlalchemy.types.String(100), 
             'country_code': sqlalchemy.types.String(2), 
-            'nationality': sqlalchemy.types.String(20)
+            'nationality': sqlalchemy.types.String(20),
+            'last_change': sqlalchemy.dialects.oracle.TIMESTAMP
        })  
     
     df_claims.to_csv('output/car_insurance_claim.csv', sep=',', index=False, header=columns_claim)
@@ -160,7 +162,8 @@ def main():
             'settled_date': sqlalchemy.types.Date, 
             'claim_amount': sqlalchemy.types.Numeric(precision=30, scale=2), 
             'settled_amount': sqlalchemy.types.Numeric(precision=30, scale=2), 
-            'claim_reason': sqlalchemy.types.String(30)
+            'claim_reason': sqlalchemy.types.String(30),
+            'last_change': sqlalchemy.dialects.oracle.TIMESTAMP
         })   
 
 def policy_number(i):
@@ -200,7 +203,7 @@ def generate_claims(s_policy_number, d_cover_start, f_sum_insured, ls_claims):
         f_settled_amount = f_claim_amount if f_claim_amount <= float(f_sum_insured) else float(f_sum_insured)
         s_claim_rason = random.choice(['COLLISSION', 'HAIL', 'SCRATCH', 'OTHER'])
 
-        ls_claims.append((s_policy_number, d_claim_date, d_date_settled, f_claim_amount, f_settled_amount, s_claim_rason))
+        ls_claims.append((s_policy_number, d_claim_date, d_date_settled, f_claim_amount, f_settled_amount, s_claim_rason, datetime.today()))
 
 if __name__ == '__main__':
     main()

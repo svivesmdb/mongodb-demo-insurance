@@ -40,3 +40,131 @@
 2018-02-21 08:00:59.798 [main] INFO  c.j.mongosyphon.RDBMSConnection:143 - executing oracle.jdbc.driver.OraclePreparedStatementWrapper@752325ad
 2018-02-21 08:00:59.818 [main] INFO  c.j.mongosyphon.DocumentGenerator:123 - connecting to jdbc:oracle:thin:@//192.168.14.200:1521/XE
 2018-02-21 08:00:59.837 [main] INFO  c.j.mongosyphon.RDBMSConnection:143 - executing oracle.jdbc.driver.OraclePreparedStatementWrapper@22fcf7ab
+2018-02-21 11:59:59.352 [main] INFO  c.johnlpage.mongosyphon.MongoSyphon:25 - MongoSyphon Version 0.1.1
+2018-02-21 11:59:59.358 [main] INFO  c.j.mongosyphon.CommandLineOptions:23 - Parsing Command Line
+2018-02-21 11:59:59.382 [main] ERROR c.j.mongosyphon.JobDescription:39 - Expected a ',' or '}' at 322 [character 42 line 13]
+2018-02-21 12:02:53.490 [main] INFO  c.johnlpage.mongosyphon.MongoSyphon:25 - MongoSyphon Version 0.1.1
+2018-02-21 12:02:53.494 [main] INFO  c.j.mongosyphon.CommandLineOptions:23 - Parsing Command Line
+2018-02-21 12:02:53.572 [main] INFO  c.j.mongosyphon.DocumentGenerator:123 - connecting to mongodb://localhost:27017/
+2018-02-21 12:02:53.573 [main] INFO  c.j.mongosyphon.MongoConnection:78 - Connecting to mongodb://localhost:27017/
+2018-02-21 12:02:53.935 [main] INFO  c.j.mongosyphon.MongoConnection:243 - executing Document{{}}
+2018-02-21 12:02:53.956 [main] INFO  c.j.mongosyphon.DocumentGenerator:123 - connecting to jdbc:oracle:thin:@//192.168.14.200:1521/XE
+2018-02-21 12:02:54.213 [main] INFO  c.j.mongosyphon.MongoBulkWriter:39 - Connecting to mongodb://localhost:27017/
+2018-02-21 12:02:54.300 [main] ERROR c.j.mongosyphon.RDBMSConnection:110 -  parameter last_change is not defined in parent { "last_change" : null }
+2018-02-23 16:46:05.395 [main] INFO  c.johnlpage.mongosyphon.MongoSyphon:25 - MongoSyphon Version 0.1.1
+2018-02-23 16:46:05.400 [main] INFO  c.j.mongosyphon.CommandLineOptions:23 - Parsing Command Line
+2018-02-23 16:46:05.481 [main] INFO  c.j.mongosyphon.DocumentGenerator:125 - connecting to mongodb://localhost:27017/
+2018-02-23 16:46:05.482 [main] INFO  c.j.mongosyphon.MongoConnection:78 - Connecting to mongodb://localhost:27017/
+2018-02-23 16:46:05.837 [main] INFO  c.j.mongosyphon.MongoConnection:243 - executing Document{{last_change_home_customer=Document{{$exists=1}}}}
+2018-02-23 16:46:05.856 [main] INFO  c.j.mongosyphon.DocumentGenerator:125 - connecting to jdbc:oracle:thin:@//192.168.14.200:1521/XE
+2018-02-23 16:46:06.114 [main] INFO  c.j.mongosyphon.MongoBulkWriter:39 - Connecting to mongodb://localhost:27017/
+2018-02-23 16:46:06.194 [main] INFO  c.j.mongosyphon.RDBMSConnection:146 - executing oracle.jdbc.driver.OraclePreparedStatementWrapper@52102734
+2018-02-23 16:46:42.789 [main] INFO  c.johnlpage.mongosyphon.MongoSyphon:25 - MongoSyphon Version 0.1.1
+2018-02-23 16:46:42.793 [main] INFO  c.j.mongosyphon.CommandLineOptions:23 - Parsing Command Line
+2018-02-23 16:46:42.858 [main] INFO  c.j.mongosyphon.DocumentGenerator:125 - connecting to mongodb://localhost:27017/
+2018-02-23 16:46:42.859 [main] INFO  c.j.mongosyphon.MongoConnection:78 - Connecting to mongodb://localhost:27017/
+2018-02-23 16:46:43.161 [main] INFO  c.j.mongosyphon.MongoConnection:243 - executing Document{{last_change_home_policy=Document{{$exists=1}}}}
+2018-02-23 16:46:43.239 [main] INFO  c.j.mongosyphon.DocumentGenerator:125 - connecting to jdbc:oracle:thin:@//192.168.14.200:1521/XE
+2018-02-23 16:46:43.457 [main] INFO  c.j.mongosyphon.MongoBulkWriter:39 - Connecting to mongodb://localhost:27017/
+2018-02-23 16:46:43.525 [main] INFO  c.j.mongosyphon.RDBMSConnection:146 - executing oracle.jdbc.driver.OraclePreparedStatementWrapper@52102734
+2018-02-23 16:47:01.870 [main] INFO  c.j.mongosyphon.DocumentGenerator:125 - connecting to jdbc:oracle:thin:@//192.168.14.200:1521/XE
+2018-02-23 16:47:01.906 [main] INFO  c.j.mongosyphon.MongoBulkWriter:39 - Connecting to mongodb://localhost:27017/
+2018-02-23 16:47:01.908 [main] INFO  c.j.mongosyphon.RDBMSConnection:146 - executing oracle.jdbc.driver.OraclePreparedStatementWrapper@2dde1bff
+2018-02-23 16:47:02.792 [main] INFO  c.j.mongosyphon.DocumentGenerator:125 - connecting to jdbc:oracle:thin:@//192.168.14.200:1521/XE
+2018-02-23 16:47:02.811 [main] INFO  c.j.mongosyphon.RDBMSConnection:146 - executing oracle.jdbc.driver.OraclePreparedStatementWrapper@550ee7e5
+2018-02-23 16:47:03.114 [main] INFO  c.j.mongosyphon.DocumentGenerator:125 - connecting to jdbc:oracle:thin:@//192.168.14.200:1521/XE
+2018-02-23 16:47:03.130 [main] INFO  c.j.mongosyphon.RDBMSConnection:146 - executing oracle.jdbc.driver.OraclePreparedStatementWrapper@247d8ae
+2018-02-23 16:47:03.291 [main] INFO  c.j.mongosyphon.DocumentGenerator:125 - connecting to jdbc:oracle:thin:@//192.168.14.200:1521/XE
+2018-02-23 16:47:03.309 [main] INFO  c.j.mongosyphon.RDBMSConnection:146 - executing oracle.jdbc.driver.OraclePreparedStatementWrapper@6a84a97d
+2018-02-23 16:47:03.515 [main] INFO  c.j.mongosyphon.DocumentGenerator:125 - connecting to jdbc:oracle:thin:@//192.168.14.200:1521/XE
+2018-02-23 16:47:03.531 [main] INFO  c.j.mongosyphon.RDBMSConnection:146 - executing oracle.jdbc.driver.OraclePreparedStatementWrapper@50ad3bc1
+2018-02-23 16:55:38.161 [main] INFO  c.johnlpage.mongosyphon.MongoSyphon:25 - MongoSyphon Version 0.1.1
+2018-02-23 16:55:38.166 [main] INFO  c.j.mongosyphon.CommandLineOptions:23 - Parsing Command Line
+2018-02-23 16:55:38.230 [main] INFO  c.j.mongosyphon.DocumentGenerator:125 - connecting to mongodb://localhost:27017/
+2018-02-23 16:55:38.231 [main] INFO  c.j.mongosyphon.MongoConnection:78 - Connecting to mongodb://localhost:27017/
+2018-02-23 16:55:38.536 [main] INFO  c.j.mongosyphon.MongoConnection:243 - executing Document{{last_change_car_customer=Document{{$exists=1}}}}
+2018-02-23 16:55:38.640 [main] INFO  c.j.mongosyphon.DocumentGenerator:125 - connecting to jdbc:oracle:thin:@//192.168.14.200:1521/XE
+2018-02-23 16:55:38.854 [main] INFO  c.j.mongosyphon.MongoBulkWriter:39 - Connecting to mongodb://localhost:27017/
+2018-02-23 16:55:38.921 [main] INFO  c.j.mongosyphon.RDBMSConnection:146 - executing oracle.jdbc.driver.OraclePreparedStatementWrapper@52102734
+2018-02-23 16:56:34.329 [main] INFO  c.johnlpage.mongosyphon.MongoSyphon:25 - MongoSyphon Version 0.1.1
+2018-02-23 16:56:34.332 [main] INFO  c.j.mongosyphon.CommandLineOptions:23 - Parsing Command Line
+2018-02-23 16:56:34.399 [main] INFO  c.j.mongosyphon.DocumentGenerator:125 - connecting to mongodb://localhost:27017/
+2018-02-23 16:56:34.401 [main] INFO  c.j.mongosyphon.MongoConnection:78 - Connecting to mongodb://localhost:27017/
+2018-02-23 16:56:34.717 [main] INFO  c.j.mongosyphon.MongoConnection:243 - executing Document{{last_change_car_policy=Document{{$exists=1}}}}
+2018-02-23 16:56:34.843 [main] INFO  c.j.mongosyphon.DocumentGenerator:125 - connecting to jdbc:oracle:thin:@//192.168.14.200:1521/XE
+2018-02-23 16:56:35.069 [main] INFO  c.j.mongosyphon.MongoBulkWriter:39 - Connecting to mongodb://localhost:27017/
+2018-02-23 16:56:35.137 [main] INFO  c.j.mongosyphon.RDBMSConnection:146 - executing oracle.jdbc.driver.OraclePreparedStatementWrapper@52102734
+2018-02-23 16:56:35.145 [main] ERROR c.j.mongosyphon.RDBMSConnection:154 - ORA-00904: "MAX_COVERD": invalid identifier
+
+2018-02-23 16:58:51.698 [main] INFO  c.johnlpage.mongosyphon.MongoSyphon:25 - MongoSyphon Version 0.1.1
+2018-02-23 16:58:51.701 [main] INFO  c.j.mongosyphon.CommandLineOptions:23 - Parsing Command Line
+2018-02-23 16:58:51.765 [main] INFO  c.j.mongosyphon.DocumentGenerator:125 - connecting to mongodb://localhost:27017/
+2018-02-23 16:58:51.766 [main] INFO  c.j.mongosyphon.MongoConnection:78 - Connecting to mongodb://localhost:27017/
+2018-02-23 16:58:52.082 [main] INFO  c.j.mongosyphon.MongoConnection:243 - executing Document{{last_change_car_policy=Document{{$exists=1}}}}
+2018-02-23 16:58:52.209 [main] INFO  c.j.mongosyphon.DocumentGenerator:125 - connecting to jdbc:oracle:thin:@//192.168.14.200:1521/XE
+2018-02-23 16:58:52.435 [main] INFO  c.j.mongosyphon.MongoBulkWriter:39 - Connecting to mongodb://localhost:27017/
+2018-02-23 16:58:52.504 [main] INFO  c.j.mongosyphon.RDBMSConnection:146 - executing oracle.jdbc.driver.OraclePreparedStatementWrapper@52102734
+2018-02-23 16:59:06.775 [main] INFO  c.j.mongosyphon.DocumentGenerator:125 - connecting to jdbc:oracle:thin:@//192.168.14.200:1521/XE
+2018-02-23 16:59:06.807 [main] INFO  c.j.mongosyphon.MongoBulkWriter:39 - Connecting to mongodb://localhost:27017/
+2018-02-23 16:59:06.811 [main] INFO  c.j.mongosyphon.RDBMSConnection:146 - executing oracle.jdbc.driver.OraclePreparedStatementWrapper@2dde1bff
+2018-02-23 16:59:06.912 [main] INFO  c.j.mongosyphon.DocumentGenerator:125 - connecting to jdbc:oracle:thin:@//192.168.14.200:1521/XE
+2018-02-23 16:59:06.937 [main] INFO  c.j.mongosyphon.RDBMSConnection:146 - executing oracle.jdbc.driver.OraclePreparedStatementWrapper@550ee7e5
+2018-02-23 16:59:06.941 [main] ERROR c.j.mongosyphon.RDBMSConnection:154 - ORA-00904: "CLAIM_TYPE": invalid identifier
+
+2018-02-23 17:00:27.373 [main] INFO  c.johnlpage.mongosyphon.MongoSyphon:25 - MongoSyphon Version 0.1.1
+2018-02-23 17:00:27.376 [main] INFO  c.j.mongosyphon.CommandLineOptions:23 - Parsing Command Line
+2018-02-23 17:00:27.394 [main] ERROR c.j.mongosyphon.JobDescription:39 - Expected a ',' or '}' at 3330 [character 4 line 80]
+2018-02-23 17:00:35.731 [main] INFO  c.johnlpage.mongosyphon.MongoSyphon:25 - MongoSyphon Version 0.1.1
+2018-02-23 17:00:35.736 [main] INFO  c.j.mongosyphon.CommandLineOptions:23 - Parsing Command Line
+2018-02-23 17:00:35.794 [main] INFO  c.j.mongosyphon.DocumentGenerator:125 - connecting to mongodb://localhost:27017/
+2018-02-23 17:00:35.795 [main] INFO  c.j.mongosyphon.MongoConnection:78 - Connecting to mongodb://localhost:27017/
+2018-02-23 17:00:36.098 [main] INFO  c.j.mongosyphon.MongoConnection:243 - executing Document{{last_change_car_policy=Document{{$exists=1}}}}
+2018-02-23 17:00:36.227 [main] INFO  c.j.mongosyphon.DocumentGenerator:125 - connecting to jdbc:oracle:thin:@//192.168.14.200:1521/XE
+2018-02-23 17:00:36.458 [main] INFO  c.j.mongosyphon.MongoBulkWriter:39 - Connecting to mongodb://localhost:27017/
+2018-02-23 17:00:36.523 [main] INFO  c.j.mongosyphon.RDBMSConnection:146 - executing oracle.jdbc.driver.OraclePreparedStatementWrapper@52102734
+2018-02-23 17:00:48.244 [main] INFO  c.j.mongosyphon.DocumentGenerator:125 - connecting to jdbc:oracle:thin:@//192.168.14.200:1521/XE
+2018-02-23 17:00:48.270 [main] INFO  c.j.mongosyphon.MongoBulkWriter:39 - Connecting to mongodb://localhost:27017/
+2018-02-23 17:00:48.272 [main] INFO  c.j.mongosyphon.RDBMSConnection:146 - executing oracle.jdbc.driver.OraclePreparedStatementWrapper@2dde1bff
+2018-02-23 17:00:48.347 [main] INFO  c.j.mongosyphon.DocumentGenerator:125 - connecting to jdbc:oracle:thin:@//192.168.14.200:1521/XE
+2018-02-23 17:00:48.366 [main] INFO  c.j.mongosyphon.RDBMSConnection:146 - executing oracle.jdbc.driver.OraclePreparedStatementWrapper@550ee7e5
+2018-02-23 17:01:16.900 [main] INFO  c.johnlpage.mongosyphon.MongoSyphon:25 - MongoSyphon Version 0.1.1
+2018-02-23 17:01:16.903 [main] INFO  c.j.mongosyphon.CommandLineOptions:23 - Parsing Command Line
+2018-02-23 17:01:16.969 [main] INFO  c.j.mongosyphon.DocumentGenerator:125 - connecting to mongodb://localhost:27017/
+2018-02-23 17:01:16.971 [main] INFO  c.j.mongosyphon.MongoConnection:78 - Connecting to mongodb://localhost:27017/
+2018-02-23 17:01:17.321 [main] INFO  c.j.mongosyphon.MongoConnection:243 - executing Document{{last_change_car_policy=Document{{$exists=1}}}}
+2018-02-23 17:01:17.598 [main] INFO  c.j.mongosyphon.DocumentGenerator:125 - connecting to jdbc:oracle:thin:@//192.168.14.200:1521/XE
+2018-02-23 17:01:17.815 [main] INFO  c.j.mongosyphon.MongoBulkWriter:39 - Connecting to mongodb://localhost:27017/
+2018-02-23 17:01:17.882 [main] ERROR c.j.mongosyphon.RDBMSConnection:110 -  parameter last_change_car_policy is not defined in parent { }
+2018-02-23 17:02:33.857 [main] INFO  c.johnlpage.mongosyphon.MongoSyphon:25 - MongoSyphon Version 0.1.1
+2018-02-23 17:02:33.861 [main] INFO  c.j.mongosyphon.CommandLineOptions:23 - Parsing Command Line
+2018-02-23 17:02:33.919 [main] INFO  c.j.mongosyphon.DocumentGenerator:125 - connecting to mongodb://localhost:27017/
+2018-02-23 17:02:33.921 [main] INFO  c.j.mongosyphon.MongoConnection:78 - Connecting to mongodb://localhost:27017/
+2018-02-23 17:02:34.221 [main] INFO  c.j.mongosyphon.MongoConnection:243 - executing Document{{last_change_car_policy=Document{{$exists=1}}}}
+2018-02-23 17:02:34.482 [main] INFO  c.j.mongosyphon.DocumentGenerator:125 - connecting to jdbc:oracle:thin:@//192.168.14.200:1521/XE
+2018-02-23 17:02:34.704 [main] INFO  c.j.mongosyphon.MongoBulkWriter:39 - Connecting to mongodb://localhost:27017/
+2018-02-23 17:02:34.775 [main] INFO  c.j.mongosyphon.RDBMSConnection:146 - executing oracle.jdbc.driver.OraclePreparedStatementWrapper@52102734
+2018-02-23 17:02:35.007 [main] INFO  c.j.mongosyphon.DocumentGenerator:125 - connecting to jdbc:oracle:thin:@//192.168.14.200:1521/XE
+2018-02-23 17:02:35.025 [main] INFO  c.j.mongosyphon.MongoBulkWriter:39 - Connecting to mongodb://localhost:27017/
+2018-02-23 17:02:35.027 [main] INFO  c.j.mongosyphon.RDBMSConnection:146 - executing oracle.jdbc.driver.OraclePreparedStatementWrapper@747edf66
+2018-02-23 17:02:43.591 [main] INFO  c.johnlpage.mongosyphon.MongoSyphon:25 - MongoSyphon Version 0.1.1
+2018-02-23 17:02:43.595 [main] INFO  c.j.mongosyphon.CommandLineOptions:23 - Parsing Command Line
+2018-02-23 17:02:43.665 [main] INFO  c.j.mongosyphon.DocumentGenerator:125 - connecting to mongodb://localhost:27017/
+2018-02-23 17:02:43.667 [main] INFO  c.j.mongosyphon.MongoConnection:78 - Connecting to mongodb://localhost:27017/
+2018-02-23 17:02:43.965 [main] INFO  c.j.mongosyphon.MongoConnection:243 - executing Document{{last_change_home_policy=Document{{$exists=1}}}}
+2018-02-23 17:02:44.272 [main] INFO  c.j.mongosyphon.DocumentGenerator:125 - connecting to jdbc:oracle:thin:@//192.168.14.200:1521/XE
+2018-02-23 17:02:44.485 [main] INFO  c.j.mongosyphon.MongoBulkWriter:39 - Connecting to mongodb://localhost:27017/
+2018-02-23 17:02:44.552 [main] INFO  c.j.mongosyphon.RDBMSConnection:146 - executing oracle.jdbc.driver.OraclePreparedStatementWrapper@52102734
+2018-02-23 17:02:45.724 [main] INFO  c.j.mongosyphon.DocumentGenerator:125 - connecting to jdbc:oracle:thin:@//192.168.14.200:1521/XE
+2018-02-23 17:02:45.750 [main] INFO  c.j.mongosyphon.MongoBulkWriter:39 - Connecting to mongodb://localhost:27017/
+2018-02-23 17:02:45.753 [main] INFO  c.j.mongosyphon.RDBMSConnection:146 - executing oracle.jdbc.driver.OraclePreparedStatementWrapper@747edf66
+2018-02-23 17:04:25.629 [main] INFO  c.johnlpage.mongosyphon.MongoSyphon:25 - MongoSyphon Version 0.1.1
+2018-02-23 17:04:25.632 [main] INFO  c.j.mongosyphon.CommandLineOptions:23 - Parsing Command Line
+2018-02-23 17:04:25.692 [main] INFO  c.j.mongosyphon.DocumentGenerator:125 - connecting to mongodb://localhost:27017/
+2018-02-23 17:04:25.693 [main] INFO  c.j.mongosyphon.MongoConnection:78 - Connecting to mongodb://localhost:27017/
+2018-02-23 17:04:25.985 [main] INFO  c.j.mongosyphon.MongoConnection:243 - executing Document{{last_change_home_policy=Document{{$exists=1}}}}
+2018-02-23 17:04:26.292 [main] INFO  c.j.mongosyphon.DocumentGenerator:125 - connecting to jdbc:oracle:thin:@//192.168.14.200:1521/XE
+2018-02-23 17:04:26.499 [main] INFO  c.j.mongosyphon.MongoBulkWriter:39 - Connecting to mongodb://localhost:27017/
+2018-02-23 17:04:26.564 [main] INFO  c.j.mongosyphon.RDBMSConnection:146 - executing oracle.jdbc.driver.OraclePreparedStatementWrapper@52102734
+2018-02-23 17:04:27.654 [main] INFO  c.j.mongosyphon.DocumentGenerator:125 - connecting to jdbc:oracle:thin:@//192.168.14.200:1521/XE
+2018-02-23 17:04:27.672 [main] INFO  c.j.mongosyphon.MongoBulkWriter:39 - Connecting to mongodb://localhost:27017/
+2018-02-23 17:04:27.673 [main] INFO  c.j.mongosyphon.RDBMSConnection:146 - executing oracle.jdbc.driver.OraclePreparedStatementWrapper@747edf66
