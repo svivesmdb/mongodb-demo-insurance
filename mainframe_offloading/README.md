@@ -7,6 +7,7 @@ This is a set of projects to demonstrate how MongoDB can greatly help offloading
 
 ## Table of contents
 
+![mainframe](/docs/mainframe.png "mainframe")
 
 01- MyMotorInsurances 1.0
 ----------------
