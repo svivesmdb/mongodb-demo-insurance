@@ -1,6 +1,8 @@
 # MongoDB Demo for Insurance Sector
 
-This project aims at demonstrating the usage of MongoDB in the insurance sector. It demonstrates three major use cases that are in production in the top financial services comapanies:
+MongoDB is used by many large organizations to build mission-critical applications - increasing developer productivity, de-risking development phases and therefore enabling companies to leverage data and technology for competitive advantage.
+
+This project aims at demonstrating the usage of MongoDB in the insurance sector. A large-scale example of unifying more than 100 million individual customers is [MetLife](https://www.mongodb.com/customers/metlife): a working prototype has been built in just two weeks, three months later the project has been in production. This demonstration explains three major use cases:
 
 * **Mainframe Offloading:** Release legacy mainframes from MIPS intensive workloads by offloading data and processes to a modern scalable data layer allowing you to reduce cost and enable new use cases demanded by business.
 * **Single View of your business:** Centralize, organize and present your business relevant information from various sources and channels to serve the business demands like 360 customer view, Single source of Risk or centralized governance.

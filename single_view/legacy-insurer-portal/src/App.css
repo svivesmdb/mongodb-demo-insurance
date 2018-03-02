@@ -1,0 +1,39 @@
+
+.policyForm {
+  border-width: 1px;
+  border-color: #41FF00;
+  border-style: solid;
+  width: 600px;
+  font-size: large;
+  padding: 20px;
+}
+
+input[type=text] {
+  color: #41FF00;
+  border-style:solid;
+  border-color:black;
+  background-color: black;
+  border-bottom-color: white;
+  font-family: 'VT323', 'Courier New', Courier, monospace;
+  width: 100%
+}
+
+input[type=text]:focus {
+  color: #41FF00;
+  border-color:black;
+  outline: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border-bottom-color: red;
+}
+
+h1 {
+  color: #41FF00;
+  font-family: 'VT323', 'Courier New', Courier, monospace;
+}
+
+.applicationHeader {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}

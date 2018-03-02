@@ -95,11 +95,11 @@ def main():
                     ls_used_customer_ids.append(s_customer_id)
                 ls_used_customer_ids.sort()
                 
-                ls_policies.append((s_policy_number, s_customer_id, d_quote_date, d_cover_start, row[62], row[63]))
-                ls_policy_coverage.append((s_policy_number, 'BUILDING', row[7], row[9], row[10])) #row[16], 
-                ls_policy_coverage.append((s_policy_number, 'PERSONAL_ITEMS', row[11], row[13], row[14])) #row[15], 
-                ls_policy_risk.append((s_policy_number, row[8], row[12], row[24], row[25], row[26], row[27], row[28], row[29], row[30], row[31], row[32], row[33], row[34], row[35], row[36], row[37], int(row[40]) if row[40] != '' else -1))
-                ls_policy_options.append((s_policy_number, row[44], row[45], row[46], row[47], row[48], row[49], row[50], row[51]))
+                ls_policies.append((s_policy_number, s_customer_id, d_quote_date, d_cover_start, row[62], row[63], datetime.today()))
+                ls_policy_coverage.append((s_policy_number, 'BUILDING', row[7], row[9], row[10], datetime.today())) #row[16], 
+                ls_policy_coverage.append((s_policy_number, 'PERSONAL_ITEMS', row[11], row[13], row[14], datetime.today())) #row[15], 
+                ls_policy_risk.append((s_policy_number, row[8], row[12], row[24], row[25], row[26], row[27], row[28], row[29], row[30], row[31], row[32], row[33], row[34], row[35], row[36], row[37], int(row[40]) if row[40] != '' else -1, datetime.today()))
+                ls_policy_options.append((s_policy_number, row[44], row[45], row[46], row[47], row[48], row[49], row[50], row[51], datetime.today()))
 
                 if d_cover_start < (datetime.today() + relativedelta(years=-3)):
                     generate_claims(s_policy_number, d_cover_start, row[7], row[9], row[11], row[13], ls_claims)
@@ -114,24 +114,24 @@ def main():
     for s_customer_id in ls_used_customer_ids:
         i_customer_id = int(s_customer_id[1:]) - 1
         customer = ls_customers[i_customer_id]
-        ls_customers_to_db.append((customer[0], customer[2], customer[3], customer[1], customer[4], customer[5], customer[6], customer[7], customer[8], customer[9], customer[10], customer[11], customer[12], customer[13], customer[14] ))
+        ls_customers_to_db.append((customer[0], customer[2], customer[3], customer[1], customer[4], customer[5], customer[6], customer[7], customer[8], customer[9], customer[10], customer[11], customer[12], customer[13], customer[14], datetime.today() ))
 
-    columns_policy = ['policy_id', 'customer_id', 'quote_day', 'cover_start', 'last_ann_premium_gross', 'policy_status']
+    columns_policy = ['policy_id', 'customer_id', 'quote_day', 'cover_start', 'last_ann_premium_gross', 'policy_status', 'last_change']
     df_policies = pd.DataFrame(ls_policies, columns=columns_policy)
     
-    columns_policy_coverage = ['policy_id', 'type', 'coverage', 'sum_insured', 'malus_bonus']
+    columns_policy_coverage = ['policy_id', 'type', 'coverage', 'sum_insured', 'malus_bonus', 'last_change']
     df_policy_coverage =  pd.DataFrame(ls_policy_coverage, columns=columns_policy_coverage)
     
-    columns_policy_risk = ['policy_id', 'rsk_classif_bldg', 'rsk_classif_prsnl', 'appr_alarm', 'appr_locks', 'bedrooms', 'roof_cnstrctn', 'wall_constrctn', 'flooding', 'listed', 'max_days_unocc', 'neigh_watch', 'occ_stats', 'ownership_type', 'paying_guests', 'prop_type', 'safe_installed', 'yearbuilt']
+    columns_policy_risk = ['policy_id', 'rsk_classif_bldg', 'rsk_classif_prsnl', 'appr_alarm', 'appr_locks', 'bedrooms', 'roof_cnstrctn', 'wall_constrctn', 'flooding', 'listed', 'max_days_unocc', 'neigh_watch', 'occ_stats', 'ownership_type', 'paying_guests', 'prop_type', 'safe_installed', 'yearbuilt', 'last_change']
     df_policy_risk =  pd.DataFrame(ls_policy_risk, columns=columns_policy_risk)
     
-    columns_policy_options = ['policy_id', 'lgl_addon_pre_ren', 'lgl_addon_post_ren', 'home_em_addon_pre_ren', 'home_em_addon_post_ren', 'garden_addon_pre_ren', 'garden_addon_post_ren', 'keycare_addon_pre_ren', 'keycare_addon_post_ren']
+    columns_policy_options = ['policy_id', 'lgl_addon_pre_ren', 'lgl_addon_post_ren', 'home_em_addon_pre_ren', 'home_em_addon_post_ren', 'garden_addon_pre_ren', 'garden_addon_post_ren', 'keycare_addon_pre_ren', 'keycare_addon_post_ren', 'last_change']
     df_policy_options =  pd.DataFrame(ls_policy_options, columns=columns_policy_options)
     
-    columns_customer = ['customer_id', 'first_name', 'last_name', 'gender', 'job', 'email', 'phone', 'number_children', 'marital_status', 'date_of_birth', 'street', 'zip', 'city', 'country_code', 'nationality']
+    columns_customer = ['customer_id', 'first_name', 'last_name', 'gender', 'job', 'email', 'phone', 'number_children', 'marital_status', 'date_of_birth', 'street', 'zip', 'city', 'country_code', 'nationality', 'last_change']
     df_customers_to_db = pd.DataFrame(ls_customers_to_db, columns=columns_customer)
     
-    columns_claim = ['policy_id', 'claim_date', 'settled_date', 'claim_type', 'claim_amount', 'settled_amount', 'claim_reason']
+    columns_claim = ['policy_id', 'claim_date', 'settled_date', 'claim_type', 'claim_amount', 'settled_amount', 'claim_reason', 'last_change']
     df_claims = pd.DataFrame(ls_claims, columns=columns_claim)
 
     df_policies.to_csv('output/home_insurance_policy.csv', sep=',', index=False, header=columns_policy)
@@ -141,7 +141,8 @@ def main():
             'quote_day': sqlalchemy.types.Date,
             'cover_start': sqlalchemy.types.Date,
             'last_ann_premium_gross': sqlalchemy.types.Numeric(precision=10, scale=2),
-            'policy_status': sqlalchemy.types.String(100)
+            'policy_status': sqlalchemy.types.String(100),
+            'last_change': sqlalchemy.dialects.oracle.TIMESTAMP
         })
     
     df_policy_coverage.to_csv('output/home_insurance_policy_coverage.csv', sep=',', index=False, header=columns_policy_coverage)
@@ -150,7 +151,8 @@ def main():
             'type': sqlalchemy.types.String(20),
             'coverage': sqlalchemy.types.String(1), 
             'sum_insured': sqlalchemy.types.Numeric(precision=30, scale=2), 
-            'malus_bonus': sqlalchemy.types.Numeric(precision=10, scale=0)
+            'malus_bonus': sqlalchemy.types.Numeric(precision=10, scale=0),
+            'last_change': sqlalchemy.dialects.oracle.TIMESTAMP
         })
 
     df_policy_risk.to_csv('output/home_insurance_policy_risk.csv', sep=',', index=False, header=columns_policy_risk)
@@ -172,7 +174,8 @@ def main():
             'paying_guests': sqlalchemy.types.Numeric(precision=10, scale=0), 
             'prop_type': sqlalchemy.types.Numeric(precision=10, scale=0), 
             'safe_installed': sqlalchemy.types.String(1), 
-            'yearbuilt': sqlalchemy.types.Numeric(precision=10, scale=0)
+            'yearbuilt': sqlalchemy.types.Numeric(precision=10, scale=0),
+            'last_change': sqlalchemy.dialects.oracle.TIMESTAMP
         })
 
     df_policy_options.to_csv('output/home_insurance_policy_option.csv', sep=',', index=False, header=columns_policy_options)
@@ -185,7 +188,8 @@ def main():
             'garden_addon_pre_ren': sqlalchemy.types.String(1), 
             'garden_addon_post_ren': sqlalchemy.types.String(1), 
             'keycare_addon_pre_ren': sqlalchemy.types.String(1), 
-            'keycare_addon_post_ren': sqlalchemy.types.String(1)
+            'keycare_addon_post_ren': sqlalchemy.types.String(1),
+            'last_change': sqlalchemy.dialects.oracle.TIMESTAMP
         })  
 
     df_customers_to_db.to_csv('output/home_insurance_customer.csv', sep=',', index=False, header=columns_customer)
@@ -204,7 +208,8 @@ def main():
             'zip': sqlalchemy.types.String(10), 
             'city': sqlalchemy.types.String(100), 
             'country_code': sqlalchemy.types.String(2), 
-            'nationality': sqlalchemy.types.String(20)
+            'nationality': sqlalchemy.types.String(20),
+            'last_change': sqlalchemy.dialects.oracle.TIMESTAMP
         })  
     
     df_claims.to_csv('output/home_insurance_claim.csv', sep=',', index=False, header=columns_claim)
@@ -215,7 +220,8 @@ def main():
             'claim_type': sqlalchemy.types.String(20), 
             'claim_amount': sqlalchemy.types.Numeric(precision=30, scale=2), 
             'settled_amount': sqlalchemy.types.Numeric(precision=30, scale=2), 
-            'claim_reason': sqlalchemy.types.String(30)
+            'claim_reason': sqlalchemy.types.String(30),
+            'last_change': sqlalchemy.dialects.oracle.TIMESTAMP
         })   
 
 def policy_number(i):
@@ -258,7 +264,7 @@ def generate_claims(s_policy_number, d_cover_start, coverage_building, sum_insur
             f_settled_amount = f_claim_amount if f_claim_amount <= float(sum_insured_building) else float(sum_insured_building)
             s_claim_rason = random.choice(['FLOOD', 'WIND', 'FIRE', 'LIGHTNING', 'THEFT', 'VANDALISM', 'EXPLOSION', 'WATER/HEATING/AC', 'ELECTRICAL_CURRENT'])
 
-            ls_claims.append((s_policy_number, d_claim_date, d_date_settled, s_claim_type, f_claim_amount, f_settled_amount, s_claim_rason))
+            ls_claims.append((s_policy_number, d_claim_date, d_date_settled, s_claim_type, f_claim_amount, f_settled_amount, s_claim_rason, datetime.today()))
 
     if coverage_personal == 'Y':
         for i in range(0, num_claims_personal):
@@ -272,7 +278,7 @@ def generate_claims(s_policy_number, d_cover_start, coverage_building, sum_insur
             f_settled_amount = f_claim_amount if f_claim_amount <= float(sum_insured_personal) else float(sum_insured_personal)
             s_claim_rason = random.choice(['FLOOD', 'WIND', 'FIRE', 'LIGHTNING', 'THEFT', 'VANDALISM', 'EXPLOSION', 'WATER/HEATING/AC', 'ELECTRICAL_CURRENT'])
 
-            ls_claims.append((s_policy_number, d_claim_date, d_date_settled, s_claim_type, f_claim_amount, f_settled_amount, s_claim_rason))
+            ls_claims.append((s_policy_number, d_claim_date, d_date_settled, s_claim_type, f_claim_amount, f_settled_amount, s_claim_rason, datetime.today()))
 
 
 if __name__ == '__main__':

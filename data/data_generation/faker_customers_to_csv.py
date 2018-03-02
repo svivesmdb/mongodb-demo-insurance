@@ -64,16 +64,12 @@ def main():
         s_address_city = address.city()
         
         t_customer = (customer_number(i), s_sex, s_first_name, s_last_name, s_job, s_email, s_phone, i_number_children, s_marital_status, ls_dates[i].replace(hour=0, minute=0, second=0, microsecond=0), s_address_street, s_address_zip, s_address_city, s_country, s_nationality)
-        #print(t_customer)
         ls_customer.append(t_customer)
-
-    #csvfile = open('home_insurance.csv', newline='\n')
-    #reader = csv.reader(csvfile, delimiter=',', quotechar='"')
 
     ls_columns=['customer_id', 'gender', 'first_name', 'last_name', 'job', 'email', 'phone', 'number_children', 'marital_status', 'date_of_birth', 'street', 'zip', 'city', 'country_code', 'nationality']
 
     df_customer = pd.DataFrame(ls_customer, columns=ls_columns)
-    print (df_customer)
+    
     df_customer.to_csv('output/customers__de_at_ch.csv', sep=',', index=False, header=ls_columns)
     
 
