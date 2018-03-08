@@ -22,11 +22,14 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 
 
 @RestController
 @RequestMapping("/contracts")
 public class SimulatorController {
+
+    private final static Logger LOGGER = Logger.getLogger(SimulatorController.class.getName());
 
     @Autowired
     private SimulatorProperties properties;
@@ -42,13 +45,14 @@ public class SimulatorController {
     }
 
     @RequestMapping(value="/motor", method= RequestMethod.GET)
-    public List<JSONObject> getInsurances(HttpServletResponse response, @RequestParam("start") String start, @RequestParam("limit") Integer limit) {
+    public List<JSONObject> getInsurances(HttpServletResponse response, @RequestParam(value = "start", defaultValue = "0") String start, @RequestParam(value = "limit", defaultValue = "100") Integer limit) {
 
         List<JSONObject> contracts = new ArrayList<JSONObject>();
         JSONParser parser = new JSONParser();
         File[] files = directoryLister.getFiles(properties.getMotor(), null, limit);
         try {
             for (File f : files) {
+                LOGGER.info("Trying to parse " + f.getAbsolutePath());
                 Object obj = parser.parse(new FileReader(f));
                 contracts.add((JSONObject) obj);
                 response.setContentType("application/json");
