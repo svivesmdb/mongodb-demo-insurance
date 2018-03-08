@@ -19,7 +19,7 @@ class App extends Component {
         </div>
         <Router>
           <div>
-            <Route path="/navigation" component={Navigation} />
+            <Route exact path="/" component={Navigation} />
             <Route path="/createcarpolicy" component={NewCarInsurancePolicy} />
           </div>
         </Router>
