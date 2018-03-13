@@ -59,6 +59,7 @@ public class SimulatorController {
 
     }
 
+    /* Are we uploading a file? */
     @PostMapping("/upload")
     public ResponseEntity<?> upload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
         if (file.isEmpty()) {
