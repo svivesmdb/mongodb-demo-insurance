@@ -20,4 +20,10 @@ instead and attach a remote debugger from your IDE.
 
 ## Accessing the service
 
-* Get the motor insurance policies by calling `http://localhost:8080/contracts/motor`. This will return all files under `sample-data/motor`s
+```
+http://localhost:8080/policies //returns all policies
+http://localhost:8080/policies?type=motor //returns all policies of type motor
+http://localhost:8080/policies?type=home //returns all policies of type home
+http://localhost:8080/policies/{policyID}?type=motor //requires the type to be set, because policyIDs are not unique across types
+http://localhost:8080/policies/{policyID}?type=home //requires the type to be set, because policyIDs are not unique across types
+```
