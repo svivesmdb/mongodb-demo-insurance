@@ -21,7 +21,6 @@ import java.util.logging.Logger;
 
 
 @RestController
-@RequestMapping("/policies")
 public class SimulatorController {
 
     private final static Logger LOGGER = Logger.getLogger(SimulatorController.class.getName());
@@ -36,7 +35,7 @@ public class SimulatorController {
     //GET example.com/policies // returns all policies
     //GET example.com/policies?type=motor // returns only motor policies
     //GET example.com/policies?type=home // returns only home policies
-    @RequestMapping(method= RequestMethod.GET)
+    @RequestMapping(value="/policies", method= RequestMethod.GET)
     public List<JSONObject> getAllPolicies(HttpServletResponse response,
                                            @RequestParam(value = "type", defaultValue = "all") String type,
                                            @RequestParam(value = "start", defaultValue = "0") String start,
@@ -69,7 +68,7 @@ public class SimulatorController {
     }
 
     //GET example.com/policies/PC_000001 // return details of policy PC_000001
-    @RequestMapping(value="/{policyID}", method= RequestMethod.GET)
+    @RequestMapping(value="/policies/{policyID}", method= RequestMethod.GET)
     public JSONObject getPolycInsurances(HttpServletResponse response,
                                                @RequestParam(value = "type") String type,
                                                @PathVariable("policyID") String policyID
@@ -94,7 +93,7 @@ public class SimulatorController {
     }
 
     //GET example.com/policies/PC_000001/claims // returns all claims issued against a particular policy
-    @RequestMapping(value="/{policyID}/claims", method= RequestMethod.GET)
+    @RequestMapping(value="/policies/{policyID}/claims", method= RequestMethod.GET)
     public ResponseEntity<List<JSONObject>> getClaims(HttpServletResponse response,
                                              @PathVariable("policyID") String policyID,
                                              @RequestParam(value = "type") String type,
@@ -128,7 +127,7 @@ public class SimulatorController {
 
 
     //GET example.com/customers // returns all customers
-    @RequestMapping(value="/customer", method= RequestMethod.GET)
+    @RequestMapping(value="/customers", method= RequestMethod.GET)
     public List<JSONObject> getCustomers(HttpServletResponse response,
                                          @RequestParam(value = "start", defaultValue = "0") String start,
                                          @RequestParam(value = "limit", defaultValue = "100") Integer limit) {
@@ -136,7 +135,7 @@ public class SimulatorController {
         List<JSONObject> contracts = new ArrayList<JSONObject>();
         JSONParser parser = new JSONParser();
         ArrayList<String> dirs = new ArrayList<String>() {{
-            add(properties.getCustomer() + File.separator + "policies");
+            add(properties.getCustomer());
         }};
         File[] files = directoryLister.getFiles(dirs, start, limit);
         try {
@@ -153,7 +152,7 @@ public class SimulatorController {
 
 
     //POST example.com/policies?type=motor // create new policy
-    @PostMapping
+    @PostMapping(value = "/policies")
     public ResponseEntity<?> createPolicy(@RequestBody MultiValueMap<String,String> formData,
                                           @RequestParam(value = "type") String type) {
 
@@ -185,7 +184,7 @@ public class SimulatorController {
     }
 
     //POST example.com/policies/PC_000001 // create new claim against policy
-    @PostMapping(value="/{policyID}")
+    @PostMapping(value="/policies/{policyID}")
     public ResponseEntity<?> createnewClaim(@RequestBody MultiValueMap<String,String> formData,
                                             @RequestParam(value = "type") String type,
                                             @PathVariable("policyID") String policyID) {
