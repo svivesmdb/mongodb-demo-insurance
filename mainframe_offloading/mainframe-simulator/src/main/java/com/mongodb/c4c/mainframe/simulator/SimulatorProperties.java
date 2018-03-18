@@ -9,6 +9,7 @@ public class SimulatorProperties {
 
     private String motor;
     private String home;
+    private String customer;
 
     public String getMotor() {
         return motor;
@@ -25,4 +26,8 @@ public class SimulatorProperties {
     public void setHome(String home) {
         this.home = home;
     }
+
+    public String getCustomer() { return customer; }
+
+    public void setCustomer(String customer) { this.customer = customer;}
 }
