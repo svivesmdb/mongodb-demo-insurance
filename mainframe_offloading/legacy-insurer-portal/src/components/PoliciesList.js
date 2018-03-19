@@ -1,54 +1,52 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { fetchCarPolicies } from '../APIUtil'
-import { addCarPolicies } from '../actions'
-import ReactTable from 'react-table'
-import 'react-table/react-table.css'
+import { fetchPolicies } from '../APIUtil'
+import { addCarPolicies, addHomePolicies } from '../actions'
+import queryString from 'query-string'
+import CarPoliciesList from './CarPoliciesList'
 
 class PoliciesList extends Component {
 
+    state = {
+        policyType: 'motor',
+        loading: true
+    }
+
     componentDidMount() {
-        fetchCarPolicies().then((data) => {
+        const parsed = queryString.parse(this.props.location.search);
+        const policyType = ("type" in parsed) ? parsed.type : 'motor'
+        console.log("queryString parsed: ", parsed, ", calculated type: ", policyType)
+        this.setState({ policyType: policyType })
+
+        fetchPolicies(policyType).then((data) => {
             console.log(data);
-            this.props.dispatch(addCarPolicies(data))
+            if (policyType === "motor") this.props.dispatch(addCarPolicies(data))
+            if (policyType === "home") this.props.dispatch(addHomePolicies(data))
         });
     }
 
-    render() {
-        const columns = [{
-            Header: 'Policy ID',
-            accessor: 'policy_id',
-            className: "policies-table-td"
-          }, {
-            Header: 'Customer ID',
-            accessor: 'customer_id',
-            className: "policies-table-td"
-          }, {
-            Header: 'Home Type',
-            accessor: 'home_type',
-            className: "policies-table-td"
-          }, {
-            Header: 'Last Annual Premium Gross',
-            accessor: 'last_ann_premium_gross',
-            className: "policies-table-td"
-          }, {
-            Header: 'Max Coverage',
-            accessor: 'max_coverd',
-            className: "policies-table-td"
-          }, {
-            Header: 'Last Change',
-            accessor: 'last_change',
-            className: "policies-table-td"
-          }]
+    componentWillReceiveProps(nextProps) {
+        console.log("nextProps", nextProps)
+        if (nextProps.carPolicies) {
+          this.setState(
+            {
+                ...this.state,
+                loading: false
+            }
+          )
+        }
+      }
 
-        return (
-            <div className="policies-table">
-                <ReactTable
-                    data={this.props.carPolicies}
-                    columns={columns}
-                />
-            </div>
-        )
+    render() {
+        if(this.state.loading){
+            return (
+                <div className="loading"/>
+            )
+        }
+        if (this.state.policyType === "motor")
+            return (<CarPoliciesList carPolicies={this.props.carPolicies} />)
+
+
     }
 }
 

@@ -65,9 +65,36 @@ nav a:hover {
 }
 
 .policies-table {
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
   font-size: 20px;
 }
 
 .policies-table-td {
   text-align: center;
+}
+
+@keyframes changeColor {
+  0% {
+    color:  #41FF00;
+  }
+  50% {
+    color: black;
+  }
+  100% {
+    color:  #41FF00;
+  }
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading:after {
+  animation: changeColor 3s linear infinite alternate;
+  content: "Loading";
+  font-size: 20px;
 }
