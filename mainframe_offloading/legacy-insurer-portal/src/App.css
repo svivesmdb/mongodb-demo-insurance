@@ -63,3 +63,11 @@ nav a:hover {
   background-color: #41FF00;
   color: black;
 }
+
+.policies-table {
+  font-size: 20px;
+}
+
+.policies-table-td {
+  text-align: center;
+}
