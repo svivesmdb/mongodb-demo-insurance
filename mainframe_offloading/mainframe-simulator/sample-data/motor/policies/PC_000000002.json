@@ -1,9 +1,1 @@
-{
-  "policy_id": "PC_000000002",
-  "customer_id": "C000140819",
-  "cover_start": "2008-02-24 07:11:57.000000",
-  "car_model": "Tiguan Highline",
-  "max_coverd": "10000000.0",
-  "last_ann_premium_gross": "1793.8422460579327",
-  "last_change": "2018-02-23 16:19:38.041704"
-}
+{"max_coverd": "50000000.0", "car_model": "Morris Mini", "cover_start": "2008-02-24 07:19:54.000000", "last_ann_premium_gross": "1670.141547733458", "customer_id": "C000097093", "last_change": "2018-02-23 16:19:38.041769", "policy_id": "PC_000000002"}
