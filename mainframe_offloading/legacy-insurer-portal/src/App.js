@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import NewCarInsurancePolicy from './components/NewCarInsurancePolicy';
+import PoliciesList from './components/PoliciesList';
 import Navigation from './components/Navigation';
 import {
   BrowserRouter as Router,
@@ -21,6 +22,7 @@ class App extends Component {
           <div>
             <Route exact path="/" component={Navigation} />
             <Route path="/createcarpolicy" component={NewCarInsurancePolicy} />
+            <Route path="/policies" component={PoliciesList} />
           </div>
         </Router>
       </div>
