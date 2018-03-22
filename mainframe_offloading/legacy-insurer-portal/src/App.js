@@ -21,7 +21,7 @@ class App extends Component {
         <Router>
           <div>
             <Route exact path="/" component={Navigation} />
-            <Route path="/createcarpolicy" component={NewCarInsurancePolicy} />
+            <Route path="/createmotorpolicy" component={NewCarInsurancePolicy} />
             <Route path="/policies" component={PoliciesList} />
           </div>
         </Router>

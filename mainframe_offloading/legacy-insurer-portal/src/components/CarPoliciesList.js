@@ -13,12 +13,13 @@ class CarPoliciesList extends Component {
             accessor: 'customer_id',
             className: "policies-table-td"
           }, {
-            Header: 'Home Type',
-            accessor: 'home_type',
+            Header: 'Car Model',
+            accessor: 'car_model',
             className: "policies-table-td"
           }, {
             Header: 'Last Annual Premium Gross',
-            accessor: 'last_ann_premium_gross',
+            id: 'last_ann_premium_gross',
+            accessor: d => Math.round(d.last_ann_premium_gross),
             className: "policies-table-td"
           }, {
             Header: 'Max Coverage',
@@ -35,6 +36,7 @@ class CarPoliciesList extends Component {
                 <ReactTable
                     data={this.props.carPolicies}
                     columns={columns}
+                    defaultPageSize={100}
                 />
             </div>
         )

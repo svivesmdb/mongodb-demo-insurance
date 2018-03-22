@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Button, Form, Grid, Container } from 'semantic-ui-react'
-
+import { createPolicy } from '../APIUtil'
+import { Redirect } from 'react-router-dom'
 
 export default class NewCarInsurancePolicy extends Component {
 
@@ -13,12 +14,18 @@ export default class NewCarInsurancePolicy extends Component {
                 car_model: '',
                 max_coverd: '',
                 last_ann_premium_gross: ''
-            }
+            },
+            policy_created: false
         }
     }
 
     handleSubmit = (event) => {
         console.log("Calling API with ", this.state.policy)
+        createPolicy(this.state.policy, 'motor').then(value => this.setState({
+                policy: value,
+                policy_created: true
+            }
+        ))
         event.preventDefault();
     }
 
@@ -30,6 +37,10 @@ export default class NewCarInsurancePolicy extends Component {
     }
 
     render() {
+        if (this.state.policy_created === true) {
+            return <Redirect to={'/policy/'.concat(this.state.policy.policy_id)} />
+          }
+
         // policy_id and last_change will be created by server
         return (
             <Container className="policyForm">

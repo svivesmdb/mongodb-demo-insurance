@@ -13,9 +13,8 @@ export default class Navigation extends Component {
                 <nav>
                     <Link to="/viewcustomers">View Customers</Link>
                     <Link to="/createcustomer">Create Customer</Link>
-                    <Link to="/createcarpolicy">Create Car Insurance Policy</Link>
-                    <Link to="/createhomepolicy">Create Home Insurance Policy</Link>
-                    <Link to="/policies?type=motor">Motor Policies List</Link>
+                    <Link to="/createmotorpolicy">Create Motor Insurance Policy</Link>
+                    <Link to="/policies?type=motor">Motor Insurance Policies Overview</Link>
                     <Link to="/exit">Exit</Link>
                 </nav>
             </div>
