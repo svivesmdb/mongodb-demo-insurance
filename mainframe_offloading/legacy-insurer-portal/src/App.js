@@ -9,9 +9,20 @@ import {
   Route
 } from 'react-router-dom'
 import PolicyDetail from './components/PolicyDetail';
-
+import { fetchCustomers } from './APIUtil';
+import { addCustomers } from './actions';
+import { connect } from 'react-redux'
+import CustomerList from './components/CustomerList';
 
 class App extends Component {
+
+  componentDidMount() {
+    fetchCustomers().then((data) => {
+      console.log(data);
+      this.props.dispatch(addCustomers(data))
+    });
+  }
+
   render() {
     return (
       <div className="app">
@@ -21,6 +32,7 @@ class App extends Component {
         <Router>
           <div>
             <Route exact path="/navigation" component={Navigation} />
+            <Route exact path="/customers" component={CustomerList} />
             <Route exact path="/createmotorpolicy" component={NewCarInsurancePolicy} />
             <Route exact path="/policies" component={PoliciesList} />
             <Route exact path="/policies/:id" component={PolicyDetail} />
@@ -31,4 +43,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default connect()(App);

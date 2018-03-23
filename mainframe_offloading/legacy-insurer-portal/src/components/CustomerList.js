@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import ReactTable from 'react-table'
 import 'react-table/react-table.css'
 import { Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
 
 class CustomerList extends Component {
 
@@ -12,29 +13,28 @@ class CustomerList extends Component {
 
   render() {
     const columns = [{
-      Header: 'Policy ID',
-      accessor: 'policy_id',
-      className: "policies-table-td"
-    }, {
       Header: 'Customer ID',
       accessor: 'customer_id',
       className: "policies-table-td"
     }, {
-      Header: 'Car Model',
-      accessor: 'car_model',
+      Header: 'First Name',
+      accessor: 'first_name',
       className: "policies-table-td"
     }, {
-      Header: 'Last Annual Premium Gross',
-      id: 'last_ann_premium_gross',
-      accessor: d => Math.round(d.last_ann_premium_gross),
+      Header: 'Last Name',
+      accessor: 'last_name',
       className: "policies-table-td"
     }, {
-      Header: 'Max Coverage',
-      accessor: 'max_coverd',
+      Header: 'Gender',
+      accessor: 'gender',
       className: "policies-table-td"
     }, {
-      Header: 'Last Change',
-      accessor: 'last_change',
+      Header: 'E-Mail',
+      accessor: 'email',
+      className: "policies-table-td"
+    }, {
+      Header: 'Date of birth',
+      accessor: 'date_of_birth',
       className: "policies-table-td"
     }]
 
