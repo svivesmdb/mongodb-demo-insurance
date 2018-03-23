@@ -80,5 +80,23 @@ public class DirectoryLister {
         catch(Exception ex){ ex.printStackTrace(); return null;}
     }
 
+    public String getNextPolicyID(String path){
+        String policyID = "PC_000000001";
+        File[] policies = new File(path).listFiles((d, s) -> {
+            return s.toLowerCase().startsWith("pc_") && s.toLowerCase().endsWith("json");
+        });
+        if(policies!=null) {
+            Arrays.sort(policies, NameFileComparator.NAME_INSENSITIVE_COMPARATOR);
+            String lastFileNAme = policies[policies.length -1].getName();
+            String lastID = lastFileNAme.substring(3,lastFileNAme.length()-5);
+            int str = Integer.parseInt(lastID)+1;
+            int l = String.valueOf(str).length();
+            String prefix = "PC_";
+            for(int i = l; i < 9 ; i++)
+                prefix+="0";
+            policyID = prefix + str;
+        }
+        return policyID;
+    }
 
 }

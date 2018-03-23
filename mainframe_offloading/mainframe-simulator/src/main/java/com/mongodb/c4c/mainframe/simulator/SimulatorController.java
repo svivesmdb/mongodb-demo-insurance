@@ -158,20 +158,25 @@ public class SimulatorController {
 
         LOGGER.info("Creating a new Policy:" + type);
         //Create the JSON structure
-        String policyId = UUID.randomUUID().toString();
+        String policyId;
         JSONObject newPolicy = new JSONObject();
         for(String str : formData.keySet()){
             newPolicy.put(str, formData.getFirst(str));
         }
         newPolicy.remove("type");
-        newPolicy.put("policy_id",policyId);
         String filename;
-        if(type.compareToIgnoreCase("home")==0)
+        if(type.compareToIgnoreCase("home")==0) {
+            policyId = directoryLister.getNextPolicyID(properties.getHome() + File.separator + "policies");
             filename = properties.getHome() + File.separator + "policies" + File.separator + policyId;
-        else if(type.compareToIgnoreCase("motor")==0)
+        }
+        else if(type.compareToIgnoreCase("motor")==0) {
+            policyId = directoryLister.getNextPolicyID(properties.getMotor() + File.separator + "policies");
             filename = properties.getMotor() + File.separator + "policies" + File.separator + policyId;
+        }
         else
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        newPolicy.put("policy_id",policyId);
             // try-with-resources statement based on post comment below :)
         try (FileWriter file = new FileWriter(filename + ".json")) {
             file.write(newPolicy.toJSONString());
