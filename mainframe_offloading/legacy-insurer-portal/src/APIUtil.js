@@ -15,6 +15,10 @@ export const fetchPolicies = (type) =>
     sleep(3000)(fetch(`${api}/policies?type=${type}`, { headers })
     .then(res => res.json()))
 
+export const fetchCustomers = () =>
+    sleep(3000)(fetch(`${api}/customers`, { headers })
+    .then(res => res.json()))
+
 export const createPolicy = (policy, type) => {
     // Server expects form data, converting JSON to form data
     const formData = Object.keys(policy).map((key) => {

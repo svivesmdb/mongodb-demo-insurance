@@ -4,6 +4,7 @@ import { fetchPolicies } from '../APIUtil'
 import { addCarPolicies, addHomePolicies } from '../actions'
 import queryString from 'query-string'
 import CarPoliciesList from './CarPoliciesList'
+import { Link } from 'react-router-dom'
 
 class PoliciesList extends Component {
 
@@ -38,13 +39,23 @@ class PoliciesList extends Component {
       }
 
     render() {
+
+
         if(this.state.loading){
             return (
-                <div className="loading"/>
+                <div>
+                    <Link to='/navigation' className="menu-link">Back to menu</Link>
+                    <div className="loading"/>
+                </div>
             )
         }
         if (this.state.policyType === "motor")
-            return (<CarPoliciesList carPolicies={this.props.carPolicies} />)
+            return (
+                <div>
+                    <Link to='/navigation' className="menu-link">Back to menu</Link>
+                    <CarPoliciesList carPolicies={this.props.carPolicies} />
+                </div>
+        )
 
 
     }

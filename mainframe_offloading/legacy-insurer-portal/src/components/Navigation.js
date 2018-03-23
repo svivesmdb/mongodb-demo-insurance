@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import {
-    BrowserRouter as Router,
-    Route,
     Link
 } from 'react-router-dom'
 
@@ -11,7 +9,7 @@ export default class Navigation extends Component {
         return (
             <div className="containerBorder">
                 <nav>
-                    <Link to="/viewcustomers">View Customers</Link>
+                    <Link to="/customers">View Customers</Link>
                     <Link to="/createcustomer">Create Customer</Link>
                     <Link to="/createmotorpolicy">Create Motor Insurance Policy</Link>
                     <Link to="/policies?type=motor">Motor Insurance Policies Overview</Link>

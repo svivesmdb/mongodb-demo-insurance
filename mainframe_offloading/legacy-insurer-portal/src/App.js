@@ -6,9 +6,9 @@ import PoliciesList from './components/PoliciesList';
 import Navigation from './components/Navigation';
 import {
   BrowserRouter as Router,
-  Route,
-  Link
+  Route
 } from 'react-router-dom'
+import PolicyDetail from './components/PolicyDetail';
 
 
 class App extends Component {
@@ -20,9 +20,10 @@ class App extends Component {
         </div>
         <Router>
           <div>
-            <Route exact path="/" component={Navigation} />
-            <Route path="/createmotorpolicy" component={NewCarInsurancePolicy} />
-            <Route path="/policies" component={PoliciesList} />
+            <Route exact path="/navigation" component={Navigation} />
+            <Route exact path="/createmotorpolicy" component={NewCarInsurancePolicy} />
+            <Route exact path="/policies" component={PoliciesList} />
+            <Route exact path="/policies/:id" component={PolicyDetail} />
           </div>
         </Router>
       </div>

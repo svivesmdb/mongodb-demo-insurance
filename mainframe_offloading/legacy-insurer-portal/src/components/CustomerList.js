@@ -3,11 +3,11 @@ import ReactTable from 'react-table'
 import 'react-table/react-table.css'
 import { Redirect } from 'react-router-dom'
 
-class CarPoliciesList extends Component {
+class CustomerList extends Component {
 
   state = {
-    policyClicked: false,
-    policy_id: null
+    customerClicked: false,
+    customer_id: null
   }
 
   render() {
@@ -45,19 +45,7 @@ class CarPoliciesList extends Component {
       } else return (
       <div className="policies-table">
         <ReactTable
-          getTrProps={(state, rowInfo, column) => {
-            return {onClick: (e, handleOriginal) => {
-              this.setState({
-                policyClicked: true,
-                policy_id: rowInfo.row.policy_id
-              })
-              console.log(rowInfo.row.policy_id)
-              if (handleOriginal) {
-                handleOriginal()
-              }
-            }
-          }}}
-          data={this.props.carPolicies}
+          data={this.props.customers}
           columns={columns}
           defaultPageSize={100}
         />
@@ -66,4 +54,10 @@ class CarPoliciesList extends Component {
   }
 }
 
-export default CarPoliciesList
+const mapStateToProps = state => {
+    return {
+        customers: state.customers
+    }
+}
+
+export default connect(mapStateToProps)(CustomerList);

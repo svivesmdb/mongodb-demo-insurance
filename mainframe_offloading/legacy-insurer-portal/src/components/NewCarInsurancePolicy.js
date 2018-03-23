@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Form, Grid, Container } from 'semantic-ui-react'
+import { Button, Grid, Container } from 'semantic-ui-react'
 import { createPolicy } from '../APIUtil'
 import { Redirect } from 'react-router-dom'
 
@@ -38,7 +38,7 @@ export default class NewCarInsurancePolicy extends Component {
 
     render() {
         if (this.state.policy_created === true) {
-            return <Redirect to={'/policy/'.concat(this.state.policy.policy_id)} />
+            return <Redirect to={'/policies/'.concat(this.state.policy.policy_id)} />
           }
 
         // policy_id and last_change will be created by server
