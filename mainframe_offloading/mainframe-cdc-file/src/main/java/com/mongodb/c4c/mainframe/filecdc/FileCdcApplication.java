@@ -18,12 +18,16 @@ import org.springframework.messaging.MessageHandler;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 @SpringBootApplication
 @IntegrationComponentScan
 @Component
 public class FileCdcApplication {
+
+	private final static Logger LOGGER = Logger.getLogger("Mainframe::CDC");
 
 	public static void main(String[] args) {
 		new SpringApplicationBuilder(FileCdcApplication.class)
@@ -41,27 +45,51 @@ public class FileCdcApplication {
 	private MongoTemplate mongoTemplate;
 
 	@Bean
-	public IntegrationFlow mainframeReadingFlow() {
+	@Autowired
+	public IntegrationFlow motorFlow() {
 
 		return IntegrationFlows
-				.from(s -> s.file(new File(properties.getDirectory()))
+				.from(s -> s.file(new File(properties.getMotorDirectory()))
 								.patternFilter("*.json"),
 						e -> e.poller(Pollers.fixedDelay(1000)))
 				.transform(Transformers.fileToString())
-				.channel("mongodbChannel")
+				//.transform(Transformers.converter(stringToJSON())
+				.channel("mongodbMotorChannel")
+				.get();
+	}
+
+	@Bean
+	@Autowired
+	public IntegrationFlow homeFlow() {
+
+		return IntegrationFlows
+				.from(s -> s.file(new File(properties.getHomeDirectory()))
+								.patternFilter("*.json"),
+						e -> e.poller(Pollers.fixedDelay(1000)))
+				.transform(Transformers.fileToString())
+				//.transform(Transformers.converter(stringToJSON())
+				.channel("mongodbHomeChannel")
 				.get();
 	}
 
 
 	@Bean
-	@ServiceActivator(inputChannel = "mongodbChannel")
+	@ServiceActivator(inputChannel = "mongodbMotorChannel")
 	public MessageHandler mongoDbSinkMessageHandler() {
-		System.out.println("message received:" + mongoProperties.getCollection());
+		LOGGER.log(Level.INFO, "New Motor policy detected ");
 		MongoDbStoringMessageHandler mongoDbMessageHandler = new MongoDbStoringMessageHandler(this.mongoTemplate);
-		Expression collectionExpression = this.mongoProperties.getCollectionExpression();
-		if (collectionExpression == null) {
-			collectionExpression = new LiteralExpression(this.mongoProperties.getCollection());
-		}
+		Expression collectionExpression = new LiteralExpression(this.mongoProperties.getMotor());
+		mongoDbMessageHandler.setCollectionNameExpression(collectionExpression);
+		return mongoDbMessageHandler;
+	}
+
+	@Bean
+	@ServiceActivator(inputChannel = "mongodbHomeChannel")
+	public MessageHandler mongoDbHomeSinkMessageHandler() {
+		LOGGER.log(Level.INFO, "New home policy detected ");
+
+		MongoDbStoringMessageHandler mongoDbMessageHandler = new MongoDbStoringMessageHandler(this.mongoTemplate);
+		Expression collectionExpression = collectionExpression = new LiteralExpression(this.mongoProperties.getHome());
 		mongoDbMessageHandler.setCollectionNameExpression(collectionExpression);
 		return mongoDbMessageHandler;
 	}

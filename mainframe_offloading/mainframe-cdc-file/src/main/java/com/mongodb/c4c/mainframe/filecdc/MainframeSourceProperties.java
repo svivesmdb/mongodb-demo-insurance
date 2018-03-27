@@ -12,57 +12,22 @@ public class MainframeSourceProperties {
     private static final String DEFAULT_DIR = System.getProperty("java.io.tmpdir") +
             File.separator + "mainframe";
 
-    /**
-     * The directory to poll for new files.
-     */
-    private String directory = DEFAULT_DIR;
+    private String homeDirectory = DEFAULT_DIR;
+    private String motorDirectory = DEFAULT_DIR;
 
-    /**
-     * Set to true to include an AcceptOnceFileListFilter which prevents duplicates.
-     */
-    private boolean preventDuplicates = true;
-
-    /**
-     * A simple ant pattern to match files.
-     */
-    private String filenamePattern;
-
-    /**
-     * A regex pattern to match files.
-     */
-    private Pattern filenameRegex;
-
-    public String getDirectory() {
-        return this.directory;
+    public String getHomeDirectory() {
+        return homeDirectory;
     }
 
-    public void setDirectory(String directory) {
-        this.directory = directory;
+    public void setHomeDirectory(String homeDirectory) {
+        this.homeDirectory = homeDirectory;
     }
 
-    public boolean isPreventDuplicates() {
-        return this.preventDuplicates;
+    public String getMotorDirectory() {
+        return motorDirectory;
     }
 
-    public void setPreventDuplicates(boolean preventDuplicates) {
-        this.preventDuplicates = preventDuplicates;
+    public void setMotorDirectory(String motorDirectory) {
+        this.motorDirectory = motorDirectory;
     }
-
-    public String getFilenamePattern() {
-        return this.filenamePattern;
-    }
-
-    public void setFilenamePattern(String filenamePattern) {
-        this.filenamePattern = filenamePattern;
-    }
-
-    public Pattern getFilenameRegex() {
-        return this.filenameRegex;
-    }
-
-    public void setFilenameRegex(Pattern filenameRegex) {
-        this.filenameRegex = filenameRegex;
-    }
-
-
 }
