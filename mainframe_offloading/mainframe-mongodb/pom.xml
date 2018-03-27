@@ -4,17 +4,17 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.mongodb.c4c.mainframe</groupId>
-	<artifactId>mainframe-cdc-file</artifactId>
-	<version>0.0.1</version>
+	<artifactId>mongodb</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>mainframe-cdc-file</name>
+	<name>mongodb</name>
 	<description>Demo project for Spring Boot</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.5.10.RELEASE</version>
+		<version>2.0.0.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
@@ -27,36 +27,18 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator</artifactId>
+			<artifactId>spring-boot-starter-data-mongodb</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-integration</artifactId>
+			<artifactId>spring-boot-starter-data-rest</artifactId>
 		</dependency>
-        <!-- https://mvnrepository.com/artifact/org.springframework.integration/spring-integration-mongodb -->
-        <dependency>
-            <groupId>org.springframework.integration</groupId>
-            <artifactId>spring-integration-mongodb</artifactId>
-            <version>5.0.2.RELEASE</version>
-        </dependency>
-        <dependency>
-			<groupId>org.springframework.integration</groupId>
-			<artifactId>spring-integration-file</artifactId>
-			<version>5.0.2.RELEASE</version>
-		</dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-mongodb</artifactId>
-        </dependency>
-		<!-- https://mvnrepository.com/artifact/io.projectreactor/reactor-core -->
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-collections4 -->
 		<dependency>
-			<groupId>io.projectreactor</groupId>
-			<artifactId>reactor-core</artifactId>
-			<version>3.1.4.RELEASE</version>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-collections4</artifactId>
+			<version>4.0</version>
 		</dependency>
-
-
-
 	</dependencies>
 
 	<build>

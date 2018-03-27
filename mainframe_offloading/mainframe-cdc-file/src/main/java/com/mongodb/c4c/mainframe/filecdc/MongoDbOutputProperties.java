@@ -6,33 +6,25 @@ import org.springframework.expression.Expression;
 import org.springframework.util.StringUtils;
 
 @Configuration
-@ConfigurationProperties("mongodb")
+@ConfigurationProperties("mongodb.collection")
 public class MongoDbOutputProperties {
 
-    /**
-     * The MongoDB collection to store data
-     */
-    private String collection;
+    private String motor;
+    private String home;
 
-    /**
-     * The SpEL expression to evaluate MongoDB collection
-     */
-    private Expression collectionExpression;
-
-    public void setCollection(String collection) {
-        this.collection = collection;
+    public String getMotor() {
+        return motor;
     }
 
-    public String getCollection() {
-        return this.collection;
+    public void setMotor(String motor) {
+        this.motor = motor;
     }
 
-    public void setCollectionExpression(Expression collectionExpression) {
-        this.collectionExpression = collectionExpression;
+    public String getHome() {
+        return home;
     }
 
-    public Expression getCollectionExpression() {
-        return collectionExpression;
+    public void setHome(String home) {
+        this.home = home;
     }
-
 }
