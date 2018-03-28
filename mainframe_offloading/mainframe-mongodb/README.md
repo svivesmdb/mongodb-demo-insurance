@@ -1,7 +1,7 @@
 
 # Contract Service
 
-This application expose the policies information sitting in a MongoDB database through a REST API./
+This application expose the policies information sitting in a MongoDB database through a REST API.
 
 ## Options
 
