@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mainframe-simulator-deployment
+  labels:
+    app: mainframe-simulator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mainframe-simulator
+  template:
+    metadata:
+      labels:
+        app: mainframe-simulator
+    spec:
+      containers:
+        - name: mainframe-simulator
+          image: mentlsve/mainframe-simulator
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - mountPath: /home/app/
+              name: mongodb-demo-data
+      volumes:
+        - name: mongodb-demo-data
+          gcePersistentDisk:
+            pdName: mongodb-demo-data
+            fsType: ext4
+
