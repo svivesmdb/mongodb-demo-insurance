@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { fetchPolicies } from '../APIUtil'
 import { addCarPolicies, addHomePolicies } from '../actions'
-import queryString from 'query-string'
 import CarPoliciesList from './CarPoliciesList'
 import { Link } from 'react-router-dom'
+import qs from 'qs';
 
 class PoliciesList extends Component {
 
@@ -14,7 +14,7 @@ class PoliciesList extends Component {
     }
 
     componentDidMount() {
-        const parsed = queryString.parse(this.props.location.search);
+        const parsed = qs.parse(this.props.location.search.slice(1));
         const policyType = ("type" in parsed) ? parsed.type : 'motor'
         console.log("queryString parsed: ", parsed, ", calculated type: ", policyType)
         this.setState({ policyType: policyType })

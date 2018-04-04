@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "fixed-data-table-2": "^0.8.11",
+    "qs": "^6.5.1",
     "query-string": "^6.0.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
