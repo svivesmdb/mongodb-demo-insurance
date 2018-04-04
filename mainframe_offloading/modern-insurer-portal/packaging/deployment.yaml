@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: modern-insurer-portal-deployment
+  labels:
+    app: modern-insurer-portal
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: modern-insurer-portal
+  template:
+    metadata:
+      labels:
+        app: modern-insurer-portal
+    spec:
+      containers:
+        - name: legamoderncy-insurer-portal
+          image: mentlsve/modern-insurer-portal
+          ports:
+            - containerPort: 3000
+
