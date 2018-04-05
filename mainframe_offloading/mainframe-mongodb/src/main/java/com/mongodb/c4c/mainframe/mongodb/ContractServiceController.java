@@ -13,24 +13,18 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
+@RequestMapping(value="/v2")
 public class ContractServiceController {
 
     @Autowired
     private MongoDBRepository  mongoDBRepository;
 
-    //GET example.com/policies?type=motor // returns only motor policies
-    //GET example.com/policies?type=home&limit=100 // returns only home policies
-    @RequestMapping(value="/policies", method= RequestMethod.GET)
+    //GET example.com/v2/customer?limit=100 // returns only home policies
+    @RequestMapping(value="/customer", method= RequestMethod.GET)
     public ResponseEntity<List<Document>> getAllPolicies(HttpServletResponse response,
-                                         @RequestParam(value = "type", defaultValue = "motor") String type,
                                          @RequestParam(value = "limit", defaultValue = "100") Integer limit) {
-        List<Document> result;
-        if(type.compareToIgnoreCase("motor")==0)
-            result =  mongoDBRepository.getContracts("motor",limit);
-        else if(type.compareToIgnoreCase("home")==0)
-            result =  mongoDBRepository.getContracts("home",limit);
-        else
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        List<Document> result =  mongoDBRepository.getContracts("customer",limit);
 
         return new ResponseEntity(result, new HttpHeaders(), HttpStatus.OK);
     }
