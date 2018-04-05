@@ -14,7 +14,6 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileReader;
-import java.util.UUID;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -45,20 +44,17 @@ public class SimulatorController {
         List<JSONObject> contracts = new ArrayList<JSONObject>();
         JSONParser parser = new JSONParser();
         List<String> dirs = new ArrayList<String>();
-        if(type.compareToIgnoreCase("all") == 0){
-            dirs.add(properties.getHome() + File.separator + "policies");
-            dirs.add(properties.getMotor() + File.separator + "policies");
+        if(type.compareToIgnoreCase("all") == 0 ||
+                type.compareToIgnoreCase("home") == 0 ||
+                type.compareToIgnoreCase("motor") == 0){
+            dirs.add(properties.getCustomer() + File.separator + "policy");
         }
-        else if(type.compareToIgnoreCase("home") == 0)
-            dirs.add(properties.getHome() + File.separator + "policies");
-        else if (type.compareToIgnoreCase("motor") == 0)
-            dirs.add(properties.getMotor() + File.separator + "policies");
 
         File[] files = directoryLister.getFiles(dirs, start, limit);
         try {
             for (File f : files) {
                 Object obj = parser.parse(new FileReader(f));
-                contracts.add((JSONObject) obj);
+                contracts.add((JSONObject) obj);//Might need later one some logic to differenciate home/car
                 response.setContentType("application/json");
             }
         }catch (Exception ex){ex.printStackTrace();}
@@ -77,13 +73,17 @@ public class SimulatorController {
         JSONObject policy = new JSONObject();
         JSONParser parser = new JSONParser();
         String strFile = null;
-        if(type.compareToIgnoreCase("home") == 0)
-            strFile = properties.getHome() + File.separator + "policies"+ File.separator + policyID;
-        else if (type.compareToIgnoreCase("motor") == 0)
-            strFile = properties.getMotor() + File.separator + "policies"+ File.separator + policyID;
-
+        if(type.compareToIgnoreCase("home") == 0 || type.compareToIgnoreCase("motor") == 0)
+            strFile = properties.getCustomer() + File.separator + "policy"+ File.separator + policyID;
         try {
-                Object obj = parser.parse(new FileReader(new File(strFile + ".json")));
+                File jsonFile = null;
+                if(new File(strFile + ".json").exists())
+                    jsonFile = new File(strFile + ".json");
+                else if(new File(strFile + ".json.processed").exists())
+                    jsonFile = new File(strFile + ".json.processed");
+                else
+                    return policy;
+                Object obj = parser.parse(new FileReader(jsonFile));
                 policy = (JSONObject) obj;
                 response.setContentType("application/json");
         }catch (Exception ex){ex.printStackTrace();}
@@ -103,10 +103,8 @@ public class SimulatorController {
         List<JSONObject> claims = new ArrayList<JSONObject>();
         JSONParser parser = new JSONParser();
         String claimsDir;
-        if(type.compareToIgnoreCase("home") == 0)
-            claimsDir = properties.getHome() + File.separator + "policies" + File.separator + policyID;
-        else if(type.compareToIgnoreCase("motor") == 0)
-            claimsDir = properties.getMotor() + File.separator + "policies" + File.separator + policyID;
+        if(type.compareToIgnoreCase("home") == 0 || type.compareToIgnoreCase("motor") == 0)
+            claimsDir = properties.getCustomer() + File.separator + "policy" + File.separator + policyID;
         else
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
@@ -165,19 +163,18 @@ public class SimulatorController {
         }
         newPolicy.remove("type");
         String filename;
-        if(type.compareToIgnoreCase("home")==0) {
-            policyId = directoryLister.getNextPolicyID(properties.getHome() + File.separator + "policies");
-            filename = properties.getHome() + File.separator + "policies" + File.separator + policyId;
-        }
-        else if(type.compareToIgnoreCase("motor")==0) {
-            policyId = directoryLister.getNextPolicyID(properties.getMotor() + File.separator + "policies");
-            filename = properties.getMotor() + File.separator + "policies" + File.separator + policyId;
-        }
+
+        File policyDir = new File(properties.getCustomer() + File.separator + "policy");
+        if (! policyDir.exists())
+            policyDir.mkdir();
+
+        policyId = directoryLister.getNextPolicyID(properties.getCustomer() + File.separator + "policy");
+        if(type.compareToIgnoreCase("home")==0 || type.compareToIgnoreCase("motor")==0)
+            filename = properties.getCustomer() + File.separator + "policy"  + File.separator + policyId;
         else
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         newPolicy.put("policy_id",policyId);
-            // try-with-resources statement based on post comment below :)
         try (FileWriter file = new FileWriter(filename + ".json")) {
             file.write(newPolicy.toJSONString());
             System.out.println("\nJSON Object: " + newPolicy);
@@ -194,33 +191,32 @@ public class SimulatorController {
                                             @RequestParam(value = "type") String type,
                                             @PathVariable("policyID") String policyID) {
         LOGGER.info("Creating a new Claim for policy:" + policyID);
-        String claimId = UUID.randomUUID().toString();
         JSONObject newClaim = new JSONObject();
         for(String str : formData.keySet()){
             newClaim.put(str, formData.getFirst(str));
         }
         newClaim.remove("type");
         newClaim.put("policy_id", policyID);
-        newClaim.put("claim_id", claimId);
-
-        String filename;
-        if(type.compareToIgnoreCase("home")==0)
-            filename = properties.getHome() + File.separator + "policies" + File.separator + policyID;
-        else if(type.compareToIgnoreCase("motor")==0)
-            filename = properties.getMotor() + File.separator + "policies" + File.separator + policyID;
-        else
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-
-        //Verify if that policy  exist
-        if(!new File(filename + ".json").exists())
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-
         //Create a directory with the policy ID
-        File claimDir = new File(filename);
+        File claimDir = new File(properties.getCustomer() + File.separator + "claim");
         if (! claimDir.exists())
             claimDir.mkdir();
 
-        try (FileWriter file = new FileWriter(filename + File.separator + claimId + ".json")) {
+        String claimId = directoryLister.getNextClaimID(properties.getCustomer() + File.separator + "claim");
+        newClaim.put("claim_id", claimId);
+        String filename;
+        if(type.compareToIgnoreCase("home")==0 || type.compareToIgnoreCase("motor")==0)
+            filename = properties.getCustomer() + File.separator + "claim" + File.separator + claimId;
+        else
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        //Verify if that policy has already been processed???
+        if(!new File(properties.getCustomer() + File.separator + "policy" + File.separator + policyID +".json").exists()
+                && !new File(properties.getCustomer() + File.separator + "policy" + File.separator + policyID +".json.processed").exists())
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+
+        try (FileWriter file = new FileWriter(filename + ".json")) {
             file.write(newClaim.toJSONString());
         }
         catch (IOException e) {
