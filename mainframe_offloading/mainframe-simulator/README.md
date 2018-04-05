@@ -9,8 +9,8 @@
 
 Assuming the following configurations are used, ulytimately the following foloder structure will be observed:
 
-**mainframe.repository.base=/mainframe**
-**mainframe.repository.cdc=/cdc**
+- **mainframe.repository.base=/mainframe**
+- **mainframe.repository.cdc=/cdc**
 
 ```
 ├── cdc
@@ -67,12 +67,12 @@ instead and attach a remote debugger from your IDE.
 
 ### Get the home insurance policies
 
-Endpoint: http://localhost:8080/policies?type=home&limit=100
+Endpoint: `http://localhost:8080/policies?type=home&limit=100`
 
 
 ### Create a policy
 
-Endpoint: http://localhost:8080/policies?type=home
+Endpoint: `http://localhost:8080/policies?type=home`
 
 A sampe POST Data will look like this:
 
@@ -127,7 +127,7 @@ And a reponse will simply be the same document with a policy ID
 
 ### Create a claim
 
-Endpoint: http://localhost:8080/policies/PC_000000001?type=home
+Endpoint: `http://localhost:8080/policies/PC_000000001?type=home`
 
 A sample post Data will look like this:
 
