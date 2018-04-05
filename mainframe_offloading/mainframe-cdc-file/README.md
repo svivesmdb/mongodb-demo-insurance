@@ -134,14 +134,14 @@ $ mvn clean package
 Assuming you have mongodb running locally on localhost:27017
 
 ```
-$ java -jar target/mainframe-cdc-file-0.0.1.jar --mainframe.directory=/data/mainframe
+$ java -jar target/mainframe-cdc-file-0.0.1.jar --inbound.read.path=/data/mainframe
 ```
 
 
 Assuming you have mongodb running on host: 52.10.10.10 and port 27000
 
 ```
- $ java -jar target/mainframe-cdc-file-0.0.1.jar --mainframe.directory=/data/mainframe --spring.data.mongodb.host=52.10.10.10 --spring.data.mongodb.port=27000
+ $ java -jar target/mainframe-cdc-file-0.0.1.jar --inbound.read.path=/data/mainframe --spring.data.mongodb.host=52.10.10.10 --spring.data.mongodb.port=27000
 ```
 
 
