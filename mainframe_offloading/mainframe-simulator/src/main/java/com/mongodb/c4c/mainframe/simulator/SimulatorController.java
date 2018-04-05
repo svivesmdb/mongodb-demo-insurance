@@ -67,21 +67,16 @@ public class SimulatorController {
     //GET example.com/policies/PC_000001 // return details of policy PC_000001
     @RequestMapping(value="/policies/{policyID}", method= RequestMethod.GET)
     public JSONObject getPolycInsurances(HttpServletResponse response,
-                                               @RequestParam(value = "type") String type,
                                                @PathVariable("policyID") String policyID
     ) {
         LOGGER.info("Fetching Policy :" + policyID);
         JSONObject policy = new JSONObject();
         JSONParser parser = new JSONParser();
-        String strFile = null;
-        if(type.compareToIgnoreCase("home") == 0 || type.compareToIgnoreCase("motor") == 0)
-            strFile = properties.getBase() + File.separator + "policy"+ File.separator + policyID;
+        String strFile = properties.getBase() + File.separator + "policy"+ File.separator + policyID;
         try {
                 File jsonFile = null;
                 if(new File(strFile + ".json").exists())
                     jsonFile = new File(strFile + ".json");
-                else if(new File(strFile + ".json.processed").exists())
-                    jsonFile = new File(strFile + ".json.processed");
                 else
                     return policy;
                 Object obj = parser.parse(new FileReader(jsonFile));
@@ -162,7 +157,7 @@ public class SimulatorController {
         for(String str : formData.keySet()){
             newPolicy.put(str, formData.getFirst(str));
         }
-        newPolicy.remove("type");
+        //newPolicy.remove("type");
         String filename;
         //Base
         File policyDir = new File(properties.getBase() + File.separator + "policy");

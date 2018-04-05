@@ -83,8 +83,7 @@ public class DirectoryLister {
     public String getNextPolicyID(String path){
         String policyID = "PC_000000001";
         File[] policies = new File(path).listFiles((d, s) -> {
-            return s.toLowerCase().startsWith("pc_") && (s.toLowerCase().endsWith("json") ||
-                    s.toLowerCase().endsWith("json.processed"));
+            return s.toLowerCase().startsWith("pc_") && (s.toLowerCase().endsWith("json"));
         });
         if(policies!=null && policies.length > 0) {
             Arrays.sort(policies, NameFileComparator.NAME_INSENSITIVE_COMPARATOR);
@@ -103,8 +102,7 @@ public class DirectoryLister {
     public String getNextClaimID(String path){
         String claimID = "CL_000000001";
         File[] claims = new File(path).listFiles((d, s) -> {
-            return s.toLowerCase().startsWith("cl_") && (s.toLowerCase().endsWith("json") ||
-                    s.toLowerCase().endsWith("json.processed"));
+            return s.toLowerCase().startsWith("cl_") && (s.toLowerCase().endsWith("json"));
         });
         if(claims!=null && claims.length > 0) {
             Arrays.sort(claims, NameFileComparator.NAME_INSENSITIVE_COMPARATOR);

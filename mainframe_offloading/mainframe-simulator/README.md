@@ -70,7 +70,14 @@ instead and attach a remote debugger from your IDE.
 Endpoint: `http://localhost:8080/policies?type=home&limit=100`
 
 
+### Get one specific insurance policies
+
+Endpoint: `http://localhost:8080/policies/PC_000000001`
+
+
 ### Create a policy
+
+**Note:** The customer has to exist
 
 Endpoint: `http://localhost:8080/policies?type=home`
 
@@ -126,6 +133,8 @@ And a reponse will simply be the same document with a policy ID
  ```
 
 ### Create a claim
+
+**Note:** The customer and the policy has to exist
 
 Endpoint: `http://localhost:8080/policies/PC_000000001?type=home`
 
