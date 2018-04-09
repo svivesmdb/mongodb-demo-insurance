@@ -24,7 +24,7 @@ public class DirectoryLister {
             File[] allPolicies = {};
             for(String dir : dirs){
                 File[] policies = new File(dir).listFiles((d, s) -> {
-                    return s.toLowerCase().endsWith("json");
+                    return (s.toLowerCase().endsWith("json") || s.toLowerCase().endsWith("json.processed"));
                 });
                 if(policies!=null)
                     allPolicies = (File[]) org.apache.commons.lang3.ArrayUtils.addAll(allPolicies,policies);
@@ -83,12 +83,12 @@ public class DirectoryLister {
     public String getNextPolicyID(String path){
         String policyID = "PC_000000001";
         File[] policies = new File(path).listFiles((d, s) -> {
-            return s.toLowerCase().startsWith("pc_") && s.toLowerCase().endsWith("json");
+            return s.toLowerCase().startsWith("pc_") && (s.toLowerCase().endsWith("json"));
         });
-        if(policies!=null) {
+        if(policies!=null && policies.length > 0) {
             Arrays.sort(policies, NameFileComparator.NAME_INSENSITIVE_COMPARATOR);
             String lastFileNAme = policies[policies.length -1].getName();
-            String lastID = lastFileNAme.substring(3,lastFileNAme.length()-5);
+            String lastID = lastFileNAme.substring(3,12);
             int str = Integer.parseInt(lastID)+1;
             int l = String.valueOf(str).length();
             String prefix = "PC_";
@@ -99,4 +99,22 @@ public class DirectoryLister {
         return policyID;
     }
 
+    public String getNextClaimID(String path){
+        String claimID = "CL_000000001";
+        File[] claims = new File(path).listFiles((d, s) -> {
+            return s.toLowerCase().startsWith("cl_") && (s.toLowerCase().endsWith("json"));
+        });
+        if(claims!=null && claims.length > 0) {
+            Arrays.sort(claims, NameFileComparator.NAME_INSENSITIVE_COMPARATOR);
+            String lastFileNAme = claims[claims.length -1].getName();
+            String lastID = lastFileNAme.substring(3,12);
+            int str = Integer.parseInt(lastID)+1;
+            int l = String.valueOf(str).length();
+            String prefix = "CL_";
+            for(int i = l; i < 9 ; i++)
+                prefix+="0";
+            claimID = prefix + str;
+        }
+        return claimID;
+    }
 }

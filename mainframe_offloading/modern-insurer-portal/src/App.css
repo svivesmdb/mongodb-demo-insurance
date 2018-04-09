@@ -1,0 +1,160 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-image: url("rough-horn-2146181_1920.jpg");
+}
+
+h1 {
+  color: seashell;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 75px;
+  font-weight: bold;
+  letter-spacing: 8px;
+  line-height: 1;
+  text-align: center;
+  text-transform: uppercase;
+  text-shadow: 6px 6px 2px rgba(0,0,0,0.5);
+}
+
+.containerBorder {
+    border-width: 1px;
+    border-color: #41FF00;
+    border-style: solid;
+    width: 600px;
+    font-size: 30px;
+    padding: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.policyForm {
+  border-width: 1px;
+  border-color: #41FF00;
+  border-style: solid;
+  width: 600px;
+  font-size: large;
+  padding: 20px;
+}
+
+input[type=text] {
+  color: #41FF00;
+  border-style:solid;
+  border-color:black;
+  background-color: black;
+  border-bottom-color: white;
+  font-family: 'VT323', 'Courier New', Courier, monospace;
+  width: 100%
+}
+
+input[type=text]:focus {
+  color: #41FF00;
+  border-color:black;
+  outline: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border-bottom-color: red;
+}
+
+h1 {
+  color: seashell;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 75px;
+  font-weight: bold;
+  letter-spacing: 8px;
+  line-height: 1;
+  text-align: center;
+  text-transform: uppercase;
+  text-shadow: 6px 6px 2px rgba(0,0,0,0.5);
+}
+
+
+.applicationHeader {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+nav {
+  display: block;
+  height: 100px;
+}
+
+.nav-ul {
+  list-style-type: none;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+.nav-ul li {
+  float: left;
+}
+
+.nav-ul li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+
+.nav-ul li a:hover {
+  display: block;
+  text-align: center;
+  background-color: plum;
+  color: black;
+}
+
+.policies-table {
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.policies-table-td {
+  text-align: center;
+}
+
+@keyframes changeColor {
+  0% {
+    color:  #41FF00;
+  }
+  50% {
+    color: black;
+  }
+  100% {
+    color:  #41FF00;
+  }
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading:after {
+  animation: changeColor 3s linear infinite alternate;
+  content: "Loading";
+  font-size: 20px;
+}
+
+.menu-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  text-decoration: darkgreen;
+  text-shadow: cyan;
+  padding: 20px;
+}
+
+.rt-tr-group:hover {
+  color:#4183c4;
+  cursor: grab;
+}

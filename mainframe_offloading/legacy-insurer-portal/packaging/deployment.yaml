@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: legacy-insurer-portal-deployment
+  labels:
+    app: legacy-insurer-portal
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: legacy-insurer-portal
+  template:
+    metadata:
+      labels:
+        app: legacy-insurer-portal
+    spec:
+      containers:
+        - name: legacy-insurer-portal
+          image: mentlsve/legacy-insurer-portal
+          ports:
+            - containerPort: 3000
+

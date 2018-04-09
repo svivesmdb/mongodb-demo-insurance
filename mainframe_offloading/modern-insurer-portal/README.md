@@ -2,11 +2,11 @@
 
 Run the application.
 Notes:
-* Assumption is that the first command is executed from the directory `<repo-root>/mainframe_offloading/legacy-insurer-portal`
+* Assumption is that the first command is executed from the directory `<repo-root>/mainframe_offloading/modern-insurer-portal`
 * `npm install` is only required for the first time or when dependencies change
 
 ```
-host$ docker run -it --rm -v $(pwd):/home/app -p 3000:3000  node:9.5 /bin/bash
+host$ docker run -it --rm -v $(pwd):/home/app -p 3001:3000  node:9.5 /bin/bash
 container$ cd /home/app
 container$ npm install
 container$ npm start
@@ -18,7 +18,7 @@ Open a browser pointing at http://localhost:3000/
 
 The repository includes a Dockerfile to package the legacy-insurer-portal as container.
 
-Replace `mentlsve/legacy-insurer-portal` with whatever name you like:
+Replace `mentlsve/modern-insurer-portal` with whatever name you like:
 
 ```
 host$ cd packaging

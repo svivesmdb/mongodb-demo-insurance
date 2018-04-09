@@ -7,27 +7,22 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties("mainframe.repository")
 public class SimulatorProperties {
 
-    private String motor;
-    private String home;
-    private String customer;
+    private String base;
+    private String cdc;
 
-    public String getMotor() {
-        return motor;
+    public String getBase() {
+        return base;
     }
 
-    public void setMotor(String motor) {
-        this.motor = motor;
+    public void setBase(String base) {
+        this.base = base;
     }
 
-    public String getHome() {
-        return home;
+    public String getCdc() {
+        return cdc;
     }
 
-    public void setHome(String home) {
-        this.home = home;
+    public void setCdc(String cdc) {
+        this.cdc = cdc;
     }
-
-    public String getCustomer() { return customer; }
-
-    public void setCustomer(String customer) { this.customer = customer;}
 }

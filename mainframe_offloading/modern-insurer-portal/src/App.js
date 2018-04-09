@@ -6,7 +6,8 @@ import PoliciesList from './components/PoliciesList';
 import Navigation from './components/Navigation';
 import {
   BrowserRouter as Router,
-  Route
+  Route,
+  Link
 } from 'react-router-dom'
 import PolicyDetail from './components/PolicyDetail';
 import { fetchCustomers } from './APIUtil';
@@ -26,16 +27,32 @@ class App extends Component {
   render() {
     return (
       <div className="app">
-        <div className="applicationHeader">
-          <h1>Insurer Portal v1.0</h1>
-        </div>
         <Router>
+          <div className="container">
           <div>
-            <Route exact path="/" component={Navigation} />
-            <Route exact path="/customers" component={CustomerList} />
-            <Route exact path="/createmotorpolicy" component={NewCarInsurancePolicy} />
-            <Route exact path="/policies" component={PoliciesList} />
-            <Route exact path="/policies/:id" component={PolicyDetail} />
+            <nav>
+              <ul className="nav-ul">
+                <li>
+                  <Link to="/customers">Customers</Link>
+                </li>
+                <li>
+                  <Link to="/policies">Policies</Link>
+                </li>
+                <li>
+                  <Link to="/create">Create Policy</Link>
+                </li>
+              </ul>
+            </nav>
+            </div>
+            <div>
+              <h1>Insurance 360°</h1>
+            </div>
+            <div>
+              <Route exact path="/customers" component={CustomerList} />
+              <Route exact path="/create" component={NewCarInsurancePolicy} />
+              <Route exact path="/policies" component={PoliciesList} />
+              <Route exact path="/policies/:id" component={PolicyDetail} />
+            </div>
           </div>
         </Router>
       </div>
