@@ -1,13 +1,13 @@
 ## Options
 
- By default the service will start listening on the default mongodb port: 27017 on localhost
- However this can be changed with the following options:
+By default the mainframe simulator will work on the provided sample data directories. The **base** directory contains the actual data of the mainframe, whereas the **cdc** directory contains added insurance policies or claims.
 
-  - **mainframe.repository.base**:: The directory to save the created policies/claims *(default: `**<none>**`)*
-  - **mainframe.repository.cdc**:: The directory to save a copy of the json files for the cdc process *(default: `**<none>**`)* 
+However this can be changed with the following options:
 
+  - **mainframe.repository.base**:: The directory to save the created policies/claims *(default: `sample-data/mainframe`)*
+  - **mainframe.repository.cdc**:: The directory to save a copy of the json files for the cdc process *(default: `sample-data/cdc`)* 
 
-Assuming the following configurations are used, ulytimately the following foloder structure will be observed:
+Assuming the following configurations are used, the following folder structure will be observed:
 
 - **mainframe.repository.base=/mainframe**
 - **mainframe.repository.cdc=/cdc**
@@ -37,7 +37,6 @@ Assuming the following configurations are used, ulytimately the following folode
 
 6 directories, 15 files
 
-
 ```
 
 ## Development mode
@@ -52,6 +51,7 @@ host$ docker run --rm -it -p 8080:8080 -p 8001:8001 -v $(pwd):/home/app maven:3.
 container$ cd /home/app
 container$ mvn spring-boot:run
 ```
+
 In case you want to debug run the application with
 
 ```
@@ -62,18 +62,15 @@ instead and attach a remote debugger from your IDE.
 
 ## Accessing the service
 
-* Get the motor insurance policies by calling `http://localhost:8080/contracts/motor`. This will return all files under `sample-data/motor`s
+### Get all home insurance policies
 
+Endpoint: `http://localhost:8080/policies?limit=100`. This will return all files under `sample-data/mainframe/policy`.
 
-### Get the home insurance policies
+In order to start with a certain policy for paging purposes, please use the parameter `start` with a certain policy id, e.g. `http://localhost:8080/policies?limit=100&start=PC_000000003`.
 
-Endpoint: `http://localhost:8080/policies?type=home&limit=100`
-
-
-### Get one specific insurance policies
+### Get one specific insurance policy
 
 Endpoint: `http://localhost:8080/policies/PC_000000001`
-
 
 ### Create a policy
 
@@ -81,27 +78,16 @@ Endpoint: `http://localhost:8080/policies/PC_000000001`
 
 Endpoint: `http://localhost:8080/policies?type=home`
 
-A sampe POST Data will look like this:
+A sample POST Data will look like this:
 
 ```
 {
-    "customer_id": "C000000001",
-    "address" : {
-        "street" : "Scherfweg 1273",
-        "zip" : "4018",
-        "city": "Traiskirchen",
-        "nationality" : "Austria"
-
-    }
-    "date_of_birth": "1927-01-11",
-    "email": "jackal1980@outlook.com",
-    "first_name": "Griswold",
-    "gender": "M",
-    "job": "Dolmetscher / Dolmetscherin",
-    "last_name": "Urbansky",
-    "marital_status": "WIDOWED",
-    "number_children": 3,
-    "phone":"+43-623-4790653"
+    "car_model": "Mazda MX-5",
+    "cover_start": "2008-02-24",
+    "last_ann_premium_gross": "1793.84",
+    "max_coverd": "1000000",
+    "type": "home",
+    "customer_id": "C000029628"
 }
 
 ```
@@ -110,58 +96,54 @@ And a reponse will simply be the same document with a policy ID
 
  ```
  {
-     "policy_id": "PC_000000001",
-     "customer_id": "C000000001",
-     "address" : {
-         "street" : "Scherfweg 1273",
-         "zip" : "4018",
-         "city": "Traiskirchen",
-         "nationality" : "Austria"
- 
-     },
-     "date_of_birth": "1927-01-11",
-     "email": "jackal1980@outlook.com",
-     "first_name": "Griswold",
-     "gender": "M",
-     "job": "Dolmetscher / Dolmetscherin",
-     "last_name": "Urbansky",
-     "marital_status": "WIDOWED",
-     "number_children": 3,
-     "phone":"+43-623-4790653"
- }
+    "policy_id": "PC_000000004",
+    "car_model": "Mazda MX-5",
+    "cover_start": "2008-02-24",
+    "last_ann_premium_gross": "1793.84",
+    "max_coverd": "1000000",
+    "type": "home",
+    "customer_id": "C000029628"
+}
  
  ```
+
+An example call in Postman:
+![Example: Create new Policy in Postman](doc/mainframe-simulator-new-policy-screenshot.png)
 
 ### Create a claim
 
 **Note:** The customer and the policy has to exist
 
-Endpoint: `http://localhost:8080/policies/PC_000000001?type=home`
+Endpoint: `http://localhost:8080/policies/PC_000000004?type=motor`
 
 A sample post Data will look like this:
 
 ```
 {
-    "claim_type":"BUIDLING",
-    "claim_amount":93373.4,
-    "settled_amount":"93373.4",
-    "claim_reason":"FIRE",
-    "policy_id": "PC_000000001",
-    "claim_date": "2018-02-23 16:14:45"
+	"claim_date" : "2009-04-06",
+	"settled_date" : "2009-07-12,
+	"claim_amount" : 3704.56,
+	"settled_amount" : 3704.56,
+	"claim_reason" : "COLLISSION"
 }
-```
 
+```
 
 And a Return will look like this:
 
 ```
 {
-    "claim_id": "CL_000000002",
-    "claim_type":"BUIDLING",
-    "claim_amount":93373.4,
-    "settled_amount":"93373.4",
-    "claim_reason":"FIRE",
-    "policy_id": "PC_000000001",
-    "claim_date": "2018-02-23 16:14:45"
+    "claim_id": "CL_000000001",
+	"policy_id": "PC_000000004",
+	"claim_date" : "2009-04-06",
+	"settled_date" : "2009-07-12,
+	"claim_amount" : 3704.56,
+	"settled_amount" : 3704.56,
+	"claim_reason" : "COLLISSION"
 }
+
 ```
+
+An example call in Postman:
+![Example: Create new Claim in Postman](doc/mainframe-simulator-new-claim-screenshot.png)
+

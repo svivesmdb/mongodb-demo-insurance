@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileReader;
@@ -132,6 +135,7 @@ public class SimulatorController {
             add(properties.getBase());
         }};
         File[] files = directoryLister.getFiles(dirs, start, limit);
+        LOGGER.info("Found " + files.length + " files.");
         try {
             for (File f : files) {
                 Object obj = parser.parse(new FileReader(f));
@@ -146,16 +150,44 @@ public class SimulatorController {
 
 
     //POST example.com/policies?type=motor // create new policy
-    @PostMapping(value = "/policies")
+    @SuppressWarnings("unchecked")
+	@PostMapping(value = "/policies")
     public ResponseEntity<?> createPolicy(@RequestBody MultiValueMap<String,String> formData,
                                           @RequestParam(value = "type") String type) {
 
         LOGGER.info("Creating a new Policy:" + type);
+        LOGGER.info("Params:" + formData.toString());
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-DD");
+        
         //Create the JSON structure
         String policyId;
         JSONObject newPolicy = new JSONObject();
-        for(String str : formData.keySet()){
-            newPolicy.put(str, formData.getFirst(str));
+        for(String str : formData.keySet()) {
+        		// Proper Handling of special fields
+        		if (str.equals("max_coverd")) {
+        			try {
+        				newPolicy.put(str, Double.parseDouble(formData.getFirst(str)));
+        			}
+        			catch(NumberFormatException nfe) {
+        				return ResponseEntity
+        			            .status(HttpStatus.BAD_REQUEST)
+        			            .body("Could not parse max_coverd - not a valid decimal number, e.g. 1234.56");
+        			}
+        		}
+//        		else if (str.equals("cover_start")) {
+//        			try {
+//        				newPolicy.put(str, sdf.parse(formData.getFirst(str)));
+//        			}
+//        			catch(ParseException pe) {
+//        				return ResponseEntity
+//        			            .status(HttpStatus.BAD_REQUEST)
+//        			            .body("Could not parse cover_start - not a valid date, e.g. 2018-12-24");
+//        			}
+//        		}
+        		else {
+        			newPolicy.put(str, formData.getFirst(str));
+        		}
         }
         //newPolicy.remove("type");
         String filename;
@@ -190,14 +222,39 @@ public class SimulatorController {
     }
 
     //POST example.com/policies/PC_000001 // create new claim against policy
-    @PostMapping(value="/policies/{policyID}")
+    @SuppressWarnings("unchecked")
+	@PostMapping(value="/policies/{policyID}")
     public ResponseEntity<?> createnewClaim(@RequestBody MultiValueMap<String,String> formData,
                                             @RequestParam(value = "type") String type,
                                             @PathVariable("policyID") String policyID) {
+    		SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-DD");
+    		
         LOGGER.info("Creating a new Claim for policy:" + policyID);
         JSONObject newClaim = new JSONObject();
         for(String str : formData.keySet()){
-            newClaim.put(str, formData.getFirst(str));
+	    		if (str.equals("claim_amount") || str.equals("settled_amount")) {
+	    			try {
+	    				newClaim.put(str, Double.parseDouble(formData.getFirst(str)));
+	    			}
+	    			catch(NumberFormatException nfe) {
+	    				return ResponseEntity
+	    			            .status(HttpStatus.BAD_REQUEST)
+	    			            .body("Could not parse max_coverd - not a valid decimal number, e.g. 1234.56");
+	    			}
+	    		}
+//	    		else if (str.equals("claim_date") || str.equals("settled_date")) {
+//	    			try {
+//	    				newClaim.put(str, sdf.parse(formData.getFirst(str)));
+//	    			}
+//	    			catch(ParseException pe) {
+//	    				return ResponseEntity
+//	    			            .status(HttpStatus.BAD_REQUEST)
+//	    			            .body("Could not parse cover_start - not a valid date, e.g. 2018-12-24");
+//	    			}
+//	    		}
+	    		else {
+	    			newClaim.put(str, formData.getFirst(str));
+	    		}
         }
         newClaim.remove("type");
         newClaim.put("policy_id", policyID);

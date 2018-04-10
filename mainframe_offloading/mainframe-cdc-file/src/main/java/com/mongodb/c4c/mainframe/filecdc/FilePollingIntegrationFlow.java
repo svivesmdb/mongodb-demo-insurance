@@ -69,7 +69,7 @@ public class FilePollingIntegrationFlow {
                 String policyId = (String)json.get("policy_id");
                 json.remove("policy_id");
                 json.put("last_change", new Date());
-                mongoTemplate.updateFirst(Query.query(Criteria.where("home_insurance.policy_id").is(policyId)), new Update().push("home_insurance.$.claim", json), "customer");
+                mongoTemplate.updateFirst(Query.query(Criteria.where("car_insurance.policy_id").is(policyId)), new Update().push("car_insurance.$.claim", json), "customer");
                 payload.renameTo(new File(payload.getAbsoluteFile()+".processed"));
 
             } else if(json.containsKey("cover_start")){   // Is is a policy?
@@ -77,14 +77,14 @@ public class FilePollingIntegrationFlow {
                 json.put("claim", new ArrayList<>());
                 String customerID = (String)json.get("customer_id");
                 json.remove("customer_id");
-                mongoTemplate.updateFirst(Query.query(Criteria.where("customer_id").is(customerID)), new Update().push("home_insurance", json), "customer");
-                mongoTemplate.updateFirst(Query.query(Criteria.where("customer_id").is(customerID)), new Update().set("last_change_home_policy", new Date()), "customer");
+                mongoTemplate.updateFirst(Query.query(Criteria.where("customer_id").is(customerID)), new Update().push("car_insurance", json), "customer");
+                mongoTemplate.updateFirst(Query.query(Criteria.where("customer_id").is(customerID)), new Update().set("last_change_car_policy", new Date()), "customer");
                 payload.renameTo(new File(payload.getAbsoluteFile()+".processed"));
 
             } else if(json.containsKey("first_name")){ //Is is a customer?
                 LOGGER.info("New Customer detected: " + json);
-                json.put("home_insurance", new ArrayList<>());
-                json.put("car_insurance", new ArrayList<>());
+//                json.put("home_insurance", new ArrayList<>());
+//                json.put("car_insurance", new ArrayList<>());
                 mongoTemplate.save(json, "customer");
                 payload.renameTo(new File(payload.getAbsoluteFile()+".processed"));
             }else {

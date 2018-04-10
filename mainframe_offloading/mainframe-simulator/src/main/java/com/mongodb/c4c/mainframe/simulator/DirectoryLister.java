@@ -33,7 +33,7 @@ public class DirectoryLister {
                 Arrays.sort(allPolicies, NameFileComparator.NAME_INSENSITIVE_COMPARATOR);
                 if(start!=null) {
                     for (int i = 0; i < allPolicies.length; i++) {
-                        if (allPolicies[i].getName().compareToIgnoreCase(start) == 0) {
+                        if (allPolicies[i].getName().compareToIgnoreCase(start + ".json") == 0) {
                             allPolicies = Arrays.copyOfRange(allPolicies, i, allPolicies.length);
                             break;
                         }
