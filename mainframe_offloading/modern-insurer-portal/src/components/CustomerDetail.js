@@ -17,25 +17,32 @@ class CustomerDetail extends Component {
 
     renderCarPolicy = carPolicy => (
         <div className="tile contact policy-tile" key={carPolicy.policy_id}>
-            <div className="header">Car Insurance <br></br>{carPolicy.policy_id}</div>
+            <div className="header">Car Insurance</div>
+            <div className="row"><div className="key">Car policy ID</div><div className="value forty-margin">{carPolicy.policy_id}</div></div>
             <div className="row"><div className="key">Car model</div><div className="value forty-margin">{carPolicy.car_model}</div></div>
             <div className="row"><div className="key">Cover Start</div><div className="value forty-margin">{carPolicy.cover_start}</div></div>
-            <div className="row"><div className="key">#Claims</div><div className="value forty-margin">{carPolicy.claim.length}</div></div>
+            <div className="row"><div className="key">Annual premium</div><div className="value forty-margin">{carPolicy.last_annual_premium_gross.high}</div></div>
+            <div className="row"><div className="key">Max Damage Covered</div><div className="value forty-margin">{carPolicy.max_covered.high}</div></div>
         </div>)
 
     renderCarClaim = carClaim => (
         <div className="tile contact claim-tile">
             <div className="header">Claim</div>
-            <div className="row"><div className="key">Reason</div><div className="value forty-margin">{carClaim.claim_reason}</div></div>
+            <div className="row"><div className="key">Claim Date</div><div className="value forty-margin">{carClaim.claim_date}</div></div>
+            <div className="row"><div className="key">Claim Reason </div><div className="value forty-margin">{carClaim.claim_reason}</div></div>
+            <div className="row"><div className="key">Claim Amount</div><div className="value forty-margin">{carClaim.claim_amount.high}</div></div>
+            <div className="row"><div className="key">Settled Date</div><div className="value forty-margin">{carClaim.settled_date}</div></div>
+            <div className="row"><div className="key">Settled Amount</div><div className="value forty-margin">{carClaim.settled_amount.high}</div></div>
         </div>
     )
 
     renderHomePolicy = homePolicy => (
         <div className="tile contact policy-tile" key={homePolicy.policy_id}>
-            <div className="header">Home Insurance <br></br>{homePolicy.policy_id}</div>
+            <div className="header">Home Insurance</div>
+            <div className="row"><div className="key">Home policy ID</div><div className="value forty-margin">{homePolicy.policy_id}</div></div>
             <div className="row"><div className="key">Status</div><div className="value forty-margin">{homePolicy.policy_status}</div></div>
-            <div className="row"><div className="key">Last change</div><div className="value forty-margin">{homePolicy.last_change}</div></div>
-            <div className="row"><div className="key">Quote day</div><div className="value forty-margin">{homePolicy.quote_day}</div></div>
+            <div className="row"><div className="key">Cover Start</div><div className="value forty-margin">{homePolicy.cover_start}</div></div>
+            <div className="row"><div className="key">Annual premium</div><div className="value forty-margin">{homePolicy.last_annual_premium_gross.high}</div></div>
             <div className="row"><div className="key">Coverage</div>
                 {homePolicy.coverage.map(e => <div className="value forty-margin">{e.type}</div>)}</div>
         </div>)
@@ -44,9 +51,11 @@ class CustomerDetail extends Component {
         <div className="tile contact claim-tile">
             <div className="header">Claim</div>
             <div className="row"><div className="key">Claim date</div><div className="value forty-margin">{homeClaim.claim_date}</div></div>
-            <div className="row"><div className="key">Reason</div><div className="value forty-margin">{homeClaim.claim_reason}</div></div>
+            <div className="row"><div className="key">Claim Reason </div><div className="value forty-margin">{homeClaim.claim_reason}</div></div>
+            <div className="row"><div className="key">Claim Amount</div><div className="value forty-margin">{homeClaim.claim_amount.high}</div></div>
             <div className="row"><div className="key">Type</div><div className="value forty-margin">{homeClaim.claim_type}</div></div>
-            <div className="row"><div className="key">Settled date</div><div className="value forty-margin">{homeClaim.settled_date}</div></div>
+            <div className="row"><div className="key">Settled Date</div><div className="value forty-margin">{homeClaim.settled_date}</div></div>
+            <div className="row"><div className="key">Settled Amount</div><div className="value forty-margin">{homeClaim.settled_amount.high}</div></div>
         </div>
     )
 
@@ -76,12 +85,12 @@ class CustomerDetail extends Component {
 
                 <div className="tile">
                     <div className="header">Demographics</div>
-                    <div className="row"><div className="key">Customer ID</div><div className="value fifty-margin">{this.props.customer.customer_id}</div></div>
-                    <div className="row"><div className="key">Gender</div><div className="value fifty-margin">{this.props.customer.gender}</div></div>
-                    <div className="row"><div className="key">Marital Status</div><div className="value fifty-margin">{this.props.customer.marital_status}</div></div>
-                    <div className="row"><div className="key">Job</div><div className="value fifty-margin">{this.props.customer.job}</div></div>
-                    <div className="row"><div className="key">Name</div><div className="value fifty-margin">{this.props.customer.first_name} {this.props.customer.last_name}</div></div>
-                    <div className="row"><div className="key">Nationality</div><div className="value fifty-margin">{this.props.customer.address.nationality}</div></div>
+                    <div className="row"><div className="key">Customer ID</div><div className="value thirty-margin">{this.props.customer.customer_id}</div></div>
+                    <div className="row"><div className="key">Salutation</div><div className="value thirty-margin">{this.props.customer.salutation === 'F' ? 'Mrs.' : 'Mr.'}</div></div>
+                    <div className="row"><div className="key">Name</div><div className="value thirty-margin">{this.props.customer.first_name} {this.props.customer.last_name}</div></div>
+                    <div className="row"><div className="key">Marital Status</div><div className="value thirty-margin">{this.props.customer.marital_status}</div></div>
+                    <div className="row"><div className="key">Job</div><div className="value thirty-margin">{this.props.customer.job}</div></div>
+                    <div className="row"><div className="key">Nationality</div><div className="value thirty-margin">{this.props.customer.address.nationality}</div></div>
                 </div>
 
                 <div className="tile contact">

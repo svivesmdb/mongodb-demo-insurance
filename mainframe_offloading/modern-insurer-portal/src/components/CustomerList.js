@@ -12,7 +12,7 @@ class CustomerList extends Component {
   }
 
   componentDidMount() {
-      console.log("Component did mount ", this.state);
+    console.log("Component did mount ", this.state);
   }
 
 
@@ -30,10 +30,6 @@ class CustomerList extends Component {
       accessor: 'last_name',
       className: "policies-table-td"
     }, {
-      Header: 'Gender',
-      accessor: 'gender',
-      className: "policies-table-td"
-    }, {
       Header: 'E-Mail',
       accessor: 'email',
       className: "policies-table-td"
@@ -48,7 +44,7 @@ class CustomerList extends Component {
     if (this.state.customerClicked === true) {
       return <Redirect push to={'/customers/'.concat(this.state.customer_id)} />
     } else return (
-      <div className="policies-table">
+      <div className="policies-table -striped">
         <ReactTable
           getTrProps={(state, rowInfo, column) => {
             return {

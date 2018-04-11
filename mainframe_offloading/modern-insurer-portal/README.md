@@ -11,7 +11,7 @@ container$ npm install
 container$ npm start
 ```
 
-Open a browser pointing at http://localhost:3000/
+Open a browser pointing at http://localhost:3001/
 
 ## Package Docker container
 
