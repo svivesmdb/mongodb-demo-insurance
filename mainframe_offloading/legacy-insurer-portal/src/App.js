@@ -35,9 +35,9 @@ class App extends Component {
             <Route exact path="/" component={Navigation} />
             <Route exact path="/customers" component={CustomerList} />
             <Route exact path="/create-car-policy" component={CreateCarInsurancePolicy} />
+            <Route path="/create-car-claim" component={CreateCarInsuranceClaim} />
             <Route exact path="/policies" component={PoliciesList} />
             <Route exact path="/policies/:id" component={PolicyDetail} />
-            <Route path="/create-car-claim" component={CreateCarInsuranceClaim} />
           </div>
         </Router>
       </div>

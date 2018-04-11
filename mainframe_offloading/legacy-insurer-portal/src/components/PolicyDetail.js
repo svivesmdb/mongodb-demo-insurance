@@ -19,7 +19,7 @@ class PolicyDetail extends Component {
         </div>
     )
 
-    render(){
+    render() {
 
         let items = []
 
@@ -30,11 +30,10 @@ class PolicyDetail extends Component {
 
         return (
             <div>
-            { items }
-
-            <Link to={"/create-car-claim/".concat(this.props.policy.policy_id)}>Create claim</Link>
+                {items}
+                <Link to={"/create-car-claim/".concat(this.props.policy.policy_id)}>Create claim</Link>
             </div>
-         )
+        )
     }
 
 }
@@ -42,7 +41,7 @@ class PolicyDetail extends Component {
 const mapStateToProps = (state, ownProps) => {
     console.log("state.carPolicies.length", state.carPolicies.length)
     return {
-        policy: state.carPolicies.find(e =>  e.policy_id === ownProps.match.params.id)
+        policy: state.carPolicies.find(e => e.policy_id === ownProps.match.params.id)
     }
 }
 

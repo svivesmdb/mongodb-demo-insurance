@@ -40,23 +40,25 @@ class CarPoliciesList extends Component {
 
 
 
-      if (this.state.policyClicked === true) {
-        return <Redirect push to={'/policies/'.concat(this.state.policy_id)} />
-      } else return (
+    if (this.state.policyClicked === true) {
+      return <Redirect push to={'/policies/'.concat(this.state.policy_id)} />
+    } else return (
       <div className="policies-table">
         <ReactTable
           getTrProps={(state, rowInfo, column) => {
-            return {onClick: (e, handleOriginal) => {
-              this.setState({
-                policyClicked: true,
-                policy_id: rowInfo.row.policy_id
-              })
-              console.log(rowInfo.row.policy_id)
-              if (handleOriginal) {
-                handleOriginal()
+            return {
+              onClick: (e, handleOriginal) => {
+                this.setState({
+                  policyClicked: true,
+                  policy_id: rowInfo.row.policy_id
+                })
+                console.log(rowInfo.row.policy_id)
+                if (handleOriginal) {
+                  handleOriginal()
+                }
               }
             }
-          }}}
+          }}
           data={this.props.carPolicies}
           columns={columns}
           defaultPageSize={100}
