@@ -11,6 +11,11 @@ class CustomerList extends Component {
     customer_id: null
   }
 
+  componentDidMount() {
+      console.log("Component did mount ", this.state);
+  }
+
+
   render() {
     const columns = [{
       Header: 'Customer ID',
@@ -40,14 +45,28 @@ class CustomerList extends Component {
 
 
 
-      if (this.state.policyClicked === true) {
-        return <Redirect push to={'/policies/'.concat(this.state.policy_id)} />
-      } else return (
+    if (this.state.customerClicked === true) {
+      return <Redirect push to={'/customers/'.concat(this.state.customer_id)} />
+    } else return (
       <div className="policies-table">
         <ReactTable
+          getTrProps={(state, rowInfo, column) => {
+            return {
+              onClick: (e, handleOriginal) => {
+                this.setState({
+                  customerClicked: true,
+                  customer_id: rowInfo.row.customer_id
+                })
+                console.log(rowInfo.row.customer_id)
+                if (handleOriginal) {
+                  handleOriginal()
+                }
+              }
+            }
+          }}
           data={this.props.customers}
           columns={columns}
-          defaultPageSize={100}
+          defaultPageSize={20}
         />
       </div>
     )
@@ -55,9 +74,9 @@ class CustomerList extends Component {
 }
 
 const mapStateToProps = state => {
-    return {
-        customers: state.customers
-    }
+  return {
+    customers: state.customers
+  }
 }
 
 export default connect(mapStateToProps)(CustomerList);

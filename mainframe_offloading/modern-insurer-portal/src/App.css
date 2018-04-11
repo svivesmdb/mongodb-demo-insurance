@@ -27,6 +27,101 @@ h1 {
     margin-right: auto;
 }
 
+.customer-detail-container {
+  margin-left: auto;
+  margin-right: auto;
+  padding: 20px;
+}
+
+.tile {
+  background-color: white;
+  width: 250px;
+  height: 250px;
+  margin: 5px;
+  float: left;
+  padding: 10px;
+  border-color: grey;
+  border-top-style: dotted;
+  border-right-style: solid;
+  border-bottom-style: dotted;
+  border-left-style: solid;
+  border-width: 2px;
+}
+
+.contact {
+  width: 300px;
+}
+
+.thirty-margin {
+  margin-left: 30%;
+}
+
+.fifty-margin {
+  margin-left: 50%;
+}
+
+.forty-margin {
+  margin-left: 40%;
+}
+
+.tile .header {
+  font-size: large;
+  text-align: center;
+  text-transform: uppercase;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.policy-tile {
+  background-color:#aeccfe
+}
+
+.claim-tile {
+  background-color: #FCCDD5
+
+}
+
+.tile .key {
+  font-size: normal;
+  text-align: left;
+  text-transform: uppercase;
+  margin-top: 5;
+  margin-bottom: 5;
+  color: steelblue;
+  font-style: italic;
+  float: left;
+}
+
+.tile .value {
+  font-size: normal;
+  text-align: left;
+  margin-top: 5;
+  margin-bottom: 5;
+}
+
+.row {
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+.customer-detail-table-highlight-td {
+  padding: 1px;
+  color: green;
+  background-color: gainsboro;
+}
+
+
+.customer-detail-table {
+  margin: 5px;
+  table-layout:fixed;
+  width: 230px;
+}
+
+.customer-detail-table td  {
+  overflow:hidden;
+  white-space:nowrap;
+}
+
 .policyForm {
   border-width: 1px;
   border-color: #41FF00;
@@ -114,6 +209,7 @@ nav {
   max-width: 1000px;
   margin-left: auto;
   margin-right: auto;
+  background-color: aliceblue;
 }
 
 .policies-table-td {

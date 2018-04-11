@@ -13,6 +13,7 @@ import { fetchCustomers } from './APIUtil';
 import { addCustomers } from './actions';
 import { connect } from 'react-redux'
 import CustomerList from './components/CustomerList';
+import CreateCarClaim from './components/CreateCarClaim'
 
 class App extends Component {
 
@@ -33,9 +34,10 @@ class App extends Component {
           <div>
             <Route exact path="/" component={Navigation} />
             <Route exact path="/customers" component={CustomerList} />
-            <Route exact path="/createmotorpolicy" component={NewCarInsurancePolicy} />
+            <Route exact path="/create-car-policy" component={NewCarInsurancePolicy} />
             <Route exact path="/policies" component={PoliciesList} />
             <Route exact path="/policies/:id" component={PolicyDetail} />
+            <Route path="/create-car-claim" component={CreateCarClaim} />
           </div>
         </Router>
       </div>

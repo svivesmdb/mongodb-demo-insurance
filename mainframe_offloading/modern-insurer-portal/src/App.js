@@ -9,7 +9,7 @@ import {
   Route,
   Link
 } from 'react-router-dom'
-import PolicyDetail from './components/PolicyDetail';
+import CustomerDetail from './components/CustomerDetail';
 import { fetchCustomers } from './APIUtil';
 import { addCustomers } from './actions';
 import { connect } from 'react-redux'
@@ -49,9 +49,9 @@ class App extends Component {
             </div>
             <div>
               <Route exact path="/customers" component={CustomerList} />
+              <Route exact path="/customers/:id" component={CustomerDetail} />
               <Route exact path="/create" component={NewCarInsurancePolicy} />
               <Route exact path="/policies" component={PoliciesList} />
-              <Route exact path="/policies/:id" component={PolicyDetail} />
             </div>
           </div>
         </Router>
