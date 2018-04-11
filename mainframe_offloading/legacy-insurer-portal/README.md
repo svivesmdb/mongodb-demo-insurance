@@ -1,3 +1,10 @@
+## Screens
+
+### Create Car Policy
+
+With the "Create Car Insurance Claim' screen a new claim can be created. The form cannot be submitted until all validation errors are fixed.
+![create-car-insurance-claim-screen](doc/create-car-insurance-claim-screen.png)
+
 ## Development mode
 
 Run the application.
