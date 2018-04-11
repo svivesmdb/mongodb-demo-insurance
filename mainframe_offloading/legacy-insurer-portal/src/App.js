@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import NewCarInsurancePolicy from './components/NewCarInsurancePolicy';
 import PoliciesList from './components/PoliciesList';
 import Navigation from './components/Navigation';
 import {
@@ -13,7 +12,8 @@ import { fetchCustomers } from './APIUtil';
 import { addCustomers } from './actions';
 import { connect } from 'react-redux'
 import CustomerList from './components/CustomerList';
-import CreateCarClaim from './components/CreateCarClaim'
+import CreateCarInsurancePolicy from './components/CreateCarInsurancePolicy';
+import CreateCarInsuranceClaim from './components/CreateCarInsuranceClaim';
 
 class App extends Component {
 
@@ -34,10 +34,10 @@ class App extends Component {
           <div>
             <Route exact path="/" component={Navigation} />
             <Route exact path="/customers" component={CustomerList} />
-            <Route exact path="/create-car-policy" component={NewCarInsurancePolicy} />
+            <Route exact path="/create-car-policy" component={CreateCarInsurancePolicy} />
             <Route exact path="/policies" component={PoliciesList} />
             <Route exact path="/policies/:id" component={PolicyDetail} />
-            <Route path="/create-car-claim" component={CreateCarClaim} />
+            <Route path="/create-car-claim" component={CreateCarInsuranceClaim} />
           </div>
         </Router>
       </div>

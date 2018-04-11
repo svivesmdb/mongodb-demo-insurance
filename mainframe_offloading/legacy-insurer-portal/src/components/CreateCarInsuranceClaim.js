@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Grid, Container } from 'semantic-ui-react'
 import { createClaim } from '../APIUtil'
 import { Redirect } from 'react-router-dom'
+import { currentDate } from '../utils'
 
 export default class NewCarInsuranceClaim extends Component {
 
@@ -10,7 +11,7 @@ export default class NewCarInsuranceClaim extends Component {
         this.state = {
             claim: {
                 policy_id: '',
-                claim_date: this.currentDate(),
+                claim_date: currentDate(),
                 claim_amount: '',
                 settled_date: '',
                 settled_amount: '',
@@ -23,12 +24,6 @@ export default class NewCarInsuranceClaim extends Component {
 
     handleSubmit = (event) => {
 
-
-        if(/PC_\d*/.test(this.state.claim.claim_date)===false) {
-            alert("Claim Date does not match /PC_\d*/")
-            return
-        }
-
         console.log("Calling API with ", this.state.claim)
 
         createClaim(this.state.claim.policy_id, this.state.claim, 'motor').then(value => this.setState({
@@ -37,20 +32,6 @@ export default class NewCarInsuranceClaim extends Component {
             }
         ))
         event.preventDefault();
-    }
-
-    currentDate = () => {
-        let today = new Date();
-        let dd = today.getDate();
-        let mm = today.getMonth()+1; //January is 0!
-        let yyyy = today.getFullYear();
-        if(dd<10){
-            dd='0'+dd;
-        }
-        if(mm<10){
-            mm='0'+mm;
-        }
-        return "".concat(yyyy,'-',mm,'-',dd)
     }
 
     validate = () => {

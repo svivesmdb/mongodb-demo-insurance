@@ -1,6 +1,11 @@
 ## Screens
 
-### Create Car Policy
+### Create Car Insurance Policy
+
+With the "Create Car Insurance Policy' screen a new policy can be created. The form cannot be submitted until all validation errors are fixed.
+![create-car-insurance-policy-screen](doc/create-car-insurance-policy-screen.png)
+
+### Create Car Insurance Claim
 
 With the "Create Car Insurance Claim' screen a new claim can be created. The form cannot be submitted until all validation errors are fixed.
 ![create-car-insurance-claim-screen](doc/create-car-insurance-claim-screen.png)
