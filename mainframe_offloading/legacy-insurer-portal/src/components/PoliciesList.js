@@ -29,35 +29,32 @@ class PoliciesList extends Component {
     componentWillReceiveProps(nextProps) {
         console.log("nextProps", nextProps)
         if (nextProps.carPolicies) {
-          this.setState(
-            {
-                ...this.state,
-                loading: false
-            }
-          )
+            this.setState(
+                {
+                    ...this.state,
+                    loading: false
+                }
+            )
         }
-      }
+    }
 
     render() {
-
-
-        if(this.state.loading){
+        if (this.state.loading) {
             return (
                 <div>
-                    <Link to='/navigation' className="menu-link">Back to menu</Link>
-                    <div className="loading"/>
+                    <Link to='/' className="menu-link">Back to menu</Link>
+                    <div className="loading" />
                 </div>
             )
         }
-        if (this.state.policyType === "motor")
+        if (this.state.policyType === "motor") {
             return (
                 <div>
-                    <Link to='/navigation' className="menu-link">Back to menu</Link>
+                    <Link to='/' className="menu-link">Back to menu</Link>
                     <CarPoliciesList carPolicies={this.props.carPolicies} />
                 </div>
-        )
-
-
+            )
+        }
     }
 }
 

@@ -6,13 +6,12 @@ Notes:
 * `npm install` is only required for the first time or when dependencies change
 
 ```
-host$ docker run -it --rm -v $(pwd):/home/app -p 3001:3000  node:9.5 /bin/bash
-container$ cd /home/app
+host$ docker run -it --rm -v $(pwd):/home/app -w /home/app -p 3001:3000  node:9.5 /bin/bash
 container$ npm install
 container$ npm start
 ```
 
-Open a browser pointing at http://localhost:3000/
+Open a browser pointing at http://localhost:3001/
 
 ## Package Docker container
 
@@ -22,11 +21,11 @@ Replace `mentlsve/modern-insurer-portal` with whatever name you like:
 
 ```
 host$ cd packaging
-host$ docker build -t mentlsve/legacy-insurer-portal .
+host$ docker build -t mentlsve/modern-insurer-portal .
 ```
 Then run the application with
 ```
-host$ docker run -d -p 3000:3000 --name=legacy-insurer-portal mentlsve/legacy-insurer-portal
+host$ docker run -d -p 3000:3000 --name=modern-insurer-portal modern/legacy-insurer-portal
 ```
 
 Open a browser pointing at http://localhost:3000/

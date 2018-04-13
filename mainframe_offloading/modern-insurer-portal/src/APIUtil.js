@@ -1,6 +1,6 @@
 import sleep from 'sleep-promise'
 
-const api = "http://localhost:8081"
+const api = "http://localhost:8080"
 
 const headers = {
     'Accept': 'application/json'
@@ -16,7 +16,7 @@ export const fetchPolicies = (type) =>
     .then(res => res.json()))
 
 export const fetchCustomers = () =>
-    sleep(3000)(fetch(`${api}/customers`, { headers })
+    sleep(1000)(fetch(`${api}/v2/customer`, { headers })
     .then(res => res.json()))
 
 export const createPolicy = (policy, type) => {

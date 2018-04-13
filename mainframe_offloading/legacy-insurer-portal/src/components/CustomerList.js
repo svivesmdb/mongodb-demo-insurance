@@ -40,9 +40,9 @@ class CustomerList extends Component {
 
 
 
-      if (this.state.policyClicked === true) {
-        return <Redirect push to={'/policies/'.concat(this.state.policy_id)} />
-      } else return (
+    if (this.state.policyClicked === true) {
+      return <Redirect push to={'/policies/'.concat(this.state.policy_id)} />
+    } else return (
       <div className="policies-table">
         <ReactTable
           data={this.props.customers}
@@ -55,9 +55,9 @@ class CustomerList extends Component {
 }
 
 const mapStateToProps = state => {
-    return {
-        customers: state.customers
-    }
+  return {
+    customers: state.customers
+  }
 }
 
 export default connect(mapStateToProps)(CustomerList);

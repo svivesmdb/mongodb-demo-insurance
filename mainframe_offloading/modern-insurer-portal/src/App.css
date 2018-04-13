@@ -1,19 +1,7 @@
 body {
   margin: 0;
   padding: 0;
-  background-image: url("rough-horn-2146181_1920.jpg");
-}
-
-h1 {
-  color: seashell;
-  font-family: 'Open Sans', sans-serif;
-  font-size: 75px;
-  font-weight: bold;
-  letter-spacing: 8px;
-  line-height: 1;
-  text-align: center;
-  text-transform: uppercase;
-  text-shadow: 6px 6px 2px rgba(0,0,0,0.5);
+  background-color: white
 }
 
 .containerBorder {
@@ -25,6 +13,100 @@ h1 {
     padding: 20px;
     margin-left: auto;
     margin-right: auto;
+}
+
+.customer-detail-container {
+  margin-left: auto;
+  margin-right: auto;
+  padding: 20px;
+}
+
+.tile {
+  background-color: white;
+  width: 90%;
+  margin: 5px;
+  float: left;
+  padding: 10px;
+  border-color: grey;
+  background-color: rgb(241, 241, 241);
+  border-left-style: solid;
+  border-width: 10px;
+}
+
+.contact {
+  width: 90%;
+}
+
+.thirty-margin {
+  margin-left: 30%;
+}
+
+.fifty-margin {
+  margin-left: 50%;
+}
+
+.forty-margin {
+  margin-left: 40%;
+}
+
+.tile .header {
+  font-size: large;
+  text-align: left;
+  text-transform: uppercase;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.policy-tile {
+  background-color:#e7f0ff;
+  border-color: blue;
+}
+
+.claim-tile {
+  background-color: rgb(255, 247, 247);
+  margin-left: 30px;
+  border-color: red;
+}
+
+.tile .key {
+  font-size: normal;
+  text-align: left;
+  text-transform: uppercase;
+  margin-top: 5;
+  margin-bottom: 5;
+  color: steelblue;
+  font-style: italic;
+  float: left;
+}
+
+.tile .value {
+  font-size: normal;
+  text-align: left;
+  margin-top: 5;
+  margin-bottom: 5;
+}
+
+.row {
+  margin-bottom: 1px;
+  overflow: hidden;
+}
+
+.customer-detail-table-highlight-td {
+  padding: 1px;
+  color: green;
+  background-color: gainsboro;
+}
+
+
+.customer-detail-table {
+  margin: 5px;
+  table-layout:fixed;
+  width: 230px;
+}
+
+.customer-detail-table td  {
+  overflow:hidden;
+  white-space:nowrap;
 }
 
 .policyForm {
@@ -56,8 +138,8 @@ input[type=text]:focus {
 }
 
 h1 {
-  color: seashell;
-  font-family: 'Open Sans', sans-serif;
+  color: black;
+  font-family: 'Do Hyeon', sans-serif;
   font-size: 75px;
   font-weight: bold;
   letter-spacing: 8px;
@@ -112,8 +194,10 @@ nav {
 
 .policies-table {
   max-width: 1000px;
+  margin-top: 20px;
   margin-left: auto;
   margin-right: auto;
+  background-color: aliceblue;
 }
 
 .policies-table-td {
