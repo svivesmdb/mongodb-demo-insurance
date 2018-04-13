@@ -14,7 +14,7 @@ def rowToJSON(row):
         "last_change": row["last_change"]
     }
 
-with open('output/car_insurance_policy.csv', 'rb') as csvfile:
+with open('output/car_insurance_policy.csv', 'r') as csvfile:
     spamreader = csv.DictReader(csvfile, delimiter=',', quotechar='|')
     for row in spamreader:
         if count == 1000:
@@ -22,7 +22,7 @@ with open('output/car_insurance_policy.csv', 'rb') as csvfile:
         else:
             count = count + 1
 
-        with open('../../mainframe_offloading/mainframe-simulator/sample-data/motor/policies/' + row["policy_id"] + ".json", 'w') as outfile:
+        with open('../../mainframe_offloading/mainframe-simulator/sample-data/mainframe/policy/' + row["policy_id"] + ".json", 'w') as outfile:
             json.dump(rowToJSON(row), outfile)
 
 

@@ -75,6 +75,7 @@
 	},
 	claim_section: {
 		template: {
+			claim_id: "$CLAIM_ID",
 			claim_date: "$CLAIM_DATE",
 			settled_date: "$SETTLED_DATE",
 			claim_amount: "$CLAIM_AMOUNT",
@@ -83,7 +84,7 @@
 			last_change: "$LAST_CHANGE"
 		},
 		query:{
-			sql: "SELECT POLICY_ID,CLAIM_DATE,SETTLED_DATE,CLAIM_AMOUNT,SETTLED_AMOUNT,CLAIM_REASON,to_char(last_change, 'YYYY-MM-DD HH24:MI:SS') AS LAST_CHANGE FROM car_claim order by policy_id"
+			sql: "SELECT CLAIM_ID, POLICY_ID,CLAIM_DATE,SETTLED_DATE,CLAIM_AMOUNT,SETTLED_AMOUNT,CLAIM_REASON,to_char(last_change, 'YYYY-MM-DD HH24:MI:SS') AS LAST_CHANGE FROM car_claim order by policy_id"
 		},
 		mergeon: 'POLICY_ID'
 	}

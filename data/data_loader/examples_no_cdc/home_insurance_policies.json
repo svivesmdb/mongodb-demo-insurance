@@ -82,6 +82,7 @@
 	},
 	claim_section: {
 		template: {
+			claim_id: "$CLAIM_ID",
 			claim_date: "$CLAIM_DATE",
 			settled_date: "$SETTLED_DATE",
 			claim_type: "$CLAIM_TYPE",

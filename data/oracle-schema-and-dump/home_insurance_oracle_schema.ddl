@@ -1,0 +1,103 @@
+--------------------------------------------------------
+--  DDL for Table CLAIM
+--------------------------------------------------------
+
+  CREATE TABLE "CLAIM" 
+   (	"CLAIM_ID" VARCHAR2(12 CHAR), 
+   	"POLICY_ID" VARCHAR2(12 CHAR), 
+	"CLAIM_DATE" DATE, 
+	"SETTLED_DATE" DATE, 
+	"CLAIM_TYPE" VARCHAR2(20 CHAR), 
+	"CLAIM_AMOUNT" NUMBER(30,2), 
+	"SETTLED_AMOUNT" NUMBER(30,2), 
+	"CLAIM_REASON" VARCHAR2(30 CHAR), 
+	"LAST_CHANGE" TIMESTAMP (6)
+   ) ;
+--------------------------------------------------------
+--  DDL for Table CUSTOMER
+--------------------------------------------------------
+
+  CREATE TABLE "CUSTOMER" 
+   (	"CUSTOMER_ID" VARCHAR2(12 CHAR), 
+	"FIRST_NAME" VARCHAR2(150 CHAR), 
+	"LAST_NAME" VARCHAR2(150 CHAR), 
+	"GENDER" VARCHAR2(1 CHAR), 
+	"JOB" VARCHAR2(150 CHAR), 
+	"EMAIL" VARCHAR2(100 CHAR), 
+	"PHONE" VARCHAR2(40 CHAR), 
+	"NUMBER_CHILDREN" NUMBER(4,0), 
+	"MARITAL_STATUS" VARCHAR2(12 CHAR), 
+	"DATE_OF_BIRTH" DATE, 
+	"STREET" VARCHAR2(120 CHAR), 
+	"ZIP" VARCHAR2(10 CHAR), 
+	"CITY" VARCHAR2(100 CHAR), 
+	"COUNTRY_CODE" VARCHAR2(2 CHAR), 
+	"NATIONALITY" VARCHAR2(20 CHAR), 
+	"LAST_CHANGE" TIMESTAMP (6)
+   ) ;
+--------------------------------------------------------
+--  DDL for Table POLICY
+--------------------------------------------------------
+
+  CREATE TABLE "POLICY" 
+   (	"POLICY_ID" VARCHAR2(12 CHAR), 
+	"CUSTOMER_ID" VARCHAR2(12 CHAR), 
+	"QUOTE_DAY" DATE, 
+	"COVER_START" DATE, 
+	"LAST_ANN_PREMIUM_GROSS" NUMBER(10,2), 
+	"POLICY_STATUS" VARCHAR2(100 CHAR), 
+	"LAST_CHANGE" TIMESTAMP (6)
+   ) ;
+--------------------------------------------------------
+--  DDL for Table POLICY_COVERAGE
+--------------------------------------------------------
+
+  CREATE TABLE "POLICY_COVERAGE" 
+   (	"POLICY_ID" VARCHAR2(12 CHAR), 
+	"TYPE" VARCHAR2(20 CHAR), 
+	"COVERAGE" VARCHAR2(1 CHAR), 
+	"SUM_INSURED" NUMBER(30,2), 
+	"MALUS_BONUS" NUMBER(10,0), 
+	"LAST_CHANGE" TIMESTAMP (6)
+   ) ;
+--------------------------------------------------------
+--  DDL for Table POLICY_OPTION
+--------------------------------------------------------
+
+  CREATE TABLE "POLICY_OPTION" 
+   (	"POLICY_ID" VARCHAR2(12 CHAR), 
+	"LGL_ADDON_PRE_REN" VARCHAR2(1 CHAR), 
+	"LGL_ADDON_POST_REN" VARCHAR2(1 CHAR), 
+	"HOME_EM_ADDON_PRE_REN" VARCHAR2(1 CHAR), 
+	"HOME_EM_ADDON_POST_REN" VARCHAR2(1 CHAR), 
+	"GARDEN_ADDON_PRE_REN" VARCHAR2(1 CHAR), 
+	"GARDEN_ADDON_POST_REN" VARCHAR2(1 CHAR), 
+	"KEYCARE_ADDON_PRE_REN" VARCHAR2(1 CHAR), 
+	"KEYCARE_ADDON_POST_REN" VARCHAR2(1 CHAR), 
+	"LAST_CHANGE" TIMESTAMP (6)
+   ) ;
+--------------------------------------------------------
+--  DDL for Table POLICY_RISK
+--------------------------------------------------------
+
+  CREATE TABLE "POLICY_RISK" 
+   (	"POLICY_ID" VARCHAR2(12 CHAR), 
+	"RSK_CLASSIF_BLDG" NUMBER(10,0), 
+	"RSK_CLASSIF_PRSNL" NUMBER(10,0), 
+	"APPR_ALARM" VARCHAR2(1 CHAR), 
+	"APPR_LOCKS" VARCHAR2(1 CHAR), 
+	"BEDROOMS" NUMBER(10,0), 
+	"ROOF_CNSTRCTN" NUMBER(10,0), 
+	"WALL_CONSTRCTN" NUMBER(10,0), 
+	"FLOODING" VARCHAR2(1 CHAR), 
+	"LISTED" NUMBER(10,0), 
+	"MAX_DAYS_UNOCC" NUMBER(10,0), 
+	"NEIGH_WATCH" VARCHAR2(1 CHAR), 
+	"OCC_STATS" VARCHAR2(2 CHAR), 
+	"OWNERSHIP_TYPE" NUMBER(10,0), 
+	"PAYING_GUESTS" NUMBER(10,0), 
+	"PROP_TYPE" NUMBER(10,0), 
+	"SAFE_INSTALLED" VARCHAR2(1 CHAR), 
+	"YEARBUILT" NUMBER(10,0), 
+	"LAST_CHANGE" TIMESTAMP (6)
+   ) ;

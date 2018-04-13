@@ -18,6 +18,7 @@ import logging
 import pandas as pd
 
 import os
+import errno
 
 logging.basicConfig()
 logging.getLogger('sqlalchemy').setLevel(logging.ERROR)
@@ -44,6 +45,8 @@ engine =  create_engine(
 )
 
 os.environ['NLS_LANG'] = ".AL32UTF8"
+
+next_claim_number = 0
 
 def main():
     num_gen = 256136 #256136 # number of rows in example file, some of them are not valid
@@ -131,11 +134,12 @@ def main():
     columns_customer = ['customer_id', 'first_name', 'last_name', 'gender', 'job', 'email', 'phone', 'number_children', 'marital_status', 'date_of_birth', 'street', 'zip', 'city', 'country_code', 'nationality', 'last_change']
     df_customers_to_db = pd.DataFrame(ls_customers_to_db, columns=columns_customer)
     
-    columns_claim = ['policy_id', 'claim_date', 'settled_date', 'claim_type', 'claim_amount', 'settled_amount', 'claim_reason', 'last_change']
+    columns_claim = ['claim_id', 'policy_id', 'claim_date', 'settled_date', 'claim_type', 'claim_amount', 'settled_amount', 'claim_reason', 'last_change']
     df_claims = pd.DataFrame(ls_claims, columns=columns_claim)
 
+    delete_file('output/home_insurance_policy.csv')
     df_policies.to_csv('output/home_insurance_policy.csv', sep=',', index=False, header=columns_policy)
-    df_policies.to_sql('policy', engine, schema='ckurze', index=False, chunksize=1000, dtype= {
+    df_policies.to_sql('policy', engine, schema=user, index=False, chunksize=1000, dtype= {
             'policy_id': sqlalchemy.types.String(12),
             'customer_id': sqlalchemy.types.String(12),
             'quote_day': sqlalchemy.types.Date,
@@ -145,8 +149,9 @@ def main():
             'last_change': sqlalchemy.dialects.oracle.TIMESTAMP
         })
     
+    delete_file('output/home_insurance_policy_coverage.csv')
     df_policy_coverage.to_csv('output/home_insurance_policy_coverage.csv', sep=',', index=False, header=columns_policy_coverage)
-    df_policy_coverage.to_sql('policy_coverage', engine, schema='ckurze', index=False, chunksize=1000, dtype= {
+    df_policy_coverage.to_sql('policy_coverage', engine, schema=user, index=False, chunksize=1000, dtype= {
             'policy_id': sqlalchemy.types.String(12),
             'type': sqlalchemy.types.String(20),
             'coverage': sqlalchemy.types.String(1), 
@@ -155,8 +160,9 @@ def main():
             'last_change': sqlalchemy.dialects.oracle.TIMESTAMP
         })
 
+    delete_file('output/home_insurance_policy_risk.csv')
     df_policy_risk.to_csv('output/home_insurance_policy_risk.csv', sep=',', index=False, header=columns_policy_risk)
-    df_policy_risk.to_sql('policy_risk', engine, schema='ckurze', index=False, chunksize=1000, dtype= {
+    df_policy_risk.to_sql('policy_risk', engine, schema=user, index=False, chunksize=1000, dtype= {
             'policy_id': sqlalchemy.types.String(12),
             'rsk_classif_bldg': sqlalchemy.types.Numeric(precision=10, scale=0), 
             'rsk_classif_prsnl': sqlalchemy.types.Numeric(precision=10, scale=0), 
@@ -178,8 +184,9 @@ def main():
             'last_change': sqlalchemy.dialects.oracle.TIMESTAMP
         })
 
+    delete_file('output/home_insurance_policy_option.csv')
     df_policy_options.to_csv('output/home_insurance_policy_option.csv', sep=',', index=False, header=columns_policy_options)
-    df_policy_options.to_sql('policy_option', engine, schema='ckurze', index=False, chunksize=1000, dtype= {
+    df_policy_options.to_sql('policy_option', engine, schema=user, index=False, chunksize=1000, dtype= {
             'policy_id': sqlalchemy.types.String(12),
             'lgl_addon_pre_ren': sqlalchemy.types.String(1), 
             'lgl_addon_post_ren': sqlalchemy.types.String(1), 
@@ -192,8 +199,9 @@ def main():
             'last_change': sqlalchemy.dialects.oracle.TIMESTAMP
         })  
 
+    delete_file('output/home_insurance_customer.csv')
     df_customers_to_db.to_csv('output/home_insurance_customer.csv', sep=',', index=False, header=columns_customer)
-    df_customers_to_db.to_sql('customer', engine, schema='ckurze', index=False, chunksize=1000, dtype= {
+    df_customers_to_db.to_sql('customer', engine, schema=user, index=False, chunksize=1000, dtype= {
             'customer_id': sqlalchemy.types.String(12), 
             'first_name': sqlalchemy.types.String(150), 
             'last_name': sqlalchemy.types.String(150), 
@@ -212,8 +220,10 @@ def main():
             'last_change': sqlalchemy.dialects.oracle.TIMESTAMP
         })  
     
+    delete_file('output/home_insurance_claim.csv')
     df_claims.to_csv('output/home_insurance_claim.csv', sep=',', index=False, header=columns_claim)
-    df_claims.to_sql('claim', engine, schema='ckurze', index=False, chunksize=1000, dtype= {
+    df_claims.to_sql('claim', engine, schema=user, index=False, chunksize=1000, dtype= {
+            'claim_id': sqlalchemy.types.String(12),
             'policy_id': sqlalchemy.types.String(12),
             'claim_date': sqlalchemy.types.Date, 
             'settled_date': sqlalchemy.types.Date, 
@@ -232,6 +242,14 @@ def policy_number(i):
 
     return s_policy_number
 
+def claim_number(i):
+    s_claim_number = str(i + 1)
+    while len(s_claim_number) < 9:
+        s_claim_number = '0' + s_claim_number
+    s_claim_number = 'CL_' + s_claim_number
+
+    return s_claim_number
+
 def get_customer(i, policy_date, ls_customers):
     r = random.randint(0,len(ls_customers) - 1)
     customer = ls_customers[r]
@@ -248,12 +266,16 @@ def get_customer(i, policy_date, ls_customers):
     return customer
 
 def generate_claims(s_policy_number, d_cover_start, coverage_building, sum_insured_building, coverage_personal, sum_insured_personal, ls_claims):
+    global next_claim_number
 
     num_claims_building = random.randint(0, 3)
     num_claims_personal = random.randint(0, 2)
 
     if coverage_building == 'Y':
         for i in range(0, num_claims_building):
+            s_claim_number = claim_number(next_claim_number)
+            next_claim_number = next_claim_number + 1
+            
             d_claim_date = fake.date_between_dates(date_start=d_cover_start, date_end=datetime.today())
             d_date_settled = fake.date_between_dates(date_start=d_claim_date, date_end=(d_claim_date + relativedelta(months=5)))
             s_claim_type = 'BUIDLING'
@@ -264,10 +286,13 @@ def generate_claims(s_policy_number, d_cover_start, coverage_building, sum_insur
             f_settled_amount = f_claim_amount if f_claim_amount <= float(sum_insured_building) else float(sum_insured_building)
             s_claim_rason = random.choice(['FLOOD', 'WIND', 'FIRE', 'LIGHTNING', 'THEFT', 'VANDALISM', 'EXPLOSION', 'WATER/HEATING/AC', 'ELECTRICAL_CURRENT'])
 
-            ls_claims.append((s_policy_number, d_claim_date, d_date_settled, s_claim_type, f_claim_amount, f_settled_amount, s_claim_rason, datetime.today()))
+            ls_claims.append((s_claim_number, s_policy_number, d_claim_date, d_date_settled, s_claim_type, f_claim_amount, f_settled_amount, s_claim_rason, datetime.today()))
 
     if coverage_personal == 'Y':
         for i in range(0, num_claims_personal):
+            s_claim_number = claim_number(next_claim_number)
+            next_claim_number = next_claim_number + 1
+            
             d_claim_date = fake.date_between_dates(date_start=d_cover_start, date_end=datetime.today())
             d_date_settled = fake.date_between_dates(date_start=(d_claim_date + relativedelta(months=1)), date_end=(d_claim_date + relativedelta(months=5)))
             s_claim_type = 'PERSONAL_ITEMS'
@@ -278,8 +303,15 @@ def generate_claims(s_policy_number, d_cover_start, coverage_building, sum_insur
             f_settled_amount = f_claim_amount if f_claim_amount <= float(sum_insured_personal) else float(sum_insured_personal)
             s_claim_rason = random.choice(['FLOOD', 'WIND', 'FIRE', 'LIGHTNING', 'THEFT', 'VANDALISM', 'EXPLOSION', 'WATER/HEATING/AC', 'ELECTRICAL_CURRENT'])
 
-            ls_claims.append((s_policy_number, d_claim_date, d_date_settled, s_claim_type, f_claim_amount, f_settled_amount, s_claim_rason, datetime.today()))
+            ls_claims.append((s_claim_number, s_policy_number, d_claim_date, d_date_settled, s_claim_type, f_claim_amount, f_settled_amount, s_claim_rason, datetime.today()))
 
+
+def delete_file(filename):
+    try:
+        os.remove(filename)
+    except OSError as e: 
+        if e.errno != errno.ENOENT: # errno.ENOENT = no such file or directory
+            raise # re-raise exception if a different error occurred
 
 if __name__ == '__main__':
     main()

@@ -24,6 +24,8 @@ import pandas as pd
 
 import os
 
+import errno
+
 logging.basicConfig()
 logging.getLogger('sqlalchemy').setLevel(logging.ERROR)
 
@@ -49,6 +51,8 @@ engine =  create_engine(
 )
 
 os.environ['NLS_LANG'] = ".AL32UTF8"
+
+next_claim_number = 0
 
 def main():
     num_gen = 123456
@@ -121,11 +125,12 @@ def main():
     columns_customer = ['customer_id', 'first_name', 'last_name', 'gender', 'job', 'email', 'phone', 'number_children', 'marital_status', 'date_of_birth', 'street', 'zip', 'city', 'country_code', 'nationality', 'last_change']
     df_customers_to_db = pd.DataFrame(ls_customers_to_db, columns=columns_customer)
     
-    columns_claim = ['policy_id', 'claim_date', 'settled_date', 'claim_amount', 'settled_amount', 'claim_reason', 'last_change']
+    columns_claim = ['claim_id', 'policy_id', 'claim_date', 'settled_date', 'claim_amount', 'settled_amount', 'claim_reason', 'last_change']
     df_claims = pd.DataFrame(ls_claims, columns=columns_claim)
 
+    delete_file('output/car_insurance_policy.csv')
     df_policies.to_csv('output/car_insurance_policy.csv', sep=',', index=False, header=columns_policy)
-    df_policies.to_sql('car_policy', engine, schema='ckurze', index=False, chunksize=1000, dtype= {
+    df_policies.to_sql('car_policy', engine, schema=user, index=False, chunksize=1000, dtype= {
             'policy_id': sqlalchemy.types.String(12),
             'customer_id': sqlalchemy.types.String(12),
             'cover_start': sqlalchemy.types.Date,
@@ -135,8 +140,9 @@ def main():
             'last_change': sqlalchemy.dialects.oracle.TIMESTAMP
         })
 
+    delete_file('output/car_insurance_customer.csv')
     df_customers_to_db.to_csv('output/car_insurance_customer.csv', sep=',', index=False, header=columns_customer)
-    df_customers_to_db.to_sql('car_customer', engine, schema='ckurze', index=False, chunksize=1000, dtype= {
+    df_customers_to_db.to_sql('car_customer', engine, schema=user, index=False, chunksize=1000, dtype= {
             'customer_id': sqlalchemy.types.String(12), 
             'first_name': sqlalchemy.types.String(150), 
             'last_name': sqlalchemy.types.String(150), 
@@ -155,8 +161,10 @@ def main():
             'last_change': sqlalchemy.dialects.oracle.TIMESTAMP
        })  
     
+    delete_file('output/car_insurance_claim.csv')
     df_claims.to_csv('output/car_insurance_claim.csv', sep=',', index=False, header=columns_claim)
-    df_claims.to_sql('car_claim', engine, schema='ckurze', index=False, chunksize=1000, dtype= {
+    df_claims.to_sql('car_claim', engine, schema=user, index=False, chunksize=1000, dtype= {
+            'claim_id': sqlalchemy.types.String(12),
             'policy_id': sqlalchemy.types.String(12),
             'claim_date': sqlalchemy.types.Date, 
             'settled_date': sqlalchemy.types.Date, 
@@ -174,6 +182,14 @@ def policy_number(i):
 
     return s_policy_number
 
+def claim_number(i):
+    s_claim_number = str(i + 1)
+    while len(s_claim_number) < 9:
+        s_claim_number = '0' + s_claim_number
+    s_claim_number = 'CL_' + s_claim_number
+
+    return s_claim_number
+
 def get_customer(i, policy_date, ls_customers):
     r = random.randint(0,len(ls_customers) - 1)
     customer = ls_customers[r]
@@ -190,10 +206,14 @@ def get_customer(i, policy_date, ls_customers):
     return customer
 
 def generate_claims(s_policy_number, d_cover_start, f_sum_insured, ls_claims):
+    global next_claim_number
 
     num_claims = random.randint(0, 3)
 
     for i in range(0, num_claims):
+        s_claim_number = claim_number(next_claim_number)
+        next_claim_number = next_claim_number + 1
+
         d_claim_date = fake_de.date_between_dates(date_start=d_cover_start, date_end=datetime.today())
         d_date_settled = fake_de.date_between_dates(date_start=d_claim_date, date_end=(d_claim_date + relativedelta(months=5)))
         f_claim_amount = 0.0
@@ -203,7 +223,14 @@ def generate_claims(s_policy_number, d_cover_start, f_sum_insured, ls_claims):
         f_settled_amount = f_claim_amount if f_claim_amount <= float(f_sum_insured) else float(f_sum_insured)
         s_claim_rason = random.choice(['COLLISSION', 'HAIL', 'SCRATCH', 'OTHER'])
 
-        ls_claims.append((s_policy_number, d_claim_date, d_date_settled, f_claim_amount, f_settled_amount, s_claim_rason, datetime.today()))
+        ls_claims.append((s_claim_number, s_policy_number, d_claim_date, d_date_settled, f_claim_amount, f_settled_amount, s_claim_rason, datetime.today()))
+
+def delete_file(filename):
+    try:
+        os.remove(filename)
+    except OSError as e: 
+        if e.errno != errno.ENOENT: # errno.ENOENT = no such file or directory
+            raise # re-raise exception if a different error occurred
 
 if __name__ == '__main__':
     main()
