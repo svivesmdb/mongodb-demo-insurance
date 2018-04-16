@@ -37,7 +37,11 @@ These instructions will get you a copy of the project up and running on your loc
 In order to have an initial data set in MongoDB to run the demo, please import the full data dump. In case of demonstrating just the mainframe offloading scenario, the car insurance only dump is sufficient. Execute the following command in the directory of the full or car insurance dump:
 
 ```
+# Import into local MongoDB running on port 27017:
 mongorestore -d insurance --gzip --drop
+
+# Import into MongoDB Atlas:
+mongorestore -d insurance --gzip --drop --uri "mongodb://<USER>:<PASSWORD>@atlas-host1:27017,atlas-host2:27017,atlas-host3:27017/<DATABASE>?ssl=true&replicaSet=myAtlasRS&authSource=admin"
 ```
 
 The number of documents to be restored:
