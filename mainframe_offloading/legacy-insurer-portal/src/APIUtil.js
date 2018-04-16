@@ -1,7 +1,6 @@
 import sleep from 'sleep-promise'
 
 const api = "http://localhost:8080"
-//const api = "http://35.198.182.83:30101"
 
 const headers = {
     'Accept': 'application/json'

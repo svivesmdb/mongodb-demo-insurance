@@ -65,18 +65,25 @@ class CustomerDetail extends Component {
         }
 
         let items = []
-
-        for (let i = 0; i < this.props.customer.car_insurance.length; i++) {
-            items.push(this.renderCarPolicy(this.props.customer.car_insurance[i]))
-            for (let j = 0; j < this.props.customer.car_insurance[i].claim.length; j++) {
-                items.push(this.renderCarClaim(this.props.customer.car_insurance[i].claim[j]))
+        if (this.props.customer.car_insurance) {
+            for (let i = 0; i < this.props.customer.car_insurance.length; i++) {
+                items.push(this.renderCarPolicy(this.props.customer.car_insurance[i]))
+                if (this.props.customer.car_insurance[i].claim) {
+                    for (let j = 0; j < this.props.customer.car_insurance[i].claim.length; j++) {
+                        items.push(this.renderCarClaim(this.props.customer.car_insurance[i].claim[j]))
+                    }
+                }
             }
         }
 
-        for (let i = 0; i < this.props.customer.home_insurance.length; i++) {
-            items.push(this.renderHomePolicy(this.props.customer.home_insurance[i]))
-            for (let j = 0; j < this.props.customer.home_insurance[i].claim.length; j++) {
-                items.push(this.renderHomeClaim(this.props.customer.home_insurance[i].claim[j]))
+        if (this.props.customer.home_insurance) {
+            for (let i = 0; i < this.props.customer.home_insurance.length; i++) {
+                items.push(this.renderHomePolicy(this.props.customer.home_insurance[i]))
+                if (this.props.customer.home_insurance[i].claim) {
+                    for (let j = 0; j < this.props.customer.home_insurance[i].claim.length; j++) {
+                        items.push(this.renderHomeClaim(this.props.customer.home_insurance[i].claim[j]))
+                    }
+                }
             }
         }
 

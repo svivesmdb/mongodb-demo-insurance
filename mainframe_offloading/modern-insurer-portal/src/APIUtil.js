@@ -1,6 +1,6 @@
 import sleep from 'sleep-promise'
 
-const api = "http://localhost:8080"
+const api = "http://ec2-18-197-31-168.eu-central-1.compute.amazonaws.com:8081"
 
 const headers = {
     'Accept': 'application/json'
@@ -13,17 +13,17 @@ const headersForJSONPayload = {
 
 export const fetchPolicies = (type) =>
     sleep(3000)(fetch(`${api}/policies?type=${type}`, { headers })
-    .then(res => res.json()))
+        .then(res => res.json()))
 
 export const fetchCustomers = () =>
     sleep(1000)(fetch(`${api}/v2/customer`, { headers })
-    .then(res => res.json()))
+        .then(res => res.json()))
 
 export const createPolicy = (policy, type) => {
     // Server expects form data, converting JSON to form data
     const formData = Object.keys(policy).map((key) => {
         return encodeURIComponent(key) + '=' + encodeURIComponent(policy[key]);
-      }).join('&');
+    }).join('&');
 
 
     console.log("createPolicy payload ", formData)

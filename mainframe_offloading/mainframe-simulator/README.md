@@ -5,7 +5,7 @@ By default the mainframe simulator will work on the provided sample data directo
 However this can be changed with the following options:
 
   - **mainframe.repository.base**:: The directory to save the created policies/claims *(default: `sample-data/mainframe`)*
-  - **mainframe.repository.cdc**:: The directory to save a copy of the json files for the cdc process *(default: `sample-data/cdc`)* 
+  - **mainframe.repository.cdc**:: The directory to save a copy of the json files for the cdc process *(default: `sample-data/cdc`)*
 
 Assuming the following configurations are used, the following folder structure will be observed:
 
@@ -47,8 +47,7 @@ Notes:
 * Assumption is that the first command is executed from the directory `<repo-root>/mainframe_offloading/mainframe-simulator`
 
 ```
-host$ docker run --rm -it -p 8080:8080 -p 8001:8001 -v $(pwd):/home/app maven:3.5-jdk-8 /bin/bash
-container$ cd /home/app
+host$ docker run --name maven-container --rm -it -p 8080:8080 -p 8001:8001 -v $(pwd):/home/app -w /home/app maven:3.5-jdk-8 /bin/bash
 container$ mvn spring-boot:run
 ```
 
@@ -58,7 +57,27 @@ In case you want to debug run the application with
 mvn spring-boot:run -Drun.jvmArguments="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8001
 ```
 
-instead and attach a remote debugger from your IDE.
+and attach a remote debugger from your IDE.
+
+## Package as image
+
+Create the image
+
+```
+host$ docker run --name maven-container --rm -v $(pwd):/home/app -w /home/app maven:3.5-jdk-8 /bin/bash -c "mvn package"
+host$ docker build -t mainframe-simulator .
+```
+
+Run the container
+
+```
+host$ docker run -d --rm \
+--name mainframe-simulator \
+-p 8080:8080 \
+-v $(pwd)/sample-data:/home/insurance-data \
+-e mainframe.repository.base=/home/insurance-data/mainframe \
+mainframe-simulator
+```
 
 ## Accessing the service
 
@@ -104,7 +123,7 @@ And a reponse will simply be the same document with a policy ID
     "type": "home",
     "customer_id": "C000029628"
 }
- 
+
  ```
 
 An example call in Postman:

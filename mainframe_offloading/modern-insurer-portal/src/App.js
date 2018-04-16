@@ -39,6 +39,7 @@ class App extends Component {
               <h1>Insurance 360°</h1>
             </div>
             <div>
+              <Route exact path="/" component={CustomerList} />
               <Route exact path="/customers" component={CustomerList} />
               <Route exact path="/customers/:id" component={CustomerDetail} />
             </div>
