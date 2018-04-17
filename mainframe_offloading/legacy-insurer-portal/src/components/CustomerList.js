@@ -1,14 +1,33 @@
 import React, { Component } from 'react'
 import ReactTable from 'react-table'
 import 'react-table/react-table.css'
-import { Redirect } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { fetchCustomers } from '../APIUtil'
+import { addCustomers } from '../actions'
 
 class CustomerList extends Component {
 
   state = {
-    customerClicked: false,
-    customer_id: null
+    loading: true
+  }
+
+  componentDidMount() {
+    fetchCustomers().then((data) => {
+      console.log(data);
+      this.props.dispatch(addCustomers(data))
+    });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.customers) {
+      this.setState(
+        {
+          ...this.state,
+          loading: false
+        }
+      )
+    }
   }
 
   render() {
@@ -38,12 +57,18 @@ class CustomerList extends Component {
       className: "policies-table-td"
     }]
 
+    if (this.state.loading) {
+      return (
+        <div>
+          <Link to='/' className="menu-link">Back to menu</Link>
+          <div className="loading" />
+        </div>
+      )
+    }
 
-
-    if (this.state.policyClicked === true) {
-      return <Redirect push to={'/policies/'.concat(this.state.policy_id)} />
-    } else return (
+    return (
       <div className="policies-table">
+        <Link to='/' className="menu-link">Back to menu</Link>
         <ReactTable
           data={this.props.customers}
           columns={columns}

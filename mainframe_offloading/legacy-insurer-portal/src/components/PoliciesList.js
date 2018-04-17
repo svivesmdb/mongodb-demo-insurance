@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { fetchPolicies } from '../APIUtil'
-import { addCarPolicies, addHomePolicies } from '../actions'
+import { addCarPolicies } from '../actions'
 import CarPoliciesList from './CarPoliciesList'
 import { Link } from 'react-router-dom'
 import qs from 'qs';
@@ -22,7 +22,6 @@ class PoliciesList extends Component {
         fetchPolicies(policyType).then((data) => {
             console.log(data);
             if (policyType === "motor") this.props.dispatch(addCarPolicies(data))
-            if (policyType === "home") this.props.dispatch(addHomePolicies(data))
         });
     }
 

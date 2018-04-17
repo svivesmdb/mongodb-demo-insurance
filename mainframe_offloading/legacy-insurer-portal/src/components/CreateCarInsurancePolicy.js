@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
-import { Button, Grid, Container } from 'semantic-ui-react'
+import { Grid, Container } from 'semantic-ui-react'
 import { createPolicy } from '../APIUtil'
 import { Redirect, Link } from 'react-router-dom'
 import { currentDate } from '../utils'
+import { connect } from 'react-redux'
+import { addCarPolicy } from '../actions'
 
-export default class NewCarInsurancePolicy extends Component {
+class NewCarInsurancePolicy extends Component {
 
     constructor(props) {
         super(props);
@@ -22,19 +24,24 @@ export default class NewCarInsurancePolicy extends Component {
     }
 
     handleSubmit = (event) => {
-        console.log("Calling API with ", this.state.policy)
-        createPolicy(this.state.policy, 'motor').then(value => this.setState({
-            policy: value,
-            policy_created: true
+        if (this.validate() === 0) {
+            console.log("Calling API with ", this.state.policy)
+            createPolicy(this.state.policy, 'motor')
+                .then(value => {
+                    this.props.dispatch(addCarPolicy(value))
+                    this.setState({
+                        policy: value,
+                        policy_created: true
+                    })
+                })
         }
-        ))
         event.preventDefault();
     }
 
     validate = () => {
         let validation_errors = []
-        if (/CU_\d+/.test(this.state.policy.customer_id) === false) {
-            validation_errors.push("Customer ID does not match regular expression 'CU_\\d+'")
+        if (/C\d{9,9}/.test(this.state.policy.customer_id) === false) {
+            validation_errors.push("Customer ID does not match regular expression 'C\\d{9,9}'")
         }
         if (/\d{4}-\d{2}-\d{2}/.test(this.state.policy.cover_start) === false) {
             validation_errors.push("Settled Date does not match regular expression '\\d{4}-\\d{2}-\\d{2}'")
@@ -49,6 +56,7 @@ export default class NewCarInsurancePolicy extends Component {
             validation_errors.push("Gross Premium does not match regular expression '\\d+'")
         }
         this.setState({ validation_errors })
+        return validation_errors.length
     }
 
     handleChange = (event) => {
@@ -61,7 +69,7 @@ export default class NewCarInsurancePolicy extends Component {
 
     render() {
         if (this.state.policy_created === true) {
-            return <Redirect to={'/policies/'.concat(this.state.policy.policy_id)} />
+            return <Redirect to={'/policies/'.concat(this.state.policy.policy_id, "?success")} />
         }
 
         // policy_id and last_change will be created by server
@@ -106,3 +114,5 @@ export default class NewCarInsurancePolicy extends Component {
     }
 
 }
+
+export default connect()(NewCarInsurancePolicy)

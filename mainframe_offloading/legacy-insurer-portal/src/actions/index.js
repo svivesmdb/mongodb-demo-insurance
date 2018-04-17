@@ -1,6 +1,7 @@
 export const ADD_CAR_POLICIES = 'ADD_CAR_POLICIES'
-export const ADD_HOME_POLICIES = 'ADD_HOME_POLICIES'
 export const ADD_CUSTOMERS = 'ADD_CUSTOMERS'
+export const ADD_CAR_POLICY = 'ADD_CAR_POLICY'
+export const ADD_CAR_CLAIM = 'ADD_CAR_CLAIM'
 
 export function addCarPolicies(policies) {
     return {
@@ -9,10 +10,24 @@ export function addCarPolicies(policies) {
     }
 }
 
-export function addHomePolicies(policies) {
+export function fetchCarPolicy(policies) {
     return {
-        type: ADD_HOME_POLICIES,
+        type: ADD_CAR_POLICIES,
         policies
+    }
+}
+
+export function addCarPolicy(policy) {
+    return {
+        type: ADD_CAR_POLICY,
+        policy
+    }
+}
+
+export function addCarClaim(claim) {
+    return {
+        type: ADD_CAR_CLAIM,
+        claim
     }
 }
 
