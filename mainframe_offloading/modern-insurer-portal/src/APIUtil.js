@@ -1,6 +1,6 @@
 import sleep from 'sleep-promise'
 
-const api = "http://ec2-18-197-31-168.eu-central-1.compute.amazonaws.com:8081"
+const api = "http://localhost:8081"
 
 const headers = {
     'Accept': 'application/json'

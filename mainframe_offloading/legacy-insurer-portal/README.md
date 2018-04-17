@@ -33,7 +33,7 @@ Open a browser pointing at http://localhost:3000/
 In order to create a production build run the following command from the directory https://github.com/ckurze/mongodb-demo-insurance/tree/master/mainframe_offloading/legacy-insurer-portal. This will create a folder named build
 
 ```
-host$ docker run -it --rm -v $(pwd):/home/app -w /home/app -p 3000:3000  node:9.5 /bin/bash -c "npm install; npm run build"
+host$ docker run -it --rm -v $(pwd):/home/app -w /home/app node:9.5 /bin/bash -c "npm install; npm run build"
 host$ tree -L 2 build/
 build/
 ├── asset-manifest.json

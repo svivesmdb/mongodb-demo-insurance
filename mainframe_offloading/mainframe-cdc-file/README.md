@@ -1,4 +1,3 @@
-
 # mainframe-cdc-file
 
 This application polls the `mainframe-simulator` directory and adds the content of new JSON files to a MongoDB collection named `customer`.
@@ -15,7 +14,7 @@ host$ docker run --name maven-container --rm -w /home/app -v $(pwd):/home/app ma
 With Maven 3.5 and JDK 8 installed locally
 
 ```
-host$ cd <root>/mainframe_offloading/mainframe-cdc-file
+host$ cd <repo-root>/mainframe_offloading/mainframe-cdc-file
 host$ mvn clean package
 ```
 
@@ -27,13 +26,35 @@ You have to set the following environment variables before running the service
  - **SPRING_DATA_MONGODB_URI**:: MongoDB URI
  - **INBOUND_READ_PATH**:: The directory to poll
 
-### Run the application on the host (i.e. not as docker container)
+### Run the application on the host
 
 ```
 host$ export SPRING_DATA_MONGODB_DATABASE=insurance
 host$ export SPRING_DATA_MONGODB_URI=mongodb+srv://<username>:<password>@<host>
-host$ export INBOUND_READ_PATH=/data/mainframe
+host$ export INBOUND_READ_PATH=<repo-root>/mainframe-offloading/mainframe-simulator/sample-data/mainframe/
 host$ java -jar target/mainframe-cdc-file-0.0.1.jar
+```
+
+### Run the application with docker
+
+Build the image
+
+```
+host$ cd <repo-root>/mainframe_offloading/mainframe-cdc-file
+host$ docker build -t mainframe-cdc .
+```
+
+Run the container
+
+```
+host$ cd <repo-root>/mainframe_offloading
+docker run  --rm \
+--name mainframe-cdc \
+-v $(pwd)/mainframe-simulator/sample-data:/home/insurance-data \
+-e SPRING_DATA_MONGODB_DATABASE=insurance \
+-e SPRING_DATA_MONGODB_URI=mongodb+srv://insurance:demo@insurancecluster-b6yo1.mongodb.net \
+-e INBOUND_READ_PATH=/home/insurance-data/mainframe \
+mainframe-cdc
 ```
 
 ## Example

@@ -293,5 +293,4 @@ public class SimulatorController {
         }
         return new ResponseEntity(newClaim, new HttpHeaders(), HttpStatus.OK);
     }
-
 }

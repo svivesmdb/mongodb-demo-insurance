@@ -23,6 +23,11 @@ mongodb-demo-insurance
 ec2$ pwd
 /home/ec2-user
 ```
+
+## Database preparation
+
+You can run MongoDB on the VM itself or for example use [MongoDB Atlas](https://www.mongodb.com/cloud/atlas). The rest of this setup instructions assumes that the db is named `insurance` with one collection named `customer`.
+
 ## Run the mainframe simulator
 
 Change to the directory of the `mainframe-simulator`
@@ -52,10 +57,11 @@ Run the `mainframe-simulator`
 ec2$ docker run -d --rm \
 --name mainframe-simulator \
 -p 8080:8080  \
--v $(pwd)/sample-data:/home/insurance-data \
--e mainframe.repository.base=/home/insurance-data/mainframe \
+-v /home/ec2-user/mongodb-demo-insurance/mainframe_offloading/mainframe-simulator/sample-data:/home/insurance-data \
+-e DATA_BASE_DIRECTORY=/home/insurance-data \
 mainframe-simulator
 ```
+
 The `mainframe-simulator` is then available on `http://<public ip>:8080`
 
 ## Run the insurance data service
@@ -93,6 +99,51 @@ insurance-data-service
 
 The `insurance-data-service` is then available on `http://<public ip>:8081`
 
+## Run the CDC process
+
+Change to the directory of the `cdc process`
+
+```
+ec2$ cd /home/ec2-user/mongodb-demo-insurance/mainframe_offloading/mainframe-cdc-file
+```
+
+Create the `mainframe-cdc-file` jar
+
+```
+ec2$ docker run --name maven-container --rm -w /home/app -v $(pwd):/home/app maven:3.5-jdk-8 /bin/bash -c "mvn clean package"
+```
+
+Package the jar in a docker container
+
+```
+docker build -t mainframe-cdc .
+```
+
+Run the `mainframe-cdc-file`
+
+*NOTE: REPLACE THE VALUES FOR THE `SPRING_DATA_MONGODB_URI` and `SPRING_DATA_MONGODB_DATABASE`*
+
+```
+docker run  --rm -d \
+--name mainframe-cdc \
+-v /home/ec2-user/mongodb-demo-insurance/mainframe_offloading/mainframe-simulator/sample-data:/home/insurance-data \
+-e SPRING_DATA_MONGODB_DATABASE=insurance \
+-e SPRING_DATA_MONGODB_URI=mongodb+srv://<username>:<password>@<host> \
+-e INBOUND_READ_PATH=/home/insurance-data/mainframe \
+mainframe-cdc
+```
+
+## Sanity check
+
+You should now have 3 containers running:
+
+```
+ec2$ docker ps --no-trunc --format 'table {{.Names}}\t{{.Command}}\t{{.Ports}}\t{{.Mounts}}'
+NAMES                    COMMAND                                        PORTS                    MOUNTS
+mainframe-cdc            "java -jar mainframe-cdc-file-0.0.1.jar"                                /home/ec2-user/mongodb-demo-insurance/mainframe_offloading/mainframe-simulator/sample-data
+mainframe-simulator      "java -jar mainframe-simulator-0.0.1.jar"      0.0.0.0:8080->8080/tcp   /home/ec2-user/mongodb-demo-insurance/mainframe_offloading/mainframe-simulator/sample-data
+insurance-data-service   "java -jar insurance-data-service-0.0.1.jar"   0.0.0.0:8081->8080/tcp
+```
 ## Deploy the legacy-insurer-portal
 
 Before building the package to be uploaded to S3, change the endpoint of the API server. For this deployment option it will be the public IP of the VM prepared in the previous steps.
