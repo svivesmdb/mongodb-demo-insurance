@@ -88,7 +88,7 @@ public class DirectoryLister {
         LOGGER.log(Level.INFO, "getNextPolicyID: looking into " + path);
         String policyID = "PC_000000001";
         File[] policies = new File(path).listFiles((d, s) -> {
-            return s.toLowerCase().startsWith("pc_") && (s.toLowerCase().endsWith("json"));
+            return s.toLowerCase().startsWith("pc_");
         });
         LOGGER.log(Level.INFO, "getNextPolicyID: found " + policies.length + " policies");
         if (policies != null && policies.length > 0) {
