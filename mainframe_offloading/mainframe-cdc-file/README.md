@@ -1,21 +1,44 @@
 
 # mainframe-cdc-file
 
-This application polls a directory and sends new JSON files contents to MongoDB.
+This application polls the `mainframe-simulator` directory and adds the content of new JSON files to a MongoDB collection named `customer`.
 
-## Options
+## Build the application
 
+Using docker (preferred)
 
-By default the service will start listening on the default mongodb port: 27017 on localhost
-However this can be changed with the following options:
+```
+host$ cd <root>/mainframe_offloading/mainframe-cdc-file
+host$ docker run --name maven-container --rm -w /home/app -v $(pwd):/home/app maven:3.5-jdk-8 /bin/bash -c "mvn clean package"
+```
 
- - **spring.data.mongodb.database**:: The MongoDB database name (default: `**mainframe**`)
- - **spring.data.mongodb.host**:: Mongo database Host. (default: `**localhost**`)
- - **spring.data.mongodb.host**:: MongoDB port. (default: `**27017**`)
- - **inbound.read.path**:: The directory to poll *(default: `**<none>**`)*
- 
-Within that mongoDB instance, the service will look into a colloction named: **customer** for customer/policies/claims info.
+With Maven 3.5 and JDK 8 installed locally
 
+```
+host$ cd <root>/mainframe_offloading/mainframe-cdc-file
+host$ mvn clean package
+```
+
+## Run the application
+
+You have to set the following environment variables before running the service
+
+ - **SPRING_DATA_MONGODB_DATABASE**:: The MongoDB database name
+ - **SPRING_DATA_MONGODB_URI**:: MongoDB URI
+ - **INBOUND_READ_PATH**:: The directory to poll
+
+### Run the application on the host (i.e. not as docker container)
+
+```
+host$ export SPRING_DATA_MONGODB_DATABASE=insurance
+host$ export SPRING_DATA_MONGODB_URI=mongodb+srv://<username>:<password>@<host>
+host$ export INBOUND_READ_PATH=/data/mainframe
+host$ java -jar target/mainframe-cdc-file-0.0.1.jar
+```
+
+## Example
+
+Within that mongoDB instance, the service will look into a collection named: **customer** for customer/policies/claims info.
 
 Below is an example of final document in MongoDB
  ```
@@ -119,30 +142,4 @@ Below is an example of final document in MongoDB
  }
 
  ```
-
-
-
-## Build
-
-```
-$ mvn clean package
-
-```
-
-## Run
-
-Assuming you have mongodb running locally on localhost:27017
-
-```
-$ java -jar target/mainframe-cdc-file-0.0.1.jar --inbound.read.path=/data/mainframe
-```
-
-
-Assuming you have mongodb running on host: 52.10.10.10 and port 27000
-
-```
- $ java -jar target/mainframe-cdc-file-0.0.1.jar --inbound.read.path=/data/mainframe --spring.data.mongodb.host=52.10.10.10 --spring.data.mongodb.port=27000
-```
-
-
 
