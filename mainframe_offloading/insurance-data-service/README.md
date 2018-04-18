@@ -20,7 +20,7 @@ In case you have no MongoDB instance running please refer to the instructions at
 By default, the service will try to connect to a mongodb instance by looking up environment variables:
 
 ```
-export SPRING_DATA_MONGODB_URI=mongodb+srv://insurance:demo@insurancecluster-b6yo1.mongodb.net/test
+export SPRING_DATA_MONGODB_URI=mongodb+srv://<username>:<password>@<host>
 export SPRING_DATA_MONGODB_DATABASE=insurance
 ```
 
