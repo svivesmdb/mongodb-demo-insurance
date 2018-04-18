@@ -1,6 +1,4 @@
-import sleep from 'sleep-promise'
-
-const api = "http://localhost:8081"
+const api = "http://localhost:8080"
 
 const headers = {
     'Accept': 'application/json'
@@ -12,12 +10,16 @@ const headersForJSONPayload = {
 }
 
 export const fetchPolicies = (type) =>
-    sleep(3000)(fetch(`${api}/policies?type=${type}`, { headers })
-        .then(res => res.json()))
+    fetch(`${api}/policies?type=${type}`, { headers })
+        .then(res => res.json())
 
 export const fetchCustomers = () =>
-    sleep(1000)(fetch(`${api}/v2/customer`, { headers })
-        .then(res => res.json()))
+    fetch(`${api}/v2/customer`, { headers })
+        .then(res => res.json())
+
+export const fetchCustomer = (customer_id) =>
+    fetch(`${api}/v2/customer/${customer_id}`, { headers })
+        .then(res => res.json())
 
 export const createPolicy = (policy, type) => {
     // Server expects form data, converting JSON to form data

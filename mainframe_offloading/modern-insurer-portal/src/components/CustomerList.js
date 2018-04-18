@@ -3,6 +3,8 @@ import ReactTable from 'react-table'
 import 'react-table/react-table.css'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { fetchCustomers } from '../APIUtil'
+import { addCustomers } from '../actions'
 
 class CustomerList extends Component {
 
@@ -13,8 +15,12 @@ class CustomerList extends Component {
 
   componentDidMount() {
     console.log("Component did mount ", this.state);
-  }
+    fetchCustomers().then((data) => {
+      console.log(data);
+      this.props.dispatch(addCustomers(data))
+    });
 
+  }
 
   render() {
     const columns = [{

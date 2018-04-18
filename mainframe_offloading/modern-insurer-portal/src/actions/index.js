@@ -1,6 +1,7 @@
 export const ADD_CAR_POLICIES = 'ADD_CAR_POLICIES'
 export const ADD_HOME_POLICIES = 'ADD_HOME_POLICIES'
 export const ADD_CUSTOMERS = 'ADD_CUSTOMERS'
+export const ADD_CUSTOMER = 'ADD_CUSTOMER'
 
 export function addCarPolicies(policies) {
     return {
@@ -22,3 +23,11 @@ export function addCustomers(customers) {
         customers
     }
 }
+
+export function addCustomer(customer) {
+    return {
+        type: ADD_CUSTOMER,
+        customer
+    }
+}
+

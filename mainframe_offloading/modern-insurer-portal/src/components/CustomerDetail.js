@@ -1,17 +1,32 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { fetchCustomers } from './../APIUtil';
-import { addCustomers } from './../actions';
+import { fetchCustomer } from './../APIUtil';
+import { addCustomer } from './../actions';
+import { Redirect } from 'react-router-dom'
 
 class CustomerDetail extends Component {
 
+    state = {
+        loading: true
+    }
+
     componentDidMount() {
         if (this.props.customer === undefined) {
-            console.log("CustomerDetail componentDidMount")
-            fetchCustomers().then((data) => {
+            console.log("CustomerDetail componentDidMount fetching customer", this.props.match.params.id)
+            fetchCustomer(this.props.match.params.id).then((data) => {
                 console.log(data);
-                this.props.dispatch(addCustomers(data))
+                this.props.dispatch(addCustomer(data))
+            }).catch(() => {
+                console.log("error fetching customer, this.props customer is undefined ");
+                this.setState({ loading: false })
             });
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        console.log('componentWillReceiveProps', nextProps)
+        if (nextProps.customer) {
+            this.setState({ loading: false })
         }
     }
 
@@ -21,12 +36,12 @@ class CustomerDetail extends Component {
             <div className="row"><div className="key">Car policy ID</div><div className="value forty-margin">{carPolicy.policy_id}</div></div>
             <div className="row"><div className="key">Car model</div><div className="value forty-margin">{carPolicy.car_model}</div></div>
             <div className="row"><div className="key">Cover Start</div><div className="value forty-margin">{carPolicy.cover_start}</div></div>
-            <div className="row"><div className="key">Annual premium</div><div className="value forty-margin">{carPolicy.last_annual_premium_gross.high}</div></div>
+            <div className="row"><div className="key">Annual premium</div><div className="value forty-margin">{carPolicy.last_ann_premium_gross}</div></div>
             <div className="row"><div className="key">Max Damage Covered</div><div className="value forty-margin">{carPolicy.max_covered.high}</div></div>
         </div>)
 
     renderCarClaim = carClaim => (
-        <div className="tile contact claim-tile">
+        <div className="tile contact claim-tile" key={carClaim.claim_date}>
             <div className="header">Claim</div>
             <div className="row"><div className="key">Claim Date</div><div className="value forty-margin">{carClaim.claim_date}</div></div>
             <div className="row"><div className="key">Claim Reason </div><div className="value forty-margin">{carClaim.claim_reason}</div></div>
@@ -44,11 +59,11 @@ class CustomerDetail extends Component {
             <div className="row"><div className="key">Cover Start</div><div className="value forty-margin">{homePolicy.cover_start}</div></div>
             <div className="row"><div className="key">Annual premium</div><div className="value forty-margin">{homePolicy.last_annual_premium_gross.high}</div></div>
             <div className="row"><div className="key">Coverage</div>
-                {homePolicy.coverage.map(e => <div className="value forty-margin">{e.type}</div>)}</div>
+                {homePolicy.coverage.map(e => <div className="value forty-margin" key={e.type}>{e.type}</div>)}</div>
         </div>)
 
     renderHomeClaim = homeClaim => (
-        <div className="tile contact claim-tile">
+        <div className="tile contact claim-tile" key={homeClaim.claim_date}>
             <div className="header">Claim</div>
             <div className="row"><div className="key">Claim date</div><div className="value forty-margin">{homeClaim.claim_date}</div></div>
             <div className="row"><div className="key">Claim Reason </div><div className="value forty-margin">{homeClaim.claim_reason}</div></div>
@@ -60,10 +75,14 @@ class CustomerDetail extends Component {
     )
 
     render() {
+        if (this.state.loading) return (<div>Loading</div>)
+
         if (this.props.customer === undefined) {
-            return (<div></div>)
+            console.log("CustomerDetail render, this.props.customer is ", this.props.customer)
+            return (<Redirect to={'/customer-lookup?error'} />)
         }
 
+        console.log("CustomerDetail render, this.props.customer is ", this.props.customer)
         let items = []
         if (this.props.customer.car_insurance) {
             for (let i = 0; i < this.props.customer.car_insurance.length; i++) {
@@ -121,14 +140,15 @@ class CustomerDetail extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    console.log("state.customers.length", state.customers.length)
     let newProps = {
         customer: state.customers.find(e => e.customer_id === ownProps.match.params.id)
     }
 
     if (newProps.customer !== undefined) {
+        console.log("CustomerDetail mapStateToProps, customer is ", newProps.customer.customer_id)
         return newProps
     } else {
+        console.log("CustomerDetail mapStateToProps, customer is undefined")
         return {}
     }
 

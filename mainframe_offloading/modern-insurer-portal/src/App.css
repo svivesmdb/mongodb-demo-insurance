@@ -21,6 +21,21 @@ body {
   padding: 20px;
 }
 
+.customerLookupContainer {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
+  padding: 20px;
+  width: 800px;
+  border: black;
+  border-style: solid;
+  border-width: 1px;
+}
+
+.customerLookupContainer input {
+  margin: 5px;
+}
+
 .tile {
   background-color: white;
   width: 90%;
@@ -119,18 +134,16 @@ body {
 }
 
 input[type=text] {
-  color: #41FF00;
-  border-style:solid;
-  border-color:black;
-  background-color: black;
-  border-bottom-color: white;
-  font-family: 'VT323', 'Courier New', Courier, monospace;
-  width: 100%
+  border-bottom-color: black;
+  border-top-width: 0px;
+  border-left-width: 0px;
+  border-right-width: 0px;
+  outline: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
 }
 
 input[type=text]:focus {
-  color: #41FF00;
-  border-color:black;
   outline: none;
   -webkit-box-shadow: none;
   box-shadow: none;

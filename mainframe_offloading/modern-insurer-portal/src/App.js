@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import {
   BrowserRouter as Router,
@@ -7,19 +6,11 @@ import {
   Link
 } from 'react-router-dom'
 import CustomerDetail from './components/CustomerDetail';
-import { fetchCustomers } from './APIUtil';
-import { addCustomers } from './actions';
 import { connect } from 'react-redux'
 import CustomerList from './components/CustomerList';
+import CustomerLookup from './components/CustomerLookup';
 
 class App extends Component {
-
-  componentDidMount() {
-    fetchCustomers().then((data) => {
-      console.log(data);
-      this.props.dispatch(addCustomers(data))
-    });
-  }
 
   render() {
     return (
@@ -32,6 +23,9 @@ class App extends Component {
                   <li>
                     <Link to="/customers">Customers</Link>
                   </li>
+                  <li>
+                    <Link to="/customer-lookup">Look up customer</Link>
+                  </li>
                 </ul>
               </nav>
             </div>
@@ -42,6 +36,7 @@ class App extends Component {
               <Route exact path="/" component={CustomerList} />
               <Route exact path="/customers" component={CustomerList} />
               <Route exact path="/customers/:id" component={CustomerDetail} />
+              <Route exact path="/customer-lookup" component={CustomerLookup} />
             </div>
           </div>
         </Router>
