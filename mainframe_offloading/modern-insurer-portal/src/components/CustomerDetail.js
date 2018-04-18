@@ -10,17 +10,27 @@ class CustomerDetail extends Component {
         loading: true
     }
 
+    handleSubmit = (event) => {
+        fetchCustomer(this.props.match.params.id).then((data) => {
+            console.log(data);
+            this.props.dispatch(addCustomer(data))
+            this.setState({ loading: false })
+        }).catch(() => {
+            console.log("error fetching customer, this.props customer is undefined ");
+            this.setState({ loading: false })
+        });
+    }
+
     componentDidMount() {
-        if (this.props.customer === undefined) {
-            console.log("CustomerDetail componentDidMount fetching customer", this.props.match.params.id)
-            fetchCustomer(this.props.match.params.id).then((data) => {
-                console.log(data);
-                this.props.dispatch(addCustomer(data))
-            }).catch(() => {
-                console.log("error fetching customer, this.props customer is undefined ");
-                this.setState({ loading: false })
-            });
-        }
+        console.log("CustomerDetail componentDidMount fetching customer", this.props.match.params.id)
+        fetchCustomer(this.props.match.params.id).then((data) => {
+            console.log(data);
+            this.props.dispatch(addCustomer(data))
+            this.setState({ loading: false })
+        }).catch(() => {
+            console.log("error fetching customer, this.props customer is undefined ");
+            this.setState({ loading: false })
+        });
     }
 
     componentWillReceiveProps(nextProps) {
@@ -37,7 +47,7 @@ class CustomerDetail extends Component {
             <div className="row"><div className="key">Car model</div><div className="value forty-margin">{carPolicy.car_model}</div></div>
             <div className="row"><div className="key">Cover Start</div><div className="value forty-margin">{carPolicy.cover_start}</div></div>
             <div className="row"><div className="key">Annual premium</div><div className="value forty-margin">{carPolicy.last_ann_premium_gross}</div></div>
-            <div className="row"><div className="key">Max Damage Covered</div><div className="value forty-margin">{carPolicy.max_covered.high}</div></div>
+            <div className="row"><div className="key">Max Damage Covered</div><div className="value forty-margin">{carPolicy.max_coverd}</div></div>
         </div>)
 
     renderCarClaim = carClaim => (
@@ -45,9 +55,9 @@ class CustomerDetail extends Component {
             <div className="header">Claim</div>
             <div className="row"><div className="key">Claim Date</div><div className="value forty-margin">{carClaim.claim_date}</div></div>
             <div className="row"><div className="key">Claim Reason </div><div className="value forty-margin">{carClaim.claim_reason}</div></div>
-            <div className="row"><div className="key">Claim Amount</div><div className="value forty-margin">{carClaim.claim_amount.high}</div></div>
+            <div className="row"><div className="key">Claim Amount</div><div className="value forty-margin">{carClaim.claim_amount}</div></div>
             <div className="row"><div className="key">Settled Date</div><div className="value forty-margin">{carClaim.settled_date}</div></div>
-            <div className="row"><div className="key">Settled Amount</div><div className="value forty-margin">{carClaim.settled_amount.high}</div></div>
+            <div className="row"><div className="key">Settled Amount</div><div className="value forty-margin">{carClaim.settled_amount}</div></div>
         </div>
     )
 
@@ -57,7 +67,7 @@ class CustomerDetail extends Component {
             <div className="row"><div className="key">Home policy ID</div><div className="value forty-margin">{homePolicy.policy_id}</div></div>
             <div className="row"><div className="key">Status</div><div className="value forty-margin">{homePolicy.policy_status}</div></div>
             <div className="row"><div className="key">Cover Start</div><div className="value forty-margin">{homePolicy.cover_start}</div></div>
-            <div className="row"><div className="key">Annual premium</div><div className="value forty-margin">{homePolicy.last_annual_premium_gross.high}</div></div>
+            <div className="row"><div className="key">Annual premium</div><div className="value forty-margin">{homePolicy.last_annual_premium_gross}</div></div>
             <div className="row"><div className="key">Coverage</div>
                 {homePolicy.coverage.map(e => <div className="value forty-margin" key={e.type}>{e.type}</div>)}</div>
         </div>)
@@ -67,10 +77,10 @@ class CustomerDetail extends Component {
             <div className="header">Claim</div>
             <div className="row"><div className="key">Claim date</div><div className="value forty-margin">{homeClaim.claim_date}</div></div>
             <div className="row"><div className="key">Claim Reason </div><div className="value forty-margin">{homeClaim.claim_reason}</div></div>
-            <div className="row"><div className="key">Claim Amount</div><div className="value forty-margin">{homeClaim.claim_amount.high}</div></div>
+            <div className="row"><div className="key">Claim Amount</div><div className="value forty-margin">{homeClaim.claim_amount}</div></div>
             <div className="row"><div className="key">Type</div><div className="value forty-margin">{homeClaim.claim_type}</div></div>
             <div className="row"><div className="key">Settled Date</div><div className="value forty-margin">{homeClaim.settled_date}</div></div>
-            <div className="row"><div className="key">Settled Amount</div><div className="value forty-margin">{homeClaim.settled_amount.high}</div></div>
+            <div className="row"><div className="key">Settled Amount</div><div className="value forty-margin">{homeClaim.settled_amount}</div></div>
         </div>
     )
 
@@ -107,8 +117,11 @@ class CustomerDetail extends Component {
         }
 
         return (
-            <div className="customer-detail-container">
 
+            <div className="customer-detail-container">
+                <div>
+                    <input type="button" onClick={this.handleSubmit} className="formSubmitButton" value="Refresh" />
+                </div>
                 <div className="tile">
                     <div className="header">Demographics</div>
                     <div className="row"><div className="key">Customer ID</div><div className="value thirty-margin">{this.props.customer.customer_id}</div></div>
@@ -141,7 +154,8 @@ class CustomerDetail extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     let newProps = {
-        customer: state.customers.find(e => e.customer_id === ownProps.match.params.id)
+        customer: state.customers.find(e => e.customer_id === ownProps.match.params.id),
+        customer_id: ownProps.match.params.id
     }
 
     if (newProps.customer !== undefined) {

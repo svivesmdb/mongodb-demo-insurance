@@ -9,8 +9,19 @@ import CustomerDetail from './components/CustomerDetail';
 import { connect } from 'react-redux'
 import CustomerList from './components/CustomerList';
 import CustomerLookup from './components/CustomerLookup';
+import { fetchCustomers } from './APIUtil'
+import { addCustomers } from './actions'
 
 class App extends Component {
+
+  componentDidMount() {
+    console.log("Component did mount ");
+    fetchCustomers().then((data) => {
+      console.log(data);
+      this.props.dispatch(addCustomers(data))
+    });
+  }
+
 
   render() {
     return (
