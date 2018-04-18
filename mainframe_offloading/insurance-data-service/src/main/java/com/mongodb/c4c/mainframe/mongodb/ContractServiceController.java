@@ -19,10 +19,21 @@ public class ContractServiceController {
 
     //GET example.com/v2/customer?limit=100 // returns only home policies
     @RequestMapping(value="/customer", method= RequestMethod.GET)
-    public ResponseEntity<List<Document>> getAllPolicies(HttpServletResponse response,
-                                         @RequestParam(value = "limit", defaultValue = "100") Integer limit) {
+    public ResponseEntity<List<Document>> getCustomers(HttpServletResponse response,
+        @RequestParam(value = "limit", defaultValue = "100") Integer limit) {
 
-        List<Document> result =  mongoDBRepository.getContracts("customer",limit);
+        List<Document> result =  mongoDBRepository.getCustomers(limit);
+
+        return new ResponseEntity(result, new HttpHeaders(), HttpStatus.OK);
+    }
+
+    //GET example.com/v2/customer?limit=100 // returns only home policies
+    @RequestMapping(value="/customer/{customerID}", method= RequestMethod.GET)
+    public ResponseEntity<Document> getCustomer(HttpServletResponse response,
+        @RequestParam(value = "limit", defaultValue = "100") Integer limit,
+        @PathVariable("customerID") String customerID) {
+
+        Document result =  mongoDBRepository.getCustomer(customerID);
 
         return new ResponseEntity(result, new HttpHeaders(), HttpStatus.OK);
     }

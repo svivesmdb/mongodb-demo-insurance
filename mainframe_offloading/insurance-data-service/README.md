@@ -17,13 +17,14 @@ maven-container$ mvn clean package
 
 In case you have no MongoDB instance running please refer to the instructions at [Prepare ephemeral MongoDB](#Prepare-ephemeral-MongoDB)
 
-By default, the service will try to connect to a mongodb instance with the following properties:
+By default, the service will try to connect to a mongodb instance by looking up environment variables:
 
-- **spring.data.mongodb.database**:: The MongoDB database name (default: `**insurance-data**`)
-- **spring.data.mongodb.host**:: MongoDB host (default: `**localhost**`)
-- **spring.data.mongodb.port**:: MongoDB port (default: `**27017**`)
+```
+export SPRING_DATA_MONGODB_URI=mongodb+srv://insurance:demo@insurancecluster-b6yo1.mongodb.net/test
+export SPRING_DATA_MONGODB_DATABASE=insurance
+```
 
-Within that database, the service will look into a collection named: **home** for policies related to home and in collection **motor** for policies related to motors.
+Within that database, the service will look into a collection named **customer**.
 
 In the following command all options are specified explicitly
 
