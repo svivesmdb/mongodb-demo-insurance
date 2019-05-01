@@ -9,7 +9,7 @@ def rowToJSON(row):
         "customer_id": row["customer_id"],
         "cover_start": row["cover_start"],
         "car_model": row["car_model"],
-        "max_coverd": row["max_coverd"],
+        "max_covered": row["max_covered"],
         "last_ann_premium_gross": row["last_ann_premium_gross"],
         "last_change": row["last_change"]
     }

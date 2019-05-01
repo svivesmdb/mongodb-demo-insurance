@@ -15,6 +15,12 @@
 	"CLAIM_REASON" VARCHAR2(30 CHAR), 
 	"LAST_CHANGE" TIMESTAMP (6)
    )  ;
+
+   CREATE SEQUENCE car_claim_seq
+  MINVALUE 1
+  MAXVALUE 9999999999
+  START WITH 200000
+  INCREMENT BY 1;
 --------------------------------------------------------
 --  DDL for Table CAR_CUSTOMER
 --------------------------------------------------------
@@ -35,7 +41,14 @@
 	"CITY" VARCHAR2(100 CHAR), 
 	"COUNTRY_CODE" VARCHAR2(2 CHAR), 
 	"NATIONALITY" VARCHAR2(20 CHAR), 
-	"LAST_CHANGE" TIMESTAMP (6);
+	"LAST_CHANGE" TIMESTAMP (6)
+  );
+
+      CREATE SEQUENCE car_customer_seq
+  MINVALUE 1
+  MAXVALUE 9999999999
+  START WITH 200000
+  INCREMENT BY 1;
 --------------------------------------------------------
 --  DDL for Table CAR_POLICY
 --------------------------------------------------------
@@ -47,4 +60,11 @@
 	"CAR_MODEL" VARCHAR2(255 CHAR), 
 	"MAX_COVERD" NUMBER(10,2), 
 	"LAST_ANN_PREMIUM_GROSS" NUMBER(10,2), 
-	"LAST_CHANGE" TIMESTAMP (6) ;
+	"LAST_CHANGE" TIMESTAMP (6) 
+  );
+
+  CREATE SEQUENCE car_policy_seq
+  MINVALUE 1
+  MAXVALUE 9999999999
+  START WITH 200000
+  INCREMENT BY 1;
