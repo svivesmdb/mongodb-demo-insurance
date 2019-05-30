@@ -66,7 +66,13 @@ public class RDBMSConnection implements IDataSource {
 	 */
 	public void Connect(String user, String pass) {
 		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
+
+			if (connectionString.indexOf("oracle") > -1) {
+				Class.forName("oracle.jdbc.driver.OracleDriver");
+			} else if  (connectionString.indexOf("postgresql") > -1) {
+				Class.forName("org.postgresql.Driver");
+			}
+
 			connection = DriverManager.getConnection(connectionString, user,
 					pass);
 		} 

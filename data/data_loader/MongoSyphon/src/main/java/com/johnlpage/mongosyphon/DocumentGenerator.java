@@ -18,6 +18,9 @@ import org.slf4j.LoggerFactory;
 public class DocumentGenerator {
 	private IDataSource connection = null;
 	private JobDescription jobdesc;
+	private String overridenPort = null;
+	private String overridenTargetPort = null;
+
 	Logger logger;
 	String sectionName;
 	Document section = null;
@@ -34,11 +37,14 @@ public class DocumentGenerator {
 	HashMap<String, DocumentGenerator>docGens=new HashMap<String,DocumentGenerator>();
 
 	DocumentGenerator(JobDescription jobdesc, String section, Document params,
-			Document parentSource) {
+			Document parentSource, String overridenPort, String overridenTargetPort) {
 		logger = LoggerFactory.getLogger(DocumentGenerator.class);
 		this.jobdesc = jobdesc;
 		this.sectionName = section;
 		this.section = jobdesc.getSection(section);
+		this.overridenPort = overridenPort;
+		this.overridenTargetPort = overridenTargetPort;
+
 		if (this.section == null) {
 			logger.error("Cannot find section named '" + section
 					+ "' in config - aborting");
@@ -79,7 +85,9 @@ public class DocumentGenerator {
 		if (targetMode.equalsIgnoreCase("json")
 				|| targetMode.equalsIgnoreCase("xml")) {
 			String uri = target.getString("uri");
+
 			if(uri != null  && uri.startsWith("file://"))
+
 			try {
 				String fname = uri.substring(7, uri.length());
 				logger.info("Writing to "+fname);
@@ -97,7 +105,15 @@ public class DocumentGenerator {
 				|| targetMode.equalsIgnoreCase("update")
 				|| targetMode.equalsIgnoreCase("upsert")
 				|| targetMode.equalsIgnoreCase("save")) {
+
 			String targetURI = target.getString("uri");
+
+			if (this.overridenTargetPort != null) {
+				System.out.println("Port override detected replacing original port by " + this.overridenTargetPort);
+				targetURI = targetURI.replaceAll(":([0-9]+)", ":" + this.overridenTargetPort);
+			}
+
+
 			if (targetURI == null) {
 				logger.error("Target needs a URI in section " + sectionName);
 				System.exit(1);
@@ -123,11 +139,26 @@ public class DocumentGenerator {
 			}
 
 			logger.info("connecting to " + connStr);
+
 			if (connStr.startsWith("mongodb:")) {
+
+				if (this.overridenPort != null) {
+					System.out.println("Port override detected replacing original port by " + this.overridenPort);
+					connStr = connStr.replaceAll(":([0-9]+)", ":" + this.overridenPort);
+				}
+
 				connection = new MongoConnection(connStr,
 						section.containsKey("cached"));
+
 				connection.Connect(null, null); // In the URI
+
 			} else if (connStr.startsWith("jdbc:")) {
+
+				if (this.overridenPort != null) {
+					System.out.println("Port override detected replacing original port by " + this.overridenPort);
+					connStr = connStr.replaceAll(":([0-9]+)", ":" + this.overridenPort);
+				}
+
 				connection = new RDBMSConnection(connStr,
 						section.containsKey("cached"));
 
@@ -163,9 +194,16 @@ public class DocumentGenerator {
 		int lastcount = 0;
 		int currcount = 0;
 		while (doc != null) {
+
 		    for (IDocumentTransformer t : documentTransformers) {
 	            t.transform(doc);
 	        }
+
+		    if (doc.size() == 0) {
+				doc = getNext();
+		    	continue;
+			}
+
 			if (targetMode.equalsIgnoreCase("subsection")) {
 
 				String subsectionNames = section.get("target", Document.class).getString("uri");
@@ -178,8 +216,13 @@ public class DocumentGenerator {
 						subgen.setParams(doc);
 					} else {
 	
-						subgen = new DocumentGenerator(jobdesc, subsectionName, doc,
-								section.get("source", Document.class));
+						subgen = new DocumentGenerator(jobdesc,
+								subsectionName,
+								doc,
+								section.get("source", Document.class),
+								this.overridenPort,
+								this.overridenTargetPort
+						);
 						docGens.put(subsectionName, subgen);
 					}
 					subgen.runConversion();
@@ -397,8 +440,14 @@ public class DocumentGenerator {
 						subgen.setParams(row);
 					} else {
 
-						subgen = new DocumentGenerator(jobdesc, v.substring(1),
-								row, section.get("source", Document.class));
+						subgen = new DocumentGenerator(
+								jobdesc,
+								v.substring(1),
+								row,
+								section.get("source", Document.class),
+								this.overridenPort,
+								this.overridenTargetPort
+						);
 						docGens.put(v.substring(1), subgen);
 					}
 					Document subdoc = subgen.getNext();
@@ -430,8 +479,14 @@ public class DocumentGenerator {
 					subgen = docGens.get(v.substring(1));
 					subgen.setParams(row);
 				} else {
-					subgen = new DocumentGenerator(jobdesc, v.substring(1), row,
-							section.get("source", Document.class));
+					subgen = new DocumentGenerator(
+							jobdesc,
+							v.substring(1),
+							row,
+							section.get("source", Document.class),
+							this.overridenPort,
+							this.overridenTargetPort
+					);
 					docGens.put(v.substring(1), subgen);
 				}
 
@@ -463,6 +518,11 @@ public class DocumentGenerator {
 			}
 
 		}
+
+		if (rval.size() == 0) {
+			//System.out.println("The returned template matching document is zero, you might want to check the config and the column out.");
+		}
+
 		return rval;
 	}
 	

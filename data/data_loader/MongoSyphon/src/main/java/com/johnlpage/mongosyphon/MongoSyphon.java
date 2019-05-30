@@ -1,6 +1,7 @@
 package com.johnlpage.mongosyphon;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.logging.LogManager;
 
 import org.apache.commons.cli.ParseException;
@@ -10,12 +11,8 @@ import org.json.XML;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-//TODO
-//Add update/upsert mode
-//Documentation
-
 public class MongoSyphon {
-	private static final String version = "0.1.1";
+	private static final String version = "0.9";
 	private static CommandLineOptions options;
 	private static JobDescription jobdesc;
 
@@ -41,6 +38,8 @@ public class MongoSyphon {
 			System.exit(1);
 		}
 
+		System.out.println("/////////////// Processing file:" + options.getConfigFile() + "///////////////");
+
 		try {
 			jobdesc = new JobDescription(options.getConfigFile());
 		} catch (FileNotFoundException e) {
@@ -49,11 +48,10 @@ public class MongoSyphon {
 			System.exit(1);
 		}
 
-
-
-		
 		DocumentGenerator generator = new DocumentGenerator(jobdesc, null,
-				null,null);
+				null, null, options.getOverridenPort(), options.getOverridenTargetPort());
+
+
 		//Top level generator we just tell to get on with it
 		generator.runConversion();
 

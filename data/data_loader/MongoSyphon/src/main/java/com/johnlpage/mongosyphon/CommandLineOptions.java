@@ -15,8 +15,11 @@ import org.slf4j.LoggerFactory;
 
 public class CommandLineOptions {
 	private boolean helpOnly = false;
+	private boolean allfiles = false;
 	private String configFile = null;
 	private String newConfigFile = null;
+	private String overridenPort = null;
+	private String overridenTargetPort = null;
 
 	public CommandLineOptions(String[] args) throws ParseException {
 		Logger logger = LoggerFactory.getLogger(CommandLineOptions.class);
@@ -28,6 +31,9 @@ public class CommandLineOptions {
 		cliopt = new Options();
 
 		cliopt.addOption("h", "help", false, "Show Help");
+		cliopt.addOption("a", "all", false, "Add all files");
+		cliopt.addOption("s", "source port override", true, "Override config file source port parameter");
+		cliopt.addOption("t", "target port override", true, "Override config file target port parameter");
 		cliopt.addOption("c", "config", true, "Configuration File");
 		cliopt.addOption("n", "newconfig", true, "Generate new Configuration File");
 	
@@ -39,6 +45,18 @@ public class CommandLineOptions {
 		
 		if (cmd.hasOption("n")) {
 			newConfigFile = cmd.getOptionValue("n");
+		}
+
+		if (cmd.hasOption("a")) {
+			allfiles = true;
+		}
+
+		if (cmd.hasOption("s")) {
+			overridenPort = cmd.getOptionValue("s");
+		}
+
+		if (cmd.hasOption("t")) {
+			overridenTargetPort = cmd.getOptionValue("t");
 		}
 		
 		if (cmd.hasOption("help")) {
@@ -53,6 +71,10 @@ public class CommandLineOptions {
 		return helpOnly;
 	}
 
+	public boolean isAllfiles() {
+		return allfiles;
+	}
+
 
 	public String getNewConfigFile() {
 		return newConfigFile;
@@ -60,5 +82,14 @@ public class CommandLineOptions {
 	
 	public String getConfigFile() {
 		return configFile;
-	}	
+	}
+
+	public String getOverridenPort() {
+		return overridenPort;
+	}
+
+	public String getOverridenTargetPort() {
+		return overridenTargetPort;
+	}
+
 }

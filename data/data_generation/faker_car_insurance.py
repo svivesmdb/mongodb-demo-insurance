@@ -1,4 +1,27 @@
 # -*- coding: utf-8 -*-
+#
+## 3 ### Run AFTER faker customers -- Runs against ORACLE
+#
+## Arguments:
+#   You can pass the number of insurances to generate, the port where oracle
+#   lives (the one of the kubernetes instance) and then
+#   "oracle://{user}:{password}@{sid}"
+
+# ORACLE - Database server authentication details
+host='localhost'
+port=32771
+sid='xe'
+user='system'
+password='mypass'
+write_to_csv_too=False
+
+import sys
+HOW_MANY_CAR_INSURANCES_TO_GENERATE = 200
+if len(sys.argv) > 1 and sys.argv[1]:
+    HOW_MANY_CAR_INSURANCES_TO_GENERATE = int(sys.argv[1])
+if len(sys.argv) > 2 and sys.argv[2]:
+    port = sys.argv[2]
+
 
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
@@ -7,9 +30,10 @@ import csv
 import pymongo
 from pymongo.errors import BulkWriteError
 from faker import Factory
-fake_de = Factory.create('de_DE') 
-fake_at = Factory.create('de_AT') 
-fake_ch = Factory.create('de_CH') 
+
+#fake = Factory.create('de_AT') 
+#fake = Factory.create('de_CH') 
+fake = Factory.create('de_DE') 
 
 from mimesis import Transport
 transport_de = Transport(locale='de')
@@ -29,18 +53,16 @@ import errno
 logging.basicConfig()
 logging.getLogger('sqlalchemy').setLevel(logging.ERROR)
 
-host='192.168.14.200'
-port=1521
-sid='xe'
-user='ckurze'
-password='ckurze'
-sid = cx_Oracle.makedsn(host, port, sid=sid)
 
+sid = cx_Oracle.makedsn(host, port, sid=sid)
 cstr = 'oracle://{user}:{password}@{sid}'.format(
     user=user,
     password=password,
     sid=sid
 )
+
+if len(sys.argv) > 3 and sys.argv[3]:
+    cstr = sys.argv[3]
 
 engine =  create_engine(
     cstr,
@@ -55,13 +77,15 @@ os.environ['NLS_LANG'] = ".AL32UTF8"
 next_claim_number = 0
 
 def main():
-    num_gen = 123456
+    num_gen = HOW_MANY_CAR_INSURANCES_TO_GENERATE
 
-    ls_dates = [fake_de.date_time_between(start_date="-10y", end_date="now", tzinfo=None) for i in range(0,num_gen)]
+    print("Starting to generate " + str( HOW_MANY_CAR_INSURANCES_TO_GENERATE )+ " home insurances for customers")
+
+    ls_dates = [fake.date_time_between(start_date="-10y", end_date="now", tzinfo=None) for i in range(0,num_gen)]
     ls_dates.sort()
 
     ls_customers = []
-    customer_csvfile = open('output/customers__de_at_ch.csv', newline='\n')
+    customer_csvfile = open('output/customers.csv', newline='\n')
     customer_reader = csv.reader(customer_csvfile, delimiter=',', quotechar='"')
     # skip header
     next(customer_reader)
@@ -80,8 +104,9 @@ def main():
     ls_claims = []
 
     for i in range(0, num_gen - 1):
-        if (i % 10000) == 0:
-            print (i)
+        if (i % 1000) == 0:
+            print ("Generating car insurance for customer number: " + str(i))
+
         
         s_policy_number = policy_number(i)
         d_cover_start = ls_dates[i]
@@ -214,8 +239,8 @@ def generate_claims(s_policy_number, d_cover_start, f_sum_insured, ls_claims):
         s_claim_number = claim_number(next_claim_number)
         next_claim_number = next_claim_number + 1
 
-        d_claim_date = fake_de.date_between_dates(date_start=d_cover_start, date_end=datetime.today())
-        d_date_settled = fake_de.date_between_dates(date_start=d_claim_date, date_end=(d_claim_date + relativedelta(months=5)))
+        d_claim_date = fake.date_between_dates(date_start=d_cover_start, date_end=datetime.today())
+        d_date_settled = fake.date_between_dates(date_start=d_claim_date, date_end=(d_claim_date + relativedelta(months=5)))
         f_claim_amount = 0.0
         while f_claim_amount == 0.0:
             f_claim_amount = random.random()

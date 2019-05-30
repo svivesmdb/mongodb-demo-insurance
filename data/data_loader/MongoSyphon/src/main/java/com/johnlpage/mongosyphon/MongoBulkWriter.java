@@ -75,7 +75,7 @@ public class MongoBulkWriter {
 			ops.add(new UpdateOneModel<Document>(find,doc,uo));
 		} else {
 			logger.error("No $find section defined");
-			System.exit(1);
+			//System.exit(1);
 		}
 		FlushOpsIfFull();
 	}

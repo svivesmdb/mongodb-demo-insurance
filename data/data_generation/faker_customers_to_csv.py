@@ -8,9 +8,9 @@ import csv
 import pymongo
 from pymongo.errors import BulkWriteError
 from faker import Factory
-fake_de = Factory.create('de_DE') 
-fake_at = Factory.create('de_AT') 
-fake_ch = Factory.create('de_CH') 
+#fake_de = Factory.create('de_DE') 
+#fake_at = Factory.create('de_AT') 
+fake = Factory.create('de_DE') 
 
 from mimesis import Person, Address
 import mimesis.enums
@@ -28,7 +28,7 @@ import pandas as pd
 def main():
     num_gen = 160453
 
-    ls_dates = [fake_de.date_time_between(start_date="-100y", end_date="-18y", tzinfo=None) for i in range(0,num_gen)]
+    ls_dates = [fake.date_time_between(start_date="-100y", end_date="-18y", tzinfo=None) for i in range(0,num_gen)]
     ls_dates.sort()
 
     ls_customer = []
@@ -70,7 +70,7 @@ def main():
 
     df_customer = pd.DataFrame(ls_customer, columns=ls_columns)
     
-    df_customer.to_csv('output/customers__de_at_ch.csv', sep=',', index=False, header=ls_columns)
+    df_customer.to_csv('output/customers.csv', sep=',', index=False, header=ls_columns)
     
 
 def customer_number(i):

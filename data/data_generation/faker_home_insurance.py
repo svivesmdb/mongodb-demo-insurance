@@ -1,5 +1,23 @@
 # -*- coding: utf-8 -*-
 
+#
+### 2 ### Run AFTER the faker_customers_csv -- CONNECTS TO POSTGRES
+#
+
+# POSTGRES - Database server authentication details
+host='localhost'
+port=32769
+user='pguser'
+schema = 'insurance'
+password='mypass'
+
+import sys
+NUMBER_HOME_INSURANCES_TO_GENERATE = 500
+if len(sys.argv) > 1 and sys.argv[1]:
+    NUMBER_HOME_INSURANCES_TO_GENERATE = int(sys.argv[1])
+if len(sys.argv) > 2 and sys.argv[2]:
+    port = sys.argv[2]
+
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import random
@@ -7,7 +25,8 @@ import csv
 import pymongo
 from pymongo.errors import BulkWriteError
 from faker import Factory
-fake = Factory.create('de_DE') # using french names, cities, etc.
+
+fake = Factory.create('de_DE')
 
 from sqlalchemy import create_engine
 import sqlalchemy
@@ -23,13 +42,14 @@ import errno
 logging.basicConfig()
 logging.getLogger('sqlalchemy').setLevel(logging.ERROR)
 
-host='192.168.14.200'
-port=1521
-sid='xe'
-user='ckurze'
-password='ckurze'
-sid = cx_Oracle.makedsn(host, port, sid=sid)
 
+sid = cx_Oracle.makedsn(host, port, sid=sid)
+#cstr = 'postgres://{user}:{password}@{host}:{port}/insurance'.format(
+#    user=user,
+#    password=password,
+#    host=host,
+#    port=port
+#)
 cstr = 'oracle://{user}:{password}@{sid}'.format(
     user=user,
     password=password,
@@ -49,13 +69,25 @@ os.environ['NLS_LANG'] = ".AL32UTF8"
 next_claim_number = 0
 
 def main():
-    num_gen = 256136 #256136 # number of rows in example file, some of them are not valid
+    num_gen = NUMBER_HOME_INSURANCES_TO_GENERATE
+
+    print("Starting to generate " + str( NUMBER_HOME_INSURANCES_TO_GENERATE )+ " home insurances for customers")
 
     ls_dates = [fake.date_time_between(start_date="-20y", end_date="now", tzinfo=None) for i in range(0,num_gen)]
     ls_dates.sort()
 
+    """
+    sql.execute('CREATE SCHEMA IF NOT EXISTS insurance', postgres_engine)
+    sql.execute('DROP TABLE IF EXISTS insurance.policy', postgres_engine)
+    sql.execute('DROP TABLE IF EXISTS insurance.policy_coverage', postgres_engine)
+    sql.execute('DROP TABLE IF EXISTS insurance.policy_risk', postgres_engine)
+    sql.execute('DROP TABLE IF EXISTS insurance.policy_option', postgres_engine)
+    sql.execute('DROP TABLE IF EXISTS insurance.claim', postgres_engine)
+    sql.execute('DROP TABLE IF EXISTS insurance.customer', postgres_engine)
+    """
+
     ls_customers = []
-    customer_csvfile = open('output/customers__de_at_ch.csv', newline='\n')
+    customer_csvfile = open('output/customers.csv', newline='\n')
     customer_reader = csv.reader(customer_csvfile, delimiter=',', quotechar='"')
     # skip header
     next(customer_reader)
@@ -86,9 +118,10 @@ def main():
     next(reader)
     for row in reader:
         if (i % 10000) == 0:
-            print (i)
+            print ("Generating home insurance data for customer number: " + str(i))
+
         if (i < num_gen):
-            if (row[1] != ''):
+            if (row[1] != '' and row[8] != '' and row[12] != ''):
                 s_policy_number = policy_number(i)
                 d_quote_date = ls_dates[i]
                 d_cover_start = (ls_dates[i] + relativedelta(months=1)).replace(day=1)
