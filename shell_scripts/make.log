@@ -1,0 +1,12 @@
+Using default tag: latest
+latest: Pulling from epiclabs/docker-oracle-xe-11g
+Digest: sha256:15bcd9747e330d01484cd033d5272189d1488770a57b519ba511e816351027b0
+Status: Image is up to date for epiclabs/docker-oracle-xe-11g:latest
+Using default tag: latest
+latest: Pulling from library/postgres
+Digest: sha256:d61e82a1316928e732fc885b11e57de95efe018651a4ee5640b32cfe5a928d8a
+Status: Image is up to date for postgres:latest
+docker: Error response from daemon: Conflict. The container name "/singleview-pg" is already in use by container "f71e12226d1fd2b0f87d38ffb21f38ee0ae4dad7356d88af6ef4d06f1c6306c1". You have to remove (or rename) that container to be able to reuse that name.
+See 'docker run --help'.
+docker: Error response from daemon: Conflict. The container name "/singleview-ora" is already in use by container "d186b4a713e353e1ae14ad9bf37b278ce564f48f4549acb36030102e97d05039". You have to remove (or rename) that container to be able to reuse that name.
+See 'docker run --help'.
