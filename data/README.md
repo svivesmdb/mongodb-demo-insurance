@@ -10,10 +10,10 @@ Contents of this directory:
   - Oracle: Car Insurances
   - Oracle: Home Insurances
 
-- Generate data:
-  - Customers
-  - Home insurance policies and claims
-  - Car insurances policies and claims
+- Generate data in the following order:
+  1. Customers
+  2. Home insurance policies and claims
+  3. Car insurances policies and claims
 
 - Data Ingestion via MongoSyphon:
   - CDC-based ingestion of customers, home insurance policies and their respective claims from Oracle (based on last_change timestamps).
